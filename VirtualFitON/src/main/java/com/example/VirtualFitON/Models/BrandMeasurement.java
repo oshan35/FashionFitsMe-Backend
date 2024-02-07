@@ -1,21 +1,38 @@
 package com.example.VirtualFitON.Models;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@Entity
 public class BrandMeasurement {
     @Id
-    private String brandId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "brandId")
+    private Brand brand;
+
+    @Column(name = "MeasurementType")
     private String measurementType;
+
+    @Column(name = "Measurement")
     private String measurement;
 
-    public String getBrandId() {
-        return brandId;
+    public Long getId() {
+        return id;
     }
 
-    public void setBrandId(String brandId) {
-        this.brandId = brandId;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 
     public String getMeasurementType() {

@@ -1,20 +1,25 @@
 package com.example.VirtualFitON.Models;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
+@Entity
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  String productId;
+    @Column(name = "productId")
+    private String productId;
 
-    private String brandId;
+    @ManyToOne
+    @JoinColumn(name = "brandId")
+    private Brand brand;
 
+    @Column(name = "productName")
     private String productName;
 
-    private double price;
+    @Column(name = "price")
+    private BigDecimal price;
 
     public String getProductId() {
         return productId;
@@ -24,12 +29,12 @@ public class Product {
         this.productId = productId;
     }
 
-    public String getBrandId() {
-        return brandId;
+    public Brand getBrand() {
+        return brand;
     }
 
-    public void setBrandId(String brandId) {
-        this.brandId = brandId;
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 
     public String getProductName() {
@@ -40,11 +45,11 @@ public class Product {
         this.productName = productName;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }

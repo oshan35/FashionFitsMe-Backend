@@ -1,19 +1,35 @@
 package com.example.VirtualFitON.Models;
 
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@Entity
 public class CustomerContact {
     @Id
-    private String customerId;
-    @Id
+    @EmbeddedId
+    private CustomerContactId id;
+
+    @ManyToOne
+    @MapsId("customerId")
+    @JoinColumn(name = "customerId")
+    private Customer customer;
+
+    @Column(name = "contactNo",insertable = false, updatable = false)
     private String contactNo;
 
-    public String getCustomerId() {
-        return customerId;
+    public CustomerContactId getId() {
+        return id;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setId(CustomerContactId id) {
+        this.id = id;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public String getContactNo() {

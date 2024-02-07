@@ -1,23 +1,27 @@
 package com.example.VirtualFitON.Models;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@Entity
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "customerId")
     private String customerId;
 
+    @Column(name = "firstName")
     private String firstName;
 
+    @Column(name = "lastName")
     private String lastName;
 
+    @Column(name = "country")
     private String country;
 
+    @Column(name = "username")
     private String username;
 
+    @Column(name = "password")
     private String password;
 
     public String getCustomerId() {

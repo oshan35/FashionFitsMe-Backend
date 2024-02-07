@@ -1,24 +1,29 @@
 package com.example.VirtualFitON.Models;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.VirtualFitON.Models.Customer;
+import com.example.VirtualFitON.Models.Product;
+import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
+@Entity
 public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "reviewId")
     private String reviewId;
 
+    @ManyToOne
+    @JoinColumn(name = "customerId")
+    private Customer customer;
 
-    private String customerId;
+    @ManyToOne
+    @JoinColumn(name = "productId")
+    private Product product;
 
+    @Column(name = "rating")
+    private BigDecimal rating;
 
-    private String productId;
-
-
-    private Double rating;
-
-
+    @Column(name = "review")
     private String review;
 
     public String getReviewId() {
@@ -29,27 +34,27 @@ public class Review {
         this.reviewId = reviewId;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public String getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public Double getRating() {
+    public BigDecimal getRating() {
         return rating;
     }
 
-    public void setRating(Double rating) {
+    public void setRating(BigDecimal rating) {
         this.rating = rating;
     }
 

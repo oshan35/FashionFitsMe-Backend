@@ -1,8 +1,4 @@
 package com.example.VirtualFitON.Models;
-
-
-
-
 import jakarta.persistence.*;
 
 
@@ -10,11 +6,11 @@ import jakarta.persistence.*;
 public class Brand {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "brandId")
     private String brandId;
 
+    @Column(name = "brandName")
     private String brandName;
-
 
     public String getBrandId() {
         return brandId;
