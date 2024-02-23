@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class VirtualFitOnApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(VirtualFitOnApplication.class, args);
+		SpringApplication.run(VirtualFitOnApplication.class, args)
+		;
 	}
 
 }

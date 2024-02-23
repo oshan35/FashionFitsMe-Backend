@@ -20,11 +20,22 @@ public class ShoppingCart {
     @JoinColumn(name = "customerId")
     private Customer customer;
 
-    @Column(name = "purchaseStatus")
+    @Column(name = "purchesestatus")
     private boolean purchaseStatus;
 
     @Column(name = "discountAmount")
     private BigDecimal discountAmount;
+
+    public ShoppingCart(String cartId, BigDecimal totalAmount, Customer customer, boolean purchaseStatus, BigDecimal discountAmount) {
+        this.cartId = cartId;
+        this.totalAmount = totalAmount;
+        this.customer = customer;
+        this.purchaseStatus = purchaseStatus;
+        this.discountAmount = discountAmount;
+    }
+
+    public ShoppingCart() {
+    }
 
     public String getCartId() {
         return cartId;

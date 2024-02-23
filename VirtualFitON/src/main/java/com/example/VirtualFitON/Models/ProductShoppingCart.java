@@ -6,17 +6,29 @@ import jakarta.persistence.*;
 
 
 @Entity
+@Table(name="product_shoppingCart")
 public class ProductShoppingCart {
     @EmbeddedId
     private ProductShoppingCartId id;
 
     @ManyToOne
-    @JoinColumn(name = "productId", insertable = false, updatable = false)
+    @MapsId("productId")
+    @JoinColumn(name = "productId")
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "cartId", insertable = false, updatable = false)
+    @MapsId("cartId")
+    @JoinColumn(name = "cartId")
     private ShoppingCart cart;
+
+    public ProductShoppingCart(ProductShoppingCartId id, Product product, ShoppingCart cart) {
+        this.id = id;
+        this.product = product;
+        this.cart = cart;
+    }
+
+    public ProductShoppingCart() {
+    }
 
     public ProductShoppingCartId getId() {
         return id;

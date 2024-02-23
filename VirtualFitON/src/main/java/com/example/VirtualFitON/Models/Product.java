@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name="Product")
 public class Product {
 
     @Id
@@ -20,6 +21,16 @@ public class Product {
 
     @Column(name = "price")
     private BigDecimal price;
+
+    public Product(String productId, Brand brand, String productName, BigDecimal price) {
+        this.productId = productId;
+        this.brand = brand;
+        this.productName = productName;
+        this.price = price;
+    }
+
+    public Product() {
+    }
 
     public String getProductId() {
         return productId;

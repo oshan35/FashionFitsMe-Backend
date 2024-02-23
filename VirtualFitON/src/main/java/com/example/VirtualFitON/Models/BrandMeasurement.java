@@ -3,11 +3,12 @@ package com.example.VirtualFitON.Models;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name="brandMeasurement")
 public class BrandMeasurement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
+
 
     @ManyToOne
     @JoinColumn(name = "brandId")

@@ -7,16 +7,19 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name="reviews")
 public class Review {
     @Id
     @Column(name = "reviewId")
     private String reviewId;
 
     @ManyToOne
+    @MapsId("customerId")
     @JoinColumn(name = "customerId")
     private Customer customer;
 
     @ManyToOne
+    @MapsId("productId")
     @JoinColumn(name = "productId")
     private Product product;
 

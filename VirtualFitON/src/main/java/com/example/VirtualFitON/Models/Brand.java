@@ -3,6 +3,7 @@ import jakarta.persistence.*;
 
 
 @Entity
+@Table(name="brand")
 public class Brand {
 
     @Id
