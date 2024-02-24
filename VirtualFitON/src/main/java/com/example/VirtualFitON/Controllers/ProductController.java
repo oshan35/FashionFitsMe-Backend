@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
+@CrossOrigin
 public class ProductController {
 
     @Autowired
@@ -31,7 +32,7 @@ public class ProductController {
             @RequestParam("imageFile") MultipartFile imageFile
     ) {
         try {
-            System.out.println(productId);
+            System.out.println("Test: "+productId);
             productService.saveProductWithImage(productId, productName, price, imageFile);
             return ResponseEntity.ok("Product saved successfully.");
         } catch (InvalidProductDataException e) {

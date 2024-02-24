@@ -1,4 +1,5 @@
 package com.example.VirtualFitON.Service;
+
 import com.example.VirtualFitON.DTO.CustomerRegisterDTO;
 import com.example.VirtualFitON.DTO.LoginRequestDto;
 import com.example.VirtualFitON.Exceptions.UsernameAlreadyExistsException;

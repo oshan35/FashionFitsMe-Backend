@@ -1,8 +1,8 @@
 package com.example.VirtualFitON.Controllers;
 
-import com.example.VirtualFitON.DTO.CustomerRegisterDTO;
-import com.example.VirtualFitON.DTO.LoginRequestDto;
-import com.example.VirtualFitON.Exceptions.UsernameAlreadyExistsException;
+import com.example.VirtualFitON.DTO.*;
+//import com.example.VirtualFitON.DTO.LoginRequestDto;
+import com.example.VirtualFitON.Exceptions.*;
 import com.example.VirtualFitON.Models.Customer;
 import com.example.VirtualFitON.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
