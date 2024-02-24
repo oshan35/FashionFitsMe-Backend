@@ -10,24 +10,22 @@ import java.math.BigDecimal;
 @Table(name="reviews")
 public class Review {
     @Id
-    @Column(name = "reviewId")
+    @Column(name = "review_id")
     private String reviewId;
 
     @ManyToOne
-    @MapsId("customerId")
-    @JoinColumn(name = "customerId")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @ManyToOne
-    @MapsId("productId")
-    @JoinColumn(name = "productId")
+    @JoinColumn(name = "product_id")
     private Product product;
 
     @Column(name = "rating")
     private BigDecimal rating;
 
-    @Column(name = "review")
-    private String review;
+    @Column(name = "review_description")
+    private String Description;
 
     public String getReviewId() {
         return reviewId;
@@ -61,11 +59,11 @@ public class Review {
         this.rating = rating;
     }
 
-    public String getReview() {
-        return review;
+    public String getDescription() {
+        return Description;
     }
 
-    public void setReview(String review) {
-        this.review = review;
+    public void setReview(String Description) {
+        this.Description = Description;
     }
 }

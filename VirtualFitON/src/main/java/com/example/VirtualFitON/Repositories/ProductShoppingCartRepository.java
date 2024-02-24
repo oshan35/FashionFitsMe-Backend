@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductShoppingCartRepository extends JpaRepository<ProductShoppingCart, ProductShoppingCartId> {
-    @Query("SELECT p FROM Product p JOIN ProductShoppingCart pc ON p.productId = pc.id.productId WHERE pc.id.cartId = :cartId")
+    @Query("SELECT psc.product FROM ProductShoppingCart psc WHERE psc.cart.cartId = :cartId")
     List<Product> findProductsByCartId(@Param("cartId") String cartId);
 
 

@@ -10,20 +10,20 @@ public class Shipment {
 
     @Id
 
-    @Column(name = "shippingId")
+    @Column(name = "shipping_id")
     private String shippingId;
 
     @ManyToOne
-    @JoinColumn(name = "shipperId", referencedColumnName = "shipperId", foreignKey = @ForeignKey(name = "FK_shipments_shipper"))
+    @JoinColumn(name = "shipper_id")
     private Shipper shipper;
 
     @ManyToOne
-    @JoinColumn(name = "addressId", referencedColumnName = "addressId", foreignKey = @ForeignKey(name = "FK_shipments"))
+    @JoinColumn(name = "address_id")
     private Address address;
 
-    @Column(name = "shipmentStatus")
+    @Column(name = "shipment_status")
     private String shipmentStatus;
 
-    @Column(name = "shipmentDate")
+    @Column(name = "shipment_date")
     private Date shipmentDate;
 }

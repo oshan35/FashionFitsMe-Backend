@@ -7,11 +7,20 @@ import jakarta.persistence.*;
 public class Brand {
 
     @Id
-    @Column(name = "brandId")
+    @Column(name = "brand_id")
+
     private String brandId;
 
-    @Column(name = "brandName")
+    @Column(name = "brand_name")
     private String brandName;
+
+    public Brand(String brandId, String brandName) {
+        this.brandId = brandId;
+        this.brandName = brandName;
+    }
+
+    public Brand() {
+    }
 
     public String getBrandId() {
         return brandId;

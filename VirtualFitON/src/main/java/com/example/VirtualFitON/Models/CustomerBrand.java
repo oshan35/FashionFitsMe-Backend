@@ -2,19 +2,20 @@ package com.example.VirtualFitON.Models;
 
 import jakarta.persistence.*;
 @Entity
+@Table(name="customer_brand")
 public class CustomerBrand {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EmbeddedId
     private CustomerBrandId id;
 
     @ManyToOne
+    @JoinColumn(name="customer_id")
     @MapsId("customerId")
-    @JoinColumn(name = "customerId")
     private Customer customer;
 
     @ManyToOne
-    @MapsId("brandId")
-    @JoinColumn(name = "brandId")
+    @JoinColumn(name="brand_id")
+    @MapsId( "brandId")
     private Brand brand;
 
     public CustomerBrandId getId() {

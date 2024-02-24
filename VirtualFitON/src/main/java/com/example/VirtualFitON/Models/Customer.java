@@ -6,13 +6,13 @@ import jakarta.persistence.*;
 public class Customer {
 
     @Id
-    @Column(name = "customerId")
+    @Column(name = "customer_id")
     private String customerId;
 
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "country")

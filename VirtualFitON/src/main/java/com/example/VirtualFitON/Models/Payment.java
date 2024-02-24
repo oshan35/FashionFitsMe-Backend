@@ -6,17 +6,17 @@ import jakarta.persistence.*;
 public class Payment {
 
     @Id
-    @Column(name = "paymentNo")
+    @Column(name = "payment_no")
     private String paymentNo;
 
     @ManyToOne
-    @JoinColumn(name = "orderId", referencedColumnName = "orderId", foreignKey = @ForeignKey(name = "FK_order_payment"))
+    @JoinColumn(name = "order_id")
     private Order order;
 
-    @Column(name = "paymentMethod")
+    @Column(name = "payment_method")
     private String paymentMethod;
 
-    @Column(name = "paymentDetails")
+    @Column(name = "payment_details")
     private String paymentDetails;
 
     public String getPaymentNo() {

@@ -9,18 +9,20 @@ import java.math.BigDecimal;
 public class Product {
 
     @Id
-    @Column(name = "productId")
+
+    @Column(name = "product_id")
     private String productId;
 
     @ManyToOne
-    @JoinColumn(name = "brandId")
+    @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    @Column(name = "productName")
+    @Column(name = "product_name")
     private String productName;
 
     @Column(name = "price")
     private BigDecimal price;
+
 
     public Product(String productId, Brand brand, String productName, BigDecimal price) {
         this.productId = productId;

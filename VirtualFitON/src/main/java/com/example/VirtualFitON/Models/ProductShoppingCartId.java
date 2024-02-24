@@ -7,9 +7,9 @@ import java.io.Serializable;
 
 @Embeddable
 public class ProductShoppingCartId implements Serializable {
-    @Column(name="productId")
+    @Column(name="product_id")
     private String productId;
-    @Column(name="cartId")
+    @Column(name="cart_id")
     private String cartId;
 
     public ProductShoppingCartId(String productId, String cartId) {

@@ -3,18 +3,17 @@ package com.example.VirtualFitON.Models;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name="customer_contact")
 public class CustomerContact {
     @Id
     @EmbeddedId
     private CustomerContactId id;
 
     @ManyToOne
-    @MapsId("customerId")
-    @JoinColumn(name = "customerId")
+    @JoinColumn(name="customer_id")
+    @MapsId("customer_Id")
     private Customer customer;
 
-    @Column(name = "contactNo",insertable = false, updatable = false)
-    private String contactNo;
 
     public CustomerContactId getId() {
         return id;
@@ -33,10 +32,10 @@ public class CustomerContact {
     }
 
     public String getContactNo() {
-        return contactNo;
+        return id.getContactNo();
     }
 
     public void setContactNo(String contactNo) {
-        this.contactNo = contactNo;
+        id.setContactNo(contactNo);
     }
 }

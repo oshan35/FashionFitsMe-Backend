@@ -6,19 +6,20 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name="product_shoppingCart")
+@Table(name="product_shopping_cart")
 public class ProductShoppingCart {
+    @Id
     @EmbeddedId
     private ProductShoppingCartId id;
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
     @MapsId("productId")
-    @JoinColumn(name = "productId")
     private Product product;
 
     @ManyToOne
+    @JoinColumn(name = "cart_id")
     @MapsId("cartId")
-    @JoinColumn(name = "cartId")
     private ShoppingCart cart;
 
     public ProductShoppingCart(ProductShoppingCartId id, Product product, ShoppingCart cart) {

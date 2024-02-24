@@ -8,22 +8,23 @@ import java.math.BigDecimal;
 
 
 @Entity
+@Table(name="shopping_cart")
 public class ShoppingCart {
     @Id
-    @Column(name = "cartId")
+    @Column(name = "cart_id")
     private String cartId;
 
-    @Column(name = "totalAmount")
+    @Column(name = "total_amount")
     private BigDecimal totalAmount;
 
     @ManyToOne
-    @JoinColumn(name = "customerId")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @Column(name = "purchesestatus")
+    @Column(name = "purchese_status")
     private boolean purchaseStatus;
 
-    @Column(name = "discountAmount")
+    @Column(name = "discount_amount")
     private BigDecimal discountAmount;
 
     public ShoppingCart(String cartId, BigDecimal totalAmount, Customer customer, boolean purchaseStatus, BigDecimal discountAmount) {
@@ -36,6 +37,7 @@ public class ShoppingCart {
 
     public ShoppingCart() {
     }
+
 
     public String getCartId() {
         return cartId;
