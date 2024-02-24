@@ -55,6 +55,17 @@ VALUES ('P1001', 'BR001', 'Smartphone', 599.99),
        ('P1008', 'BR001', 'Tube', 23.99),
        ('P1009', 'BR002', 'Shampoo', 23.99);
        
+INSERT INTO Product (ProductId, brandId, ProductName, Price)
+VALUES ('P10011', 'BR001', 'Smartphone', 599.99),
+       ('P10012', 'BR001', 'Plaster', 999.99),
+       ('P10013', 'BR005', 'Nails', 299.99),
+       ('P10014', 'BR005', 'Meats', 79.99),
+       ('P10015', 'BR001', 'Tube', 499.99),
+       ('P10016', 'BR003', 'Rose', 199.99),
+       ('P10017', 'BR002', 'Car', 11499.99),
+       ('P10018', 'BR001', 'Tube', 23.99),
+       ('P10019', 'BR002', 'Shampoo', 23.99);
+       
 
        
 
@@ -181,14 +192,14 @@ VALUES ('Cart001',  'CUST001',TRUE, 25.50),
 
 -- Creating product_shoppingCart table
 create table product_shoppingCart(
-	productId VARCHAR(20) NOT NULL,
-	cartId VARCHAR(30) NOT NULL,
-	primary key(productId,cartId),
-	constraint FK_products foreign key (productId) references product(productId),
-	constraint FK_cart foreign key (cartId) references shoppingCart(cartId)
+	product_Id_ VARCHAR(20) NOT NULL,
+	cart_Id_ VARCHAR(30) NOT NULL,
+	primary key(product_Id_,cart_Id_),
+	constraint FK_products foreign key (product_Id_) references product(productId),
+	constraint FK_cart foreign key (cart_Id_) references shoppingCart(cartId)
 );
 
-INSERT INTO product_shoppingCart (productId, cartId)
+INSERT INTO product_shoppingCart (product_Id_, cart_Id_)
 VALUES
     ('P1001', 'Cart001'),
     ('P1002', 'Cart002'),
@@ -197,6 +208,16 @@ VALUES
     ('P1005', 'Cart005'),
     ('P1006', 'Cart006'),
     ('P1007', 'Cart007');
+    
+INSERT INTO product_shoppingCart (product_Id_, cart_Id_)
+VALUES
+    ('P10011', 'Cart001'),
+    ('P10012', 'Cart001'),
+    ('P10013', 'Cart002'),
+    ('P10014', 'Cart002'),
+    ('P10015', 'Cart001'),
+    ('P10016', 'Cart002'),
+    ('P10017', 'Cart001');
 
 -- Creating address table
 CREATE TABLE address(
@@ -341,13 +362,13 @@ BEGIN
     SELECT SUM(p.price)
     INTO order_total
     FROM product_shoppingCart scp
-    INNER JOIN product p ON scp.productId = p.productId
-    WHERE scp.cartId = NEW.cartId;
+    INNER JOIN product p ON scp.product_Id_ = p.productId
+    WHERE scp.cart_Id_ = NEW.cart_Id_;
     
     -- Update the order table with the new total
     UPDATE orders
     SET total = order_total
-    WHERE cartId = NEW.cartId;
+    WHERE cartId = NEW.cart_Id_;
 END;
 //
 
@@ -364,13 +385,13 @@ BEGIN
     SELECT SUM(p.price)
     INTO order_total
     FROM product_shoppingCart scp
-    INNER JOIN product p ON scp.productId = p.productId
-    WHERE scp.cartId = NEW.cartId;
+    INNER JOIN product p ON scp.product_Id_ = p.productId
+    WHERE scp.cart_Id_ = NEW.cart_Id_;
     
     -- Update the order table with the new total
     UPDATE orders
     SET total = order_total
-    WHERE cartId = NEW.cartId;
+    WHERE cartId = NEW.cart_Id_;
 END;
 //
        

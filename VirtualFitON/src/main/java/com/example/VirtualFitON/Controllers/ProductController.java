@@ -1,5 +1,4 @@
 package com.example.VirtualFitON.Controllers;
-
 import com.example.VirtualFitON.Exceptions.DatabaseAccessException;
 import com.example.VirtualFitON.Exceptions.InvalidProductDataException;
 import com.example.VirtualFitON.Exceptions.ProductAlreadyExistsException;
@@ -32,6 +31,7 @@ public class ProductController {
             @RequestParam("imageFile") MultipartFile imageFile
     ) {
         try {
+            System.out.println(productId);
             productService.saveProductWithImage(productId, productName, price, imageFile);
             return ResponseEntity.ok("Product saved successfully.");
         } catch (InvalidProductDataException e) {
