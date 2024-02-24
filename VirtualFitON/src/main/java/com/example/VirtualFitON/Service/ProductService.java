@@ -56,5 +56,10 @@ public class ProductService {
 
 
     }
+    public Product getProduct(String productId){
+        Product product=productRepository.findByProductId(productId);
+        return product;
+
+    }
 
 }

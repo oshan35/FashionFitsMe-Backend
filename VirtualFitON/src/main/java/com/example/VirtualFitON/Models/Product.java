@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 public class Product {
 
     @Id
-
     @Column(name = "product_id")
     private String productId;
 

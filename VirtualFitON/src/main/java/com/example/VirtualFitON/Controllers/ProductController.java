@@ -21,8 +21,6 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @Autowired
-    ProductShoppingCartRepository productShoppingCartRepository;
 
     @PostMapping("/products/add-product")
     public ResponseEntity<String> saveProductWithImage(
@@ -52,7 +50,7 @@ public class ProductController {
     public ResponseEntity<?> getProduct(@PathVariable String Id) {
         try {
             System.out.println(Id);
-            Product p = productShoppingCartRepository.findProductsByProduct_Id(Id);
+            Product p = productService.getProduct(Id);
             return new ResponseEntity<>(p, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
