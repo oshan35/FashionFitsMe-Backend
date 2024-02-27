@@ -14,6 +14,13 @@ public class CustomerContact {
     @MapsId("customer_Id")
     private Customer customer;
 
+    public CustomerContact(CustomerContactId id, Customer customer) {
+        this.id = id;
+        this.customer = customer;
+    }
+
+    public CustomerContact() {
+    }
 
     public CustomerContactId getId() {
         return id;

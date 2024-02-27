@@ -38,11 +38,13 @@ public class ProductShoppingCartService{
             } else {
                 throw new EmptyResultDataAccessException("Shopping cart not found with ID: " + cartId, 1);
             }
-        } catch (DataAccessException e) {
-
+        } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
+            throw e;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw e;
         }
-        return null;
     }
 
     public BigDecimal getDiscountAmount(String cartId) {
@@ -54,15 +56,12 @@ public class ProductShoppingCartService{
                 throw new EmptyResultDataAccessException("Shopping cart not found with ID: " + cartId, 1);
             }
         } catch (EmptyResultDataAccessException e) {
-            // Handle if the shopping cart is not found
-            // Log the error or return a meaningful response
             e.printStackTrace();
+            throw e;
         } catch (DataAccessException e) {
-            // Handle other data access exceptions
-            // Log the error or return a meaningful response
             e.printStackTrace();
+            throw e;
         }
-        return null;
     }
 
 

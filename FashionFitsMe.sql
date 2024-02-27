@@ -65,7 +65,54 @@ VALUES ('P1001', 'BR001', 'Smartphone', 599.99),
        ('P10019', 'BR002', 'Shampoo', 23.99);
        
 
-       
+	CREATE TABLE productColorSize(
+	productId varchar(20) NOT NULL,
+    color varchar(20) NOT NULL,
+    size varchar(20) NOT NULL,
+    quantity int NOT NULL,
+    PRIMARY KEY(productId, color, size),
+	foreign key (productId) references Product(product_id)
+);
+
+INSERT INTO productColorSize (productId, color, size, quantity)
+VALUES 
+    -- Assuming P1001 is a T-shirt
+    ('P1001', 'Black', 'S', 50),
+    ('P1001', 'Black', 'M', 75),
+    ('P1001', 'Black', 'L', 100),
+    ('P1001', 'White', 'S', 50),
+    ('P1001', 'White', 'M', 75),
+    ('P1001', 'White', 'L', 100),
+    
+    -- Assuming P1002 is a pair of Jeans
+    ('P1002', 'Blue', '32', 60),
+    ('P1002', 'Blue', '34', 80),
+    ('P1002', 'Blue', '36', 40),
+    ('P1002', 'Black', '32', 60),
+    ('P1002', 'Black', '34', 80),
+    ('P1002', 'Black', '36', 40),
+
+    -- Assuming P1003 is a Dress
+    ('P1003', 'Red', 'S', 70),
+    ('P1003', 'Red', 'M', 90),
+    ('P1003', 'Red', 'L', 50),
+    ('P1003', 'Green', 'S', 70),
+    ('P1003', 'Green', 'M', 90),
+    ('P1003', 'Green', 'L', 50),
+
+    -- Assuming P1004 is a Sweater
+    ('P1004', 'Grey', 'S', 80),
+    ('P1004', 'Grey', 'M', 100),
+    ('P1004', 'Grey', 'L', 60),
+    ('P1004', 'Navy', 'S', 80),
+    ('P1004', 'Navy', 'M', 100),
+    ('P1004', 'Navy', 'L', 60)
+
+    -- More entries for other products as needed...
+;
+
+-- Note: Adjust product IDs, colors, sizes, and quantities as per your actual clothing inventory.
+
 
 -- Creating customer table
 CREATE TABLE customer (

@@ -9,6 +9,7 @@ import com.example.VirtualFitON.Repositories.ProductShoppingCartRepository;
 import com.example.VirtualFitON.Service.ProductService;
 import com.example.VirtualFitON.Service.ProductShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ProductShoppingCartController {
@@ -35,17 +38,27 @@ public class ProductShoppingCartController {
         }
     }
 
-    @GetMapping("/product_shopping_cart/totals")
-    public ResponseEntity<Object> getTotals(@RequestParam("cartId") String cartId) {
-        BigDecimal totalAmount = productShoppingCartService.getTotalAmount(cartId);
-        BigDecimal discountAmount =productShoppingCartService.getDiscountAmount(cartId);
 
-        if (totalAmount == null || discountAmount == null) {
-            return new ResponseEntity<>("Unable to retrieve totals", HttpStatus.INTERNAL_SERVER_ERROR);
+    @GetMapping("/product_shopping_cart/totals/{cartId}")
+    public ResponseEntity<Object> getTotals(@PathVariable("cartId") String cartId) {
+        try {
+            BigDecimal totalAmount = productShoppingCartService.getTotalAmount(cartId);
+            BigDecimal discountAmount = productShoppingCartService.getDiscountAmount(cartId);
+
+            if (totalAmount == null || discountAmount == null) {
+                return new ResponseEntity<>("Unable to retrieve totals", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            Map<String, BigDecimal> response = new HashMap<>();
+            response.put("totalAmount", totalAmount);
+            response.put("discountAmount", discountAmount);
+            response.put("estimatedTotal", totalAmount.subtract(discountAmount));
+
+            return ResponseEntity.ok().body(response);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Database error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        // You can customize the response structure as needed
-        return ResponseEntity.ok().body("Total Amount: " + totalAmount + ", Discount Amount: " + discountAmount);
     }
 
 
