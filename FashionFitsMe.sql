@@ -6,45 +6,45 @@ use FashionFitsMe;
 
 -- creating brand table
 CREATE TABLE brand(
-	brandId varchar(20) NOT NULL,
-    brandName varchar(50) NOT NULL,
+	brand_id varchar(20) NOT NULL,
+    brand_name varchar(50) NOT NULL,
     
-    primary key (brandId)
+    primary key (brand_id)
 );
-
-
--- creating brandMeasurement table
-CREATE TABLE brandMeasurement(
-	brandId varchar(20) NOT NULL,
-    MeasurementType varchar(50) NOT NULL,
-	Measurement varchar(50) NOT NULL,
-
-	foreign key (brandId) references brand(brandId),
-	primary key (MeasurementType,brandId)
-);
-
-INSERT INTO brand (brandId, brandName) VALUES
+INSERT INTO brand (brand_id, brand_name) VALUES
 ('BR001', 'Nike'),
 ('BR002', 'Adidas'),
 ('BR003', 'Puma'),
 ('BR004', 'Carnage'),
 ('BR005', 'Odel');
 
+-- creating brandMeasurement table
+CREATE TABLE brand_measurement(
+	brand_id varchar(20) NOT NULL,
+    Measurement_type varchar(50) NOT NULL,
+	Measurement varchar(50) NOT NULL,
+
+	foreign key (brand_id) references brand(brand_id),
+	primary key (Measurement_type,brand_id)
+);
+
+
+
 
 
 -- Creating product table
 CREATE TABLE product(
-	productId varchar(20) NOT NULL,
-    brandId varchar(20),
-    productName varchar(50) NOT NULL,
+	product_id varchar(20) NOT NULL,
+    brand_id varchar(20),
+    product_name varchar(50) NOT NULL,
     price decimal(10,2) NOT NULL,
-    primary key (productId),
+    primary key (product_id),
     
-    foreign key (brandId) references brand(brandId)
+    foreign key (brand_id) references brand(brand_id)
 );
 
 
-INSERT INTO Product (ProductId, brandId, ProductName, Price)
+INSERT INTO Product (product_id, brand_id, product_name, price)
 VALUES ('P1001', 'BR001', 'Smartphone', 599.99),
        ('P1002', 'BR001', 'Plaster', 999.99),
        ('P1003', 'BR005', 'Nails', 299.99),
@@ -53,10 +53,8 @@ VALUES ('P1001', 'BR001', 'Smartphone', 599.99),
        ('P1006', 'BR003', 'Rose', 199.99),
        ('P1007', 'BR002', 'Car', 11499.99),
        ('P1008', 'BR001', 'Tube', 23.99),
-       ('P1009', 'BR002', 'Shampoo', 23.99);
-       
-INSERT INTO Product (ProductId, brandId, ProductName, Price)
-VALUES ('P10011', 'BR001', 'Smartphone', 599.99),
+       ('P1009', 'BR002', 'Shampoo', 23.99),
+	  ('P10011', 'BR001', 'Smartphone', 599.99),
        ('P10012', 'BR001', 'Plaster', 999.99),
        ('P10013', 'BR005', 'Nails', 299.99),
        ('P10014', 'BR005', 'Meats', 79.99),
@@ -71,46 +69,46 @@ VALUES ('P10011', 'BR001', 'Smartphone', 599.99),
 
 -- Creating customer table
 CREATE TABLE customer (
-	customerId VARCHAR(30) NOT NULL,
-	firstName VARCHAR(150) NOT NULL,
-	lastName VARCHAR(150) NOT NULL,
+	customer_id VARCHAR(30) NOT NULL,
+	first_name VARCHAR(150) NOT NULL,
+	last_name VARCHAR(150) NOT NULL,
 	country VARCHAR(30) NOT NULL,
     username VARCHAR(30) NOT NULL,
     password VARCHAR(30) NOT NULL,
-	PRIMARY KEY (customerId)
+	PRIMARY KEY (customer_id)
 );
 
-INSERT INTO customer (customerId, firstName, lastName, country, username, password) VALUES
+INSERT INTO customer (customer_id, first_name, last_name, country, username, password) VALUES
 ('CUST001', 'John', 'Doe', 'USA', 'john_doe', 'password123'),
 ('CUST002', 'Jane', 'Smith', 'Canada', 'jane_smith', 'securepass'),
 ('CUST003', 'Michael', 'Johnson', 'UK', 'michael_j', 'myp@ssw0rd');
 
 
-CREATE TABLE customerMeasurement(
-	customerId varchar(20) NOT NULL,
-    MeasurementType varchar(50) NOT NULL,
-	Measurement varchar(50) NOT NULL,
+CREATE TABLE customer_measurement(
+	customer_id varchar(20) NOT NULL,
+    measurement_type varchar(50) NOT NULL,
+	measurement varchar(50) NOT NULL,
 
-	foreign key (customerId) references customer(customerId),
-	primary key (MeasurementType)
+	foreign key (customer_id) references customer(customer_id),
+	primary key (measurement_type)
 );
-INSERT INTO customerMeasurement (customerId, MeasurementType, Measurement) VALUES
+INSERT INTO customer_measurement (customer_id, Measurement_type, Measurement) VALUES
 ('CUST001', 'Height', '175 cm'),
 ('CUST002', 'Waist', '68 cm'),
 ('CUST003', 'Hips', '23.5');
 
 
-CREATE TABLE customerBrand(
-	customerId varchar(20) NOT NULL,
-    brandId varchar(50) NOT NULL,
+CREATE TABLE customer_brand(
+	customer_id varchar(20) NOT NULL,
+    brand_id varchar(50) NOT NULL,
 	
-	primary key (customerId,brandId),
-	foreign key (customerId) references customer(customerId),
-	foreign key (brandId) references brand(brandId)
+	primary key (customer_id,brand_id),
+	foreign key (customer_id) references customer(customer_id),
+	foreign key (brand_id) references brand(brand_id)
 
 );
 
-INSERT INTO customerBrand (customerId, brandId) VALUES
+INSERT INTO customer_Brand (customer_id, brand_id) VALUES
 ('CUST001', 'BR001'),
 ('CUST001', 'BR002'),
 ('CUST002', 'BR001'),
@@ -118,14 +116,14 @@ INSERT INTO customerBrand (customerId, brandId) VALUES
 
 
 -- Creating customer contact table
-CREATE TABLE customerContact(
-	customerId VARCHAR(30) NOT NULL,
-    contactNo VARCHAR(20) NOT NULL,
-    PRIMARY KEY (customerId, contactNo),
-    foreign key (customerId) references customer(customerId)
+CREATE TABLE customer_contact(
+	customer_id VARCHAR(30) NOT NULL,
+    contact_no VARCHAR(20) NOT NULL,
+    PRIMARY KEY (customer_id, contact_no),
+    foreign key (customer_id) references customer(customer_id)
 );
 
-INSERT INTO customerContact (customerId, contactNo)
+INSERT INTO customer_contact (customer_Id, contact_No)
 VALUES
     ('CUST001', '123-456-7890'),
     ('CUST003', '987-654-3210'),
@@ -141,17 +139,18 @@ VALUES
 
 -- creating reviews table
 CREATE TABLE reviews (
-	reviewId VARCHAR(30) NOT NULL,
-	customerId VARCHAR(30),
-	productId VARCHAR(20),
+	review_id VARCHAR(30) NOT NULL,
+	customer_id VARCHAR(30),
+	product_id VARCHAR(20),
 	rating DECIMAL(3, 1) NOT NULL,
-	review VARCHAR(300) NOT NULL,
-	PRIMARY KEY (reviewId),
-	constraint FK_reviews foreign key(productId) references product(productId) on delete set null on update cascade,
-	constraint FK_reviews_gives foreign key(customerId) references customer(customerId) on delete set null on update cascade
+	review_description VARCHAR(300) NOT NULL,
+	PRIMARY KEY (review_Id),
+	constraint FK_reviews foreign key(product_id) references product(product_id) on delete set null on update cascade,
+	constraint FK_reviews_gives foreign key(customer_id) references customer(customer_id) on delete set null on update cascade
 );
 
-INSERT INTO reviews (reviewId, customerId, productId, rating, review)
+
+INSERT INTO reviews (review_Id, customer_Id, product_Id, rating, review_description)
 VALUES
     (1011, 'CUST001', 'P1001', 4.5, 'Good'),
     (2011, 'CUST001', 'P1002', 3.0, 'Average'),
@@ -166,18 +165,18 @@ VALUES
 
 
 -- Creating shopping cart table
-CREATE TABLE shoppingCart (
-	cartId VARCHAR(30) NOT NULL,
-    totalAmount DECIMAL(10,2),
-    customerId VARCHAR(30) NOT NULL,
-    purcheseStatus bool NOT NULL,
-    discountAmount DECIMAL(10,2),
-	PRIMARY KEY (cartId),
-    constraint FK_cusId foreign key(customerId) references customer(customerId)
+CREATE TABLE shopping_cart (
+	cart_id VARCHAR(30) NOT NULL,
+    total_amount DECIMAL(10,2),
+    customer_id VARCHAR(30) NOT NULL,
+    purchese_status bool NOT NULL,
+    discount_amount DECIMAL(10,2),
+	PRIMARY KEY (cart_id),
+    constraint FK_cusId foreign key(customer_id) references customer(customer_id)
 );
 
 
-INSERT INTO shoppingCart (cartId,  customerId, purcheseStatus, discountAmount) 
+INSERT INTO shopping_Cart (cart_Id,  customer_Id, purchese_Status, discount_Amount) 
 VALUES ('Cart001',  'CUST001',TRUE, 25.50),
 ('Cart002',  'CUST001',FALSE, NULL),
 ('Cart003',  'CUST001',TRUE, 10.00),
@@ -191,48 +190,50 @@ VALUES ('Cart001',  'CUST001',TRUE, 25.50),
 
 
 -- Creating product_shoppingCart table
-create table product_shoppingCart(
-	product_Id_ VARCHAR(20) NOT NULL,
-	cart_Id_ VARCHAR(30) NOT NULL,
-	primary key(product_Id_,cart_Id_),
-	constraint FK_products foreign key (product_Id_) references product(productId),
-	constraint FK_cart foreign key (cart_Id_) references shoppingCart(cartId)
+create table product_shopping_cart(
+	product_id VARCHAR(20) NOT NULL,
+	cart_id VARCHAR(30) NOT NULL,
+	primary key(product_id,cart_id),
+	constraint FK_products foreign key (product_id) references product(product_id),
+	constraint FK_cart foreign key (cart_id) references shopping_cart(cart_id)
 );
 
-INSERT INTO product_shoppingCart (product_Id_, cart_Id_)
+INSERT INTO product_shopping_cart (product_Id, cart_Id)
 VALUES
-    ('P1001', 'Cart001'),
+    ('P1001', 'Cart002'),
     ('P1002', 'Cart002'),
     ('P1003', 'Cart003'),
     ('P1004', 'Cart004'),
     ('P1005', 'Cart005'),
     ('P1006', 'Cart006'),
-    ('P1007', 'Cart007');
-    
-INSERT INTO product_shoppingCart (product_Id_, cart_Id_)
-VALUES
-    ('P10011', 'Cart001'),
-    ('P10012', 'Cart001'),
+    ('P1007', 'Cart007'),
+    ('P10011', 'Cart002'),
+    ('P10012', 'Cart002'),
     ('P10013', 'Cart002'),
     ('P10014', 'Cart002'),
-    ('P10015', 'Cart001'),
+    ('P10015', 'Cart002'),
     ('P10016', 'Cart002'),
-    ('P10017', 'Cart001');
+    ('P10017', 'Cart002');
+INSERT INTO product_shopping_cart (product_Id, cart_Id)
+VALUES('P17', 'Cart002');
 
+drop table product_shopping_cart;
+
+select * from product;
 -- Creating address table
 CREATE TABLE address(
-	addressId VARCHAR(150) NOT NULL,
-	customerId varchar(30) NOT NULL,
+	address_id VARCHAR(150) NOT NULL,
+	customer_id varchar(30) NOT NULL,
     state VARCHAR(40) NOT NULL,
 	city VARCHAR(40) NOT NULL,
 	street VARCHAR(40) NOT NULL,
 	zip VARCHAR(30) NOT NULL,
-	PRIMARY KEY (addressId),
-    constraint FK_customer_address foreign key (customerId) references customer(customerId)
+	PRIMARY KEY (address_id),
+    constraint FK_customer_address foreign key (customer_id) references customer(customer_id)
 );
 
 
-INSERT INTO address (addressId, customerId, state, city, street, zip)
+INSERT INTO address (address_Id, customer_Id, state, city, street, zip)
 VALUES (11111, 'CUST001', 'Male01', 'Male', '123MainSt', '10001'),
 (33333, 'CUST001', 'Delhi', 'NewDelhi', '456ElmSt', '30003'),
 (44444, 'CUST002', 'NSW', 'Sydney', '789OakAve', '40004'),
@@ -250,13 +251,13 @@ VALUES (11111, 'CUST001', 'Male01', 'Male', '123MainSt', '10001'),
 
 -- Creating shipper table
 CREATE TABLE shipper(
-	shipperId VARCHAR(30) NOT NULL,
-	shipperName VARCHAR(100) NOT NULL,
-	contactNo VARCHAR(20) NOT NULL,
-	PRIMARY KEY (shipperId)
+	shipper_id VARCHAR(30) NOT NULL,
+	shipper_name VARCHAR(100) NOT NULL,
+	contact_no VARCHAR(20) NOT NULL,
+	PRIMARY KEY (shipper_id)
 );
 
-INSERT INTO shipper (shipperId, shipperName, contactNo)
+INSERT INTO shipper (shipper_id, shipper_name, contact_no)
 VALUES
     ('001', 'Shipper1', '123-456-7780'),
     ('002', 'Shipper2', '987-654-3210'),
@@ -272,18 +273,18 @@ VALUES
 
 -- Creating shipment table
 CREATE TABLE shipments (
-	shippingId VARCHAR(30) NOT NULL,
-	shipperId VARCHAR(30),
-	addressId VARCHAR(150) NOT NULL,
-	shipmentStatus VARCHAR(150) NOT NULL,
-	shipmentDate DATE NOT NULL,
-	PRIMARY KEY (shippingId,addressId),
-	constraint FK_shipments foreign key (addressId) references address(addressId),
-	constraint FK_shipments_shipper foreign key (shipperId) references shipper(shipperId) on delete set null on update cascade
+	shipping_id VARCHAR(30) NOT NULL,
+	shipper_id VARCHAR(30),
+	address_id VARCHAR(150) NOT NULL,
+	shipment_status VARCHAR(150) NOT NULL,
+	shipment_date DATE NOT NULL,
+	PRIMARY KEY (shipping_id,address_id),
+	constraint FK_shipments foreign key (address_id) references address(address_id),
+	constraint FK_shipments_shipper foreign key (shipper_id) references shipper(shipper_id) on delete set null on update cascade
 );
 
 
-INSERT INTO shipments (shippingId, shipperId, addressId, shipmentStatus, shipmentDate)
+INSERT INTO shipments (shipping_Id, shipper_Id, address_Id, shipment_Status, shipment_Date)
 VALUES
     ('SHIP001', '001', 11111, 'InTransit', '2023-09-10'),
     ('SHIP002', '002', 22222, 'Delivered', '2023-09-11'),
@@ -299,19 +300,23 @@ VALUES
 
 -- Creating orders table
 CREATE TABLE orders(
-	orderId VARCHAR(30) NOT NULL,
-	customerId VARCHAR(30),
-	cartId VARCHAR(30),
-	shippingId VARCHAR(30),
-	orderDate DATE NOT NULL,
+	order_id VARCHAR(30) NOT NULL,
+	customer_id VARCHAR(30),
+	cart_id VARCHAR(30),
+	shipping_id VARCHAR(30),
+	order_date DATE NOT NULL,
 	total INT DEFAULT NULL,
-	PRIMARY KEY (orderId),
-	constraint FK_orders foreign key (customerId) references customer(customerId) on delete set null on update cascade,
-	constraint FK_orders_shoppingCart foreign key (cartId) references shoppingCart(cartId) on delete set null on update cascade,
-	constraint FK_orders_shipments foreign key (shippingId) references shipments(shippingId) on delete set null on update cascade
+	PRIMARY KEY (order_id),
+	constraint FK_orders foreign key (customer_id) references customer(customer_id) on delete set null on update cascade,
+	constraint FK_orders_shopping_cart foreign key (cart_id) references shopping_cart(cart_id) on delete set null on update cascade,
+	constraint FK_orders_shipments foreign key (shipping_id) references shipments(shipping_id) on delete set null on update cascade
 );
 
-INSERT INTO orders (orderId, customerId, cartId, shippingId, orderDate, total)
+ALTER TABLE orders
+MODIFY total DECIMAL(10, 2);
+
+
+INSERT INTO orders (order_Id, customer_Id, cart_Id, shipping_Id, order_Date, total)
 VALUES
     ('ORDER001', 'CUST001', 'Cart001', 'SHIP001', '2023-09-10', 250),
     ('ORDER002', 'CUST002', 'Cart002', 'SHIP002', '2023-09-11', 150),
@@ -327,15 +332,15 @@ VALUES
 
 -- Creating payment table
 CREATE TABLE payment (
-	paymentNo VARCHAR(30) NOT NULL,
-    orderId VARCHAR(30) NOT NULL,
-	paymentMethod VARCHAR(100) NOT NULL,
-	paymentDetails VARCHAR(150) NOT NULL,
-	PRIMARY KEY (paymentNo,orderId),
-    constraint FK_order_payment foreign key (orderId) references orders(orderId)
+	payment_no VARCHAR(30) NOT NULL,
+    order_id VARCHAR(30) NOT NULL,
+	payment_method VARCHAR(100) NOT NULL,
+	payment_details VARCHAR(150) NOT NULL,
+	PRIMARY KEY (payment_no,order_id),
+    constraint FK_order_payment foreign key (order_id) references orders(order_id)
 );
 
-INSERT INTO payment (paymentNo, orderId, paymentMethod, paymentDetails)
+INSERT INTO payment (payment_no, order_Id, payment_Method, payment_Details)
 VALUES
     ('PAYMENT001', 'ORDER001', 'CreditCard', 'Card_No:0000-1111-1111-1234-Expiry:12/25'),
     ('PAYMENT002', 'ORDER002', 'PayPal', 'PayPal_Email:abc@gmail.com'),
@@ -347,13 +352,18 @@ VALUES
     ('PAYMENT008', 'ORDER003', 'CreditCard', 'Amount:200USD-Collect_upon_Delivery'),
     ('PAYMENT009', 'ORDER003', 'CreditCard', 'PayPal_Email:sam@yahooo.com');
 
-
+CREATE TABLE product_image (
+    image_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id varchar(20) NOT NULL,
+    image_data LONGBLOB,
+    FOREIGN KEY (product_id) REFERENCES product(product_id)
+);
 
 -- Trigers to update total in order when a new item added to the cart
 DELIMITER //
 
 CREATE TRIGGER insert_order_total
-AFTER INSERT ON product_shoppingCart
+AFTER INSERT ON product_shopping_cart
 FOR EACH ROW
 BEGIN
     DECLARE order_total DECIMAL(10, 2);
@@ -361,14 +371,19 @@ BEGIN
     -- Calculate the total for the given cartId
     SELECT SUM(p.price)
     INTO order_total
-    FROM product_shoppingCart scp
-    INNER JOIN product p ON scp.product_Id_ = p.productId
-    WHERE scp.cart_Id_ = NEW.cart_Id_;
+    FROM product_shopping_cart scp
+    INNER JOIN product p ON scp.product_Id = p.product_Id
+    WHERE scp.cart_Id = NEW.cart_Id;
+    
+    -- Update the product_shopping_cart table with the new total
+    UPDATE shopping_Cart
+    SET total_amount=order_total
+    WHERE cart_Id = NEW.cart_Id;
     
     -- Update the order table with the new total
     UPDATE orders
     SET total = order_total
-    WHERE cartId = NEW.cart_Id_;
+    WHERE cart_Id = NEW.cart_Id;
 END;
 //
 
@@ -376,7 +391,7 @@ END;
 DELIMITER //
 
 CREATE TRIGGER update_order_total
-AFTER UPDATE ON product_shoppingCart
+AFTER UPDATE ON product_shopping_cart
 FOR EACH ROW
 BEGIN
     DECLARE order_total DECIMAL(10, 2);
@@ -384,28 +399,31 @@ BEGIN
     -- Calculate the total for the given cartId
     SELECT SUM(p.price)
     INTO order_total
-    FROM product_shoppingCart scp
-    INNER JOIN product p ON scp.product_Id_ = p.productId
-    WHERE scp.cart_Id_ = NEW.cart_Id_;
+    FROM shopping_cart scp
+    INNER JOIN product p ON scp.product_id = p.product_id
+    WHERE scp.cart_Id = NEW.cart_Id;
+    
+     -- Update the product_shopping_cart table with the new total
+      UPDATE shopping_Cart
+    SET total_amount=order_total
+    WHERE cart_Id = NEW.cart_Id;
     
     -- Update the order table with the new total
     UPDATE orders
     SET total = order_total
-    WHERE cartId = NEW.cart_Id_;
+    WHERE cartId = NEW.cart_Id;
 END;
 //
-       
-CREATE INDEX idx_customer_id ON customer(customer_id);
-
-CREATE INDEX idx_brand_id ON brand(brand_id);
-CREATE INDEX idx_shipping_id ON shipments(shipping_id);
-CREATE INDEX idx_order_id ON orders(order_id);
-CREATE INDEX idx_product_id ON product(product_id);
-CREATE INDEX idx_address_id ON address(address_id);
-CREATE INDEX idx_shipper_id ON shipper(shipper_id);
 
 
+drop trigger insert_order_total;
+select * from shopping_Cart;
+SELECT * from product;
+select * from orders;
+select * from product_shopping_cart;
+WHERE cart_Id = 'Cart001';
 
+SELECT * FROM Product p WHERE p.productId = 'p1001'
 
 
 
