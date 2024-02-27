@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -33,6 +34,20 @@ public class ProductShoppingCartController {
             return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/product_shopping_cart/totals")
+    public ResponseEntity<Object> getTotals(@RequestParam("cartId") String cartId) {
+        BigDecimal totalAmount = productShoppingCartService.getTotalAmount(cartId);
+        BigDecimal discountAmount =productShoppingCartService.getDiscountAmount(cartId);
+
+        if (totalAmount == null || discountAmount == null) {
+            return new ResponseEntity<>("Unable to retrieve totals", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        // You can customize the response structure as needed
+        return ResponseEntity.ok().body("Total Amount: " + totalAmount + ", Discount Amount: " + discountAmount);
+    }
+
 
 
 }

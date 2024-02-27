@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,18 +21,19 @@ public class ProductImageService {
     @Autowired
     ProductImageRepository productImageRepository;
 
-    public List<ProductImage> getImageListByProductId(String Id) {
+    public List<byte[]> getImageDataListByProductId(String Id) {
         try {
-            List <ProductImage> productImages= productImageRepository.findByProductProductId(Id);
+            List<ProductImage> productImages = productImageRepository.findByProductProductId(Id);
+            List<byte[]> imageDataList = new ArrayList<>();
             for (ProductImage productImage : productImages) {
-                productImage.setImageData(convertToJPEG(productImage.getImageData()));
+                imageDataList.add(productImage.getImageData());
             }
-            return productImages;
+            return imageDataList;
         } catch (ProductImageNotFoundException ex) {
             throw new ProductImageNotFoundException("No product images found for product ID: " + Id);
-
         }
     }
+
 
     private byte[] convertToJPEG(byte[] imageData) {
         try {

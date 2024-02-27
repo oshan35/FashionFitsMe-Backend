@@ -21,7 +21,7 @@ public class ProductImageController {
 
     public ResponseEntity<?> getProductImagesByProductId(@PathVariable String Id) {
         try {
-            List<ProductImage> productImages = productImageService.getImageListByProductId(Id);
+            List<byte[]> productImages = productImageService.getImageDataListByProductId(Id);
             return ResponseEntity.ok(productImages);
 
 

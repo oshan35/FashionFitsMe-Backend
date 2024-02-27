@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class ProductService {
@@ -18,10 +19,10 @@ public class ProductService {
     @Autowired
     ProductImageRepository productImageRepository;
 
-    public void saveProductWithImage(String productId, String productName, String price, MultipartFile imageFile) throws IOException {
+    public void saveProductWithImages(String productId, String productName, String price, List<MultipartFile> imageFiles) throws IOException {
         try {
             // Check if product data is valid
-            if (productId == null || productId.isEmpty() || productName == null || productName.isEmpty() || price == null || price.isEmpty() || imageFile == null) {
+            if (productId == null || productId.isEmpty() || productName == null || productName.isEmpty() || price == null || price.isEmpty() || imageFiles == null || imageFiles.isEmpty()) {
                 throw new InvalidProductDataException("Invalid product data. Please provide all required fields.");
             }
 
@@ -30,36 +31,31 @@ public class ProductService {
                 throw new ProductAlreadyExistsException("Product with ID " + productId + " already exists.");
             }
 
-
+            // Save the product
             Product product = new Product();
             product.setProductId(productId);
             product.setProductName(productName);
             product.setPrice(new BigDecimal(price));
-
             productRepository.save(product);
-            byte[] imageData = imageFile.getBytes();
 
-            ProductImage productImage = new ProductImage();
-            productImage.setProduct(product);
-            productImage.setImageData(imageData);
-            productImageRepository.save(productImage);
-
-        }
-
-            catch (IOException e) {
-                throw new ProductImageSaveException("Failed to save product image: " + e.getMessage());
-            } catch (InvalidProductDataException e) {
-                throw e; // Re-throwing the custom exception without wrapping
-            } catch (Exception e) {
-                throw new ProductSaveException("Failed to save product: " + e.getMessage());
+            // Save the images
+            for (MultipartFile imageFile : imageFiles) {
+                byte[] imageData = imageFile.getBytes();
+                ProductImage productImage = new ProductImage();
+                productImage.setProduct(product);
+                productImage.setImageData(imageData);
+                productImageRepository.save(productImage);
             }
-
-
+        } catch (IOException e) {
+            throw new ProductImageSaveException("Failed to save product image: " + e.getMessage());
+        } catch (InvalidProductDataException | ProductAlreadyExistsException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ProductSaveException("Failed to save product: " + e.getMessage());
+        }
     }
-    public Product getProduct(String productId){
-        Product product=productRepository.findByProductId(productId);
-        return product;
 
+    public Product getProduct(String productId) {
+        return productRepository.findByProductId(productId);
     }
-
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -23,15 +24,15 @@ public class ProductController {
 
 
     @PostMapping("/products/add-product")
-    public ResponseEntity<String> saveProductWithImage(
+    public ResponseEntity<String> saveProductWithImages(
             @RequestParam("productId") String productId,
             @RequestParam("productName") String productName,
             @RequestParam("price") String price,
-            @RequestParam("imageFile") MultipartFile imageFile
+            @RequestParam("imageFiles") List<MultipartFile> imageFiles
     ) {
         try {
             System.out.println("Test: "+productId);
-            productService.saveProductWithImage(productId, productName, price, imageFile);
+            productService.saveProductWithImages(productId, productName, price, imageFiles);
             return ResponseEntity.ok("Product saved successfully.");
         } catch (InvalidProductDataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
