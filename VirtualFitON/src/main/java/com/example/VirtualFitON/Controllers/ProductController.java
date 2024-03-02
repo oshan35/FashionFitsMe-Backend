@@ -1,4 +1,5 @@
 package com.example.VirtualFitON.Controllers;
+import com.example.VirtualFitON.DTO.FilterDTO;
 import com.example.VirtualFitON.Exceptions.DatabaseAccessException;
 import com.example.VirtualFitON.Exceptions.InvalidProductDataException;
 import com.example.VirtualFitON.Exceptions.ProductAlreadyExistsException;
@@ -28,11 +29,13 @@ public class ProductController {
             @RequestParam("productId") String productId,
             @RequestParam("productName") String productName,
             @RequestParam("price") String price,
+            @RequestParam("productCategory") String productCategory,
+            @RequestParam("gender") String gender,
             @RequestParam("imageFiles") List<MultipartFile> imageFiles
     ) {
         try {
             System.out.println("Test: "+productId);
-            productService.saveProductWithImages(productId, productName, price, imageFiles);
+            productService.saveProductWithImages(productId, productName, price, productCategory,gender,imageFiles);
             return ResponseEntity.ok("Product saved successfully.");
         } catch (InvalidProductDataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -56,5 +59,22 @@ public class ProductController {
         } catch (Exception e) {
             return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/products/filter")
+    public List<Product> filterProducts(@RequestBody FilterDTO filterDTO) {
+        System.out.println(filterDTO.getCategories());
+        System.out.println(filterDTO.getColor());
+        System.out.println(filterDTO.getPrice());
+        System.out.println(filterDTO.getBrand());
+        System.out.println(filterDTO.getSize());
+        System.out.println(filterDTO.getGender());
+
+
+        return productService.filterProducts(filterDTO);
+    }
+    @GetMapping("/products")
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
     }
 }

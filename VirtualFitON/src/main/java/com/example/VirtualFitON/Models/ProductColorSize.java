@@ -28,6 +28,7 @@ public class ProductColorSize {
     }
 
     public ProductColorSize() {
+
     }
 
     public ProductColorSizeId getId() {

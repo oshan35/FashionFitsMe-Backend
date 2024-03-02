@@ -1,8 +1,6 @@
 package com.example.VirtualFitON.Service;
-import com.example.VirtualFitON.Models.Product;
-import com.example.VirtualFitON.Models.ProductShoppingCart;
-import com.example.VirtualFitON.Models.ProductShoppingCartId;
-import com.example.VirtualFitON.Models.ShoppingCart;
+import com.example.VirtualFitON.Models.*;
+import com.example.VirtualFitON.Repositories.ProductColorSizeRepository;
 import com.example.VirtualFitON.Repositories.ProductShoppingCartRepository;
 import com.example.VirtualFitON.Repositories.ShoppingCartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +19,9 @@ public class ProductShoppingCartService{
 
     @Autowired
     private ShoppingCartRepository shoppingCartRepository;
+
+    @Autowired
+    private ProductColorSizeRepository productColorSizeRepository;
 
 
 
@@ -62,6 +63,11 @@ public class ProductShoppingCartService{
             e.printStackTrace();
             throw e;
         }
+
+    }
+
+    public List<ProductColorSize> getProductColorSizeByCartId(String cartId) {
+        return productShoppingCartRepository.findProductColorSizeByCartId(cartId);
     }
 
 

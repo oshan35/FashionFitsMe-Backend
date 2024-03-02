@@ -4,6 +4,7 @@ import com.example.VirtualFitON.Exceptions.InvalidProductDataException;
 import com.example.VirtualFitON.Exceptions.ProductAlreadyExistsException;
 import com.example.VirtualFitON.Exceptions.ProductImageSaveException;
 import com.example.VirtualFitON.Models.Product;
+import com.example.VirtualFitON.Models.ProductColorSize;
 import com.example.VirtualFitON.Models.ProductShoppingCart;
 import com.example.VirtualFitON.Repositories.ProductShoppingCartRepository;
 import com.example.VirtualFitON.Service.ProductService;
@@ -36,6 +37,9 @@ public class ProductShoppingCartController {
         } catch (Exception e) {
             return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+
+
     }
 
 
@@ -59,6 +63,12 @@ public class ProductShoppingCartController {
             e.printStackTrace();
             return new ResponseEntity<>("Database error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/product_shopping_cart/{cartId}/product-color-sizes")
+    public ResponseEntity<List<ProductColorSize>> getProductColorSizeByCartId(@PathVariable String cartId) {
+        List<ProductColorSize> productColorSizeList = productShoppingCartService.getProductColorSizeByCartId(cartId);
+        return ResponseEntity.ok().body(productColorSizeList);
     }
 
 
