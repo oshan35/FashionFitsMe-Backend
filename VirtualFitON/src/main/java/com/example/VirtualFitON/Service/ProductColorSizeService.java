@@ -34,7 +34,6 @@ public class ProductColorSizeService {
                 throw new ProductNotFoundException("Product not found for ID: " + productId);
             }
 
-             //Check for existing product color size combination
             ProductColorSize existing = productColorSizeRepository.findByProductIdAndColorAndSize(productId, color, size);
             if (existing != null) {
                 throw new ProductColorSizeAlreadyExistsException("Product color size already exists for product ID: " + productId + ", color: " + color + ", size: " + size);

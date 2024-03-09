@@ -1,5 +1,6 @@
 package com.example.VirtualFitON.Controllers;
 import com.example.VirtualFitON.DTO.FilterDTO;
+import com.example.VirtualFitON.DTO.ProductDTO;
 import com.example.VirtualFitON.Exceptions.DatabaseAccessException;
 import com.example.VirtualFitON.Exceptions.InvalidProductDataException;
 import com.example.VirtualFitON.Exceptions.ProductAlreadyExistsException;
@@ -31,11 +32,12 @@ public class ProductController {
             @RequestParam("price") String price,
             @RequestParam("productCategory") String productCategory,
             @RequestParam("gender") String gender,
+            @RequestParam("brand") String brand,
             @RequestParam("imageFiles") List<MultipartFile> imageFiles
     ) {
         try {
             System.out.println("Test: "+productId);
-            productService.saveProductWithImages(productId, productName, price, productCategory,gender,imageFiles);
+            productService.saveProductWithImages(productId, productName, price, productCategory,gender,brand,imageFiles);
             return ResponseEntity.ok("Product saved successfully.");
         } catch (InvalidProductDataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -62,7 +64,7 @@ public class ProductController {
     }
 
     @PostMapping("/products/filter")
-    public List<Product> filterProducts(@RequestBody FilterDTO filterDTO) {
+    public List<ProductDTO> filterProducts(@RequestBody FilterDTO filterDTO) {
         System.out.println(filterDTO.getCategories());
         System.out.println(filterDTO.getColor());
         System.out.println(filterDTO.getPrice());

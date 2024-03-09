@@ -2,6 +2,8 @@ package com.example.VirtualFitON.Service;
 
 import com.example.VirtualFitON.DTO.CustomerRegisterDTO;
 import com.example.VirtualFitON.DTO.LoginRequestDto;
+import com.example.VirtualFitON.DTO.SignUpDTO;
+import com.example.VirtualFitON.Exceptions.MissingFieldException;
 import com.example.VirtualFitON.Exceptions.UsernameAlreadyExistsException;
 import com.example.VirtualFitON.Repositories.CustomerRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,7 +16,13 @@ public class CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
     private  PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public CustomerService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public boolean authenticateCustomer(LoginRequestDto loginRequestDto) {
         Customer customer= customerRepository.findByUsername(loginRequestDto.getUsername());
@@ -33,16 +41,49 @@ public class CustomerService {
         if (existingCustomer != null) {
             throw new UsernameAlreadyExistsException("Username already exists");
         }
+        if (customerDTO.getFirstName() == null || customerDTO.getLastName() == null ||
+                customerDTO.getCountry() == null || customerDTO.getUsername() == null ||
+                customerDTO.getPassword() == null ) {
+            throw new MissingFieldException("One or more required fields are missing");
+        }
 
 
         Customer customer = new Customer();
+
         customer.setFirstName(customerDTO.getFirstName());
         customer.setLastName(customerDTO.getLastName());
         customer.setCountry(customerDTO.getCountry());
         customer.setUsername(customerDTO.getUsername());
-        customer.setCustomerId(customerDTO.getCustomerId());
+
 
         String encodedPassword = passwordEncoder.encode(customerDTO.getPassword());
+        customer.setPassword(encodedPassword);
+
+        customerRepository.save(customer);
+    }
+
+
+    public void signUpCustomer(SignUpDTO signUpDTO) throws UsernameAlreadyExistsException {
+        Customer existingCustomer = customerRepository.findByUsername(signUpDTO.getUsername());
+        if (existingCustomer != null) {
+            throw new UsernameAlreadyExistsException("Username already exists");
+        }
+        if (    signUpDTO.getFirstName() == null ||
+                signUpDTO.getLastName() == null  ||
+                signUpDTO.getUsername() == null ||
+                signUpDTO.getPassword() == null ) {
+            throw new MissingFieldException("One or more required fields are missing");
+        }
+
+
+        Customer customer = new Customer();
+
+        customer.setFirstName(signUpDTO.getFirstName());
+        customer.setLastName(signUpDTO.getLastName());
+        customer.setUsername(signUpDTO.getUsername());
+
+
+        String encodedPassword = passwordEncoder.encode(signUpDTO.getPassword());
         customer.setPassword(encodedPassword);
 
         customerRepository.save(customer);

@@ -1,36 +1,26 @@
-package com.example.VirtualFitON.Models;
+package com.example.VirtualFitON.DTO;
 
-import jakarta.persistence.*;
+public class SignUpDTO {
 
-@Entity
-public class Customer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_id")
-    private int customerId;
-
-    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name")
+
     private String lastName;
 
-    @Column(name = "country")
-    private String country;
 
-    @Column(name = "username")
     private String username;
 
-    @Column(name = "password")
+
     private String password;
 
-    public int getCustomerId() {
-        return customerId;
+    public SignUpDTO(String firstName, String lastName, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public SignUpDTO() {
     }
 
     public String getFirstName() {
@@ -47,14 +37,6 @@ public class Customer {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 
     public String getUsername() {
