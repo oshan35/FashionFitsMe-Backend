@@ -1,6 +1,7 @@
 package com.example.VirtualFitON.Repositories;
 
 import com.example.VirtualFitON.Models.Product;
+import com.example.VirtualFitON.Models.ProductColorSize;
 import com.example.VirtualFitON.Models.ProductShoppingCart;
 import com.example.VirtualFitON.Models.ProductShoppingCartId;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,6 +18,12 @@ public interface ProductShoppingCartRepository extends JpaRepository<ProductShop
 
     @Query("SELECT p FROM Product p WHERE p.productId = :Id")
     Product findProductsByProduct_Id( @Param("Id")String Id);
+
+
+    @Query("SELECT pcs FROM ProductColorSize pcs " +
+            "JOIN ProductShoppingCart psc ON pcs.id.productId = psc.id.productId " +
+            "WHERE psc.id.cartId = :cartId")
+    List<ProductColorSize> findProductColorSizeByCartId(@Param("cartId") String cartId);
 
 
 }

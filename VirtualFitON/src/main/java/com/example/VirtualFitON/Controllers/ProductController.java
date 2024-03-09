@@ -1,4 +1,6 @@
 package com.example.VirtualFitON.Controllers;
+import com.example.VirtualFitON.DTO.FilterDTO;
+import com.example.VirtualFitON.DTO.ProductDTO;
 import com.example.VirtualFitON.Exceptions.DatabaseAccessException;
 import com.example.VirtualFitON.Exceptions.InvalidProductDataException;
 import com.example.VirtualFitON.Exceptions.ProductAlreadyExistsException;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -23,15 +26,18 @@ public class ProductController {
 
 
     @PostMapping("/products/add-product")
-    public ResponseEntity<String> saveProductWithImage(
+    public ResponseEntity<String> saveProductWithImages(
             @RequestParam("productId") String productId,
             @RequestParam("productName") String productName,
             @RequestParam("price") String price,
-            @RequestParam("imageFile") MultipartFile imageFile
+            @RequestParam("productCategory") String productCategory,
+            @RequestParam("gender") String gender,
+            @RequestParam("brand") String brand,
+            @RequestParam("imageFiles") List<MultipartFile> imageFiles
     ) {
         try {
             System.out.println("Test: "+productId);
-            productService.saveProductWithImage(productId, productName, price, imageFile);
+            productService.saveProductWithImages(productId, productName, price, productCategory,gender,brand,imageFiles);
             return ResponseEntity.ok("Product saved successfully.");
         } catch (InvalidProductDataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -55,5 +61,22 @@ public class ProductController {
         } catch (Exception e) {
             return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/products/filter")
+    public List<ProductDTO> filterProducts(@RequestBody FilterDTO filterDTO) {
+        System.out.println(filterDTO.getCategories());
+        System.out.println(filterDTO.getColor());
+        System.out.println(filterDTO.getPrice());
+        System.out.println(filterDTO.getBrand());
+        System.out.println(filterDTO.getSize());
+        System.out.println(filterDTO.getGender());
+
+
+        return productService.filterProducts(filterDTO);
+    }
+    @GetMapping("/products")
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
     }
 }

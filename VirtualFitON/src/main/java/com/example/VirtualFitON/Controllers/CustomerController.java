@@ -6,14 +6,16 @@ import com.example.VirtualFitON.Exceptions.*;
 import com.example.VirtualFitON.Models.Customer;
 import com.example.VirtualFitON.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-
+@RequestMapping("/customer")
 public class CustomerController {
     @Autowired
     CustomerService customerService;
@@ -35,6 +37,33 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
         } catch (UsernameAlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exists");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid input data");
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Database error:"+ e.getMessage());
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Security error");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+
+    @PostMapping("/signup")
+    public ResponseEntity<String> signUpUser(@RequestBody SignUpDTO signUpDTO) {
+        try {
+            customerService.signUpCustomer(signUpDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+        } catch (UsernameAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exists");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid input data");
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Database error:"+ e.getMessage());
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Security error");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 

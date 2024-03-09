@@ -22,12 +22,22 @@ public class Product {
     @Column(name = "price")
     private BigDecimal price;
 
+    @Column(name = "product_category")
+    private String productCategory;
 
-    public Product(String productId, Brand brand, String productName, BigDecimal price) {
+    @Column(name = "gender")
+    private String gender;
+
+
+
+
+    public Product(String productId, Brand brand, String productName, BigDecimal price,String productCategory,String gender) {
         this.productId = productId;
         this.brand = brand;
         this.productName = productName;
         this.price = price;
+        this.productCategory=productCategory;
+        this.gender=gender;
     }
 
     public Product() {
@@ -63,5 +73,21 @@ public class Product {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getProductCategory() {
+        return productCategory;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setProductCategory(String productCategory) {
+        this.productCategory = productCategory;
     }
 }
