@@ -1,2 +1,4 @@
-package com.example.VirtualFitONAdmin.Controllers;public class TestController {
+package com.example.VirtualFitONAdmin.Controller;
+
+public class TestController {
 }
