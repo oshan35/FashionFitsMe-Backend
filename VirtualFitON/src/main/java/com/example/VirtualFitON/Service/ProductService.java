@@ -1,6 +1,5 @@
 package com.example.VirtualFitON.Service;
-import com.example.VirtualFitON.DTO.FilterDTO;
-import com.example.VirtualFitON.DTO.ProductDTO;
+import com.example.VirtualFitON.DTO.*;
 import com.example.VirtualFitON.Exceptions.*;
 import com.example.VirtualFitON.Models.Brand;
 import com.example.VirtualFitON.Models.Product;
@@ -16,8 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ProductService {
@@ -31,6 +29,41 @@ public class ProductService {
 
     @Autowired
     private ProductColorSizeRepository productColorSizeRepository;
+
+
+    public ProductInfoDTO getProductInformation(String productId) {
+        try {
+            Product product = productRepository.findByProductId(productId);
+            if (product == null) {
+                throw new ProductNotFoundException("Product not found for id: " + productId);
+            }
+            List<ProductColorSize>pcs=productColorSizeRepository.findByProductId(productId);
+            List<String> sizes=productColorSizeRepository.findSizesByProductProductId(productId);
+            List<String> colors=productColorSizeRepository.findColorsByProductProductId(productId);
+            Map<String,byte[]>image_colors=new HashMap<>();
+            byte[] image = new byte[0];
+            for(ProductColorSize productColorSize:pcs) {
+                byte[] imageData = productImageRepository.findByProductIdAndColor(productId, productColorSize.getColor());
+                if (imageData != null) { 
+                    image=imageData;
+                    image_colors.put(productColorSize.getColor(), imageData);
+                }
+
+            }
+            ProductInfoDTO productInfoDTO=new ProductInfoDTO();
+            productInfoDTO.setProductId(productId);
+            productInfoDTO.setProductName(product.getProductName());
+            productInfoDTO.setPrice(product.getPrice());
+            productInfoDTO.setColors(colors);
+            productInfoDTO.setSizes(sizes);
+            productInfoDTO.setImage_colors(image_colors);
+            productInfoDTO.setImage(image);
+            return  productInfoDTO;
+        } catch (ProductNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
     private Brand getBrand(String brandName) {
         try {
@@ -93,9 +126,86 @@ public class ProductService {
     public Product getProduct(String productId) {
         return productRepository.findByProductId(productId);
     }
+    public List<ProductDTO> filterProducts(int minPrice, int maxPrice, List<Filter> selectedFilters) {
+        Set<Product> filteredProducts = new HashSet<>();
+        boolean firstFilter = true;
 
+        // Get products filtered by categories, colors, sizes, etc.
+        for (Filter filter : selectedFilters) {
+            System.out.println("filter"+filter.getTitle());
+            Set<Product> currentFilteredProducts = getProductsWithFilter(filter);
+            System.out.println("filtered products"+currentFilteredProducts.size());
+            if (firstFilter) {
+                filteredProducts = currentFilteredProducts;
+                firstFilter = false;
+            } else {
+                filteredProducts.retainAll(currentFilteredProducts);
+            }
+        }
 
-    public List<ProductDTO> filterProducts(FilterDTO filterDTO) {
+        // Filter products by price range
+        Set<Product> currentFilteredProducts = productRepository.findProductsbyPrice(minPrice, maxPrice);
+        if (firstFilter) {
+            filteredProducts = currentFilteredProducts;
+        } else {
+            filteredProducts.retainAll(currentFilteredProducts);
+        }
+
+        // Convert the set of filtered products to a list
+        return mapToProductDTO(new ArrayList<>(filteredProducts));
+    }
+
+    private List<ProductDTO> mapToProductDTO(List<Product> filteredProducts) {
+        List<ProductDTO> filteredProductDTOs = new ArrayList<>();
+        System.out.println(filteredProducts.size());
+        for (Product product : filteredProducts) {
+
+//            Product product = pcs.getProduct();
+            List<ProductImage> productImages = productImageRepository.findByProductProductId(product.getProductId());
+            filteredProductDTOs.add(new ProductDTO(product,productImages));
+
+        }
+        return filteredProductDTOs;
+    }
+    private Set<Product> getProductsWithFilter(Filter filter) {
+        String title = filter.getTitle();
+        String category = filter.getCategory();
+        Set<Product> filteredProducts = null;
+
+        if ("Category".equalsIgnoreCase(title)) {
+            filteredProducts = filterByCategories(category);
+        } else if ("Color".equalsIgnoreCase(title)) {
+            filteredProducts = filterByColor(category);
+        } else if ("Size".equalsIgnoreCase(title)) {
+            filteredProducts = filterBySize(category);
+        }else if ("Gender".equalsIgnoreCase(title)) {
+            filteredProducts = filterByGender(category);
+        }else if ("Brand".equalsIgnoreCase(title)) {
+            filteredProducts = filterByBrand(category);
+        }
+
+        return filteredProducts;
+    }
+
+    private Set<Product> filterByCategories(String category) {
+        return productRepository.findByProductCategory(category);
+    }
+    private Set<Product> filterByGender(String category) {
+        return productRepository.findByGender(category);
+    }
+    private Set<Product> filterByBrand(String category) {
+        Brand brand = brandRepository.findByBrandName(category);
+        return productRepository.findByBrand(brand);
+    }
+
+    private Set<Product> filterByColor(String color) {
+        return productColorSizeRepository.findProductsbyColor(color);
+    }
+
+    private Set<Product> filterBySize(String size) {
+        return productColorSizeRepository.findProductsbySize(size);
+    }
+    public List<ProductDTO> filterProductsOld(FilterDTO filterDTO) {
         BigDecimal minPrice = null;
         BigDecimal maxPrice = null;
 
@@ -104,7 +214,7 @@ public class ProductService {
             maxPrice = filterDTO.getPrice().getMax();
         }
         FilterDTO.PriceRange priceRange = filterDTO.getPrice();
-        List<ProductColorSize> filteredProductColorSize = productColorSizeRepository.findFilteredProductColorSize(
+        List<Product> filteredProducts = productColorSizeRepository.findFilteredProductColorSize(
                 filterDTO.getColor(),
                 filterDTO.getSize(),
                 1,
@@ -116,10 +226,10 @@ public class ProductService {
         );
 
         List<ProductDTO> filteredProductDTOs = new ArrayList<>();
-        System.out.println(filteredProductColorSize.size());
-        for (ProductColorSize pcs : filteredProductColorSize) {
+        System.out.println(filteredProducts.size());
+        for (Product product : filteredProducts) {
 
-            Product product = pcs.getProduct();
+//            Product product = pcs.getProduct();
             List<ProductImage> productImages = productImageRepository.findByProductProductId(product.getProductId());
             filteredProductDTOs.add(new ProductDTO(product,productImages));
 
@@ -131,5 +241,41 @@ public class ProductService {
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
+    }
+
+
+    public void saveProduct(String productId, String productName, String price,String productCategory,String gender, String brandName) throws IOException {
+        try {
+            // Check if product data is valid
+            if (productId == null || productId.isEmpty() || productName == null || productName.isEmpty() || price == null || gender == null ||brandName == null|| productCategory==null || price.isEmpty() ) {
+                throw new InvalidProductDataException("Invalid product data. Please provide all required fields.");
+            }
+
+            // Check if the product already exists
+            if (productRepository.existsById(productId)) {
+                throw new ProductAlreadyExistsException("Product with ID " + productId + " already exists.");
+            }
+
+
+            Brand brand=getBrand(brandName);
+
+            // Save the product
+            Product product = new Product();
+            product.setProductId(productId);
+            product.setProductName(productName);
+            product.setPrice(new BigDecimal(price));
+            product.setProductCategory(productCategory);
+            product.setGender(gender);
+            product.setBrand(brand);
+            productRepository.save(product);
+
+
+
+
+        } catch (InvalidProductDataException | ProductAlreadyExistsException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ProductSaveException("Failed to save product: " + e.getMessage());
+        }
     }
 }

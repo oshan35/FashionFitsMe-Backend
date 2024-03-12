@@ -1,10 +1,13 @@
 package com.example.VirtualFitON.Service;
 
 import com.example.VirtualFitON.Exceptions.ProductImageNotFoundException;
+import com.example.VirtualFitON.Models.Product;
 import com.example.VirtualFitON.Models.ProductImage;
 import com.example.VirtualFitON.Repositories.ProductImageRepository;
+import com.example.VirtualFitON.Repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -20,6 +23,9 @@ public class ProductImageService {
 
     @Autowired
     ProductImageRepository productImageRepository;
+    @Autowired
+    ProductRepository productRepository;
+
 
     public List<byte[]> getImageDataListByProductId(String Id) {
         try {
@@ -35,6 +41,8 @@ public class ProductImageService {
     }
 
 
+
+
     private byte[] convertToJPEG(byte[] imageData) {
         try {
             ByteArrayInputStream bis = new ByteArrayInputStream(imageData);
@@ -46,5 +54,16 @@ public class ProductImageService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void saveProductImage(String productId, String colour, MultipartFile image) throws IOException {
+
+        Product product=productRepository.findByProductId(productId);
+        ProductImage productImage=new ProductImage();
+        productImage.setImageData(image.getBytes());
+        productImage.setColour(colour);
+        productImage.setProduct(product);
+        productImageRepository.save(productImage);
+
     }
 }

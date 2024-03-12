@@ -1,6 +1,5 @@
 package com.example.VirtualFitON.Controllers;
-import com.example.VirtualFitON.DTO.FilterDTO;
-import com.example.VirtualFitON.DTO.ProductDTO;
+import com.example.VirtualFitON.DTO.*;
 import com.example.VirtualFitON.Exceptions.DatabaseAccessException;
 import com.example.VirtualFitON.Exceptions.InvalidProductDataException;
 import com.example.VirtualFitON.Exceptions.ProductAlreadyExistsException;
@@ -18,6 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/products")
 @CrossOrigin
 public class ProductController {
 
@@ -25,7 +25,7 @@ public class ProductController {
     private ProductService productService;
 
 
-    @PostMapping("/products/add-product")
+    @PostMapping("/add-product-with-images")
     public ResponseEntity<String> saveProductWithImages(
             @RequestParam("productId") String productId,
             @RequestParam("productName") String productName,
@@ -52,7 +52,33 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/products/{Id}")
+    @PostMapping("/add-product")
+    public ResponseEntity<String> saveProduct(
+            @RequestParam("productId") String productId,
+            @RequestParam("productName") String productName,
+            @RequestParam("price") String price,
+            @RequestParam("productCategory") String productCategory,
+            @RequestParam("gender") String gender,
+            @RequestParam("brand") String brand
+    ) {
+        try {
+            System.out.println("Test: "+productId);
+            productService.saveProduct(productId, productName, price, productCategory,gender,brand);
+            return ResponseEntity.ok("Product saved successfully.");
+        } catch (InvalidProductDataException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (ProductAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (ProductImageSaveException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        } catch (DatabaseAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to process image file: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{Id}")
     public ResponseEntity<?> getProduct(@PathVariable String Id) {
         try {
             System.out.println(Id);
@@ -63,8 +89,8 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/products/filter")
-    public List<ProductDTO> filterProducts(@RequestBody FilterDTO filterDTO) {
+    @PostMapping("/filter")
+    public List<ProductDTO> filterProductsOld(@RequestBody FilterDTO filterDTO) {
         System.out.println(filterDTO.getCategories());
         System.out.println(filterDTO.getColor());
         System.out.println(filterDTO.getPrice());
@@ -73,10 +99,34 @@ public class ProductController {
         System.out.println(filterDTO.getGender());
 
 
-        return productService.filterProducts(filterDTO);
+        return productService.filterProductsOld(filterDTO);
     }
-    @GetMapping("/products")
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+
+    @PostMapping("/filter-products")
+    public ResponseEntity<?> filterProducts(@RequestBody FilterRequestDTO filterRequest) {
+        System.out.println("Minimum Price: " + filterRequest.getMinPrice());
+        System.out.println("Maximum Price: " + filterRequest.getMaxPrice());
+        System.out.println("Selected Filters:");
+       List<ProductDTO> filteredProducts = productService.filterProducts(filterRequest.getMinPrice(), filterRequest.getMaxPrice(), filterRequest.getSelectedFilters());
+        System.out.println(filteredProducts.size());
+        // You can return the filtered products as JSON response
+
+        for (Filter selectedFilters : filterRequest.getSelectedFilters()) {
+            System.out.println("Title: " + selectedFilters.getTitle());
+            System.out.println("Category: " + selectedFilters.getCategory());
+        }        return ResponseEntity.ok(filteredProducts);
+    }
+
+
+
+    @GetMapping("/getProductInformation")
+    public ResponseEntity<?> getAllProducts(@RequestParam("productId") String productId) {
+
+
+        System.out.println(productId);
+             ProductInfoDTO productInfoDTO=productService.getProductInformation(productId);
+            return new ResponseEntity<>(productInfoDTO, HttpStatus.OK);
+
+
     }
 }

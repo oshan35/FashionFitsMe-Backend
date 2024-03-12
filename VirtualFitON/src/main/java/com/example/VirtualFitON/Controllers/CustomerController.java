@@ -20,15 +20,15 @@ public class CustomerController {
     @Autowired
     CustomerService customerService;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequest) {
-
-        if (customerService.authenticateCustomer(loginRequest)) {
-            return ResponseEntity.ok("Login successful");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
-        }
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequest) {
+//
+//        if (customerService.authenticateCustomer(loginRequest)) {
+//            return ResponseEntity.ok("Login successful");
+//        } else {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+//        }
+//    }
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody CustomerRegisterDTO requestDto) {
@@ -54,6 +54,23 @@ public class CustomerController {
         try {
             customerService.signUpCustomer(signUpDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+        } catch (UsernameAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exists");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid input data");
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Database error:"+ e.getMessage());
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Security error");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginDTO loginDTO) {
+        try {
+            Customer customer=customerService.LoginCustomer(loginDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(customer);
         } catch (UsernameAlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exists");
         } catch (IllegalArgumentException e) {

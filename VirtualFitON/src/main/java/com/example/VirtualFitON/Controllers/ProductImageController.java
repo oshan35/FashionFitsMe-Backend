@@ -5,10 +5,8 @@ import com.example.VirtualFitON.Service.ProductImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 @CrossOrigin
@@ -32,6 +30,25 @@ public class ProductImageController {
             }
 
         }
+
+
+    @PostMapping("/product-images/addImage")
+
+    public ResponseEntity<?> addProductImages(@RequestParam("productId") String productId,
+                                              @RequestParam("colour") String colour,
+                                              @RequestParam("image")MultipartFile image) {
+        try {
+            productImageService.saveProductImage(productId,colour,image);
+            return ResponseEntity.ok("Product Image saved successfully.");
+
+
+        }
+
+        catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+
+    }
 
     }
 

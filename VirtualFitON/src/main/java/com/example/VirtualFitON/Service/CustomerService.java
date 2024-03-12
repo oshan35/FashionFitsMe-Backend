@@ -1,11 +1,13 @@
 package com.example.VirtualFitON.Service;
 
 import com.example.VirtualFitON.DTO.CustomerRegisterDTO;
+import com.example.VirtualFitON.DTO.LoginDTO;
 import com.example.VirtualFitON.DTO.LoginRequestDto;
 import com.example.VirtualFitON.DTO.SignUpDTO;
 import com.example.VirtualFitON.Exceptions.MissingFieldException;
 import com.example.VirtualFitON.Exceptions.UsernameAlreadyExistsException;
 import com.example.VirtualFitON.Repositories.CustomerRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.VirtualFitON.Models.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,5 +90,14 @@ public class CustomerService {
 
         customerRepository.save(customer);
     }
+
+    public Customer LoginCustomer(LoginDTO loginDTO)  {
+        Customer customer = customerRepository.findByUsername(loginDTO.getUsername());
+        if (customer == null) {
+            throw new UsernameNotFoundException("User not found with username: " + loginDTO.getUsername());
+        }
+        return customer;
+    }
+
 
 }
