@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/products")
@@ -128,5 +129,19 @@ public class ProductController {
             return new ResponseEntity<>(productInfoDTO, HttpStatus.OK);
 
 
+    }
+
+    @PostMapping("/getHomeProducts")
+    public ResponseEntity<List<ProductDTO>> filterProducts(@RequestBody Filter filter) {
+        System.out.println(filter.getCategory());
+        System.out.println(filter.getTitle());
+
+        List<ProductDTO> filteredProducts = productService.getHomeProducts(filter);
+
+        if (filteredProducts != null) {
+            return new ResponseEntity<>(filteredProducts, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

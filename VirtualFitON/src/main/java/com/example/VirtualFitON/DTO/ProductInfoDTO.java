@@ -16,18 +16,30 @@ public class ProductInfoDTO {
 
     private byte[] image;
 
+    private String category;
+
     private Map<String,byte[]> image_colors;
 
     public ProductInfoDTO() {
     }
 
-    public ProductInfoDTO(String productId, String productName, BigDecimal price, List<String> sizes, List<String> colors, Map<String, byte[]> image_colors) {
+    public ProductInfoDTO(String productId, String productName, BigDecimal price, List<String> sizes, List<String> colors, byte[] image, String category, Map<String, byte[]> image_colors) {
         ProductId = productId;
         ProductName = productName;
         this.price = price;
         this.sizes = sizes;
         this.colors = colors;
+        this.image = image;
+        this.category = category;
         this.image_colors = image_colors;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public byte[] getImage() {

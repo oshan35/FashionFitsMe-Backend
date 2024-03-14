@@ -58,6 +58,7 @@ public class ProductService {
             productInfoDTO.setSizes(sizes);
             productInfoDTO.setImage_colors(image_colors);
             productInfoDTO.setImage(image);
+            productInfoDTO.setCategory(product.getProductCategory());
             return  productInfoDTO;
         } catch (ProductNotFoundException e) {
             throw new RuntimeException(e);
@@ -132,8 +133,10 @@ public class ProductService {
 
         // Get products filtered by categories, colors, sizes, etc.
         for (Filter filter : selectedFilters) {
+            Set<Product> currentFilteredProducts=new HashSet<>();
             System.out.println("filter"+filter.getTitle());
-            Set<Product> currentFilteredProducts = getProductsWithFilter(filter);
+
+             currentFilteredProducts = getProductsWithFilter(filter);
             System.out.println("filtered products"+currentFilteredProducts.size());
             if (firstFilter) {
                 filteredProducts = currentFilteredProducts;
@@ -155,18 +158,40 @@ public class ProductService {
         return mapToProductDTO(new ArrayList<>(filteredProducts));
     }
 
+    public List<ProductDTO> getHomeProducts(Filter filter) {
+        Set<Product> filteredProducts = new HashSet<>();
+         filteredProducts = getProductsWithFilter(filter);
+        return mapToProductDTO(new ArrayList<>(filteredProducts));
+
+
+    }
     private List<ProductDTO> mapToProductDTO(List<Product> filteredProducts) {
         List<ProductDTO> filteredProductDTOs = new ArrayList<>();
-        System.out.println(filteredProducts.size());
+
         for (Product product : filteredProducts) {
 
-//            Product product = pcs.getProduct();
-            List<ProductImage> productImages = productImageRepository.findByProductProductId(product.getProductId());
-            filteredProductDTOs.add(new ProductDTO(product,productImages));
+            if (product != null) {
 
+                List<ProductImage> productImages = productImageRepository.findByProductProductId(product.getProductId());
+                if (productImages != null) { // Check if productImages is not null
+                    filteredProductDTOs.add(new ProductDTO(product, productImages));
+                } else {
+                    // Handle the case when productImages is null
+                    // You can log an error message or take appropriate action
+                    System.out.println("Product images for product ID " + product.getProductId() + " are null.");
+                }
+            } else {
+                // Handle the case when product is null
+                // You can log an error message or take appropriate action
+                System.out.println("Encountered a null product.");
+            }
         }
+
         return filteredProductDTOs;
     }
+
+
+
     private Set<Product> getProductsWithFilter(Filter filter) {
         String title = filter.getTitle();
         String category = filter.getCategory();
