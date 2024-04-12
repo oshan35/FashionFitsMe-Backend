@@ -6,12 +6,18 @@ import com.example.VirtualFitON.DTO.LoginRequestDto;
 import com.example.VirtualFitON.DTO.SignUpDTO;
 import com.example.VirtualFitON.Exceptions.MissingFieldException;
 import com.example.VirtualFitON.Exceptions.UsernameAlreadyExistsException;
+import com.example.VirtualFitON.Models.Product;
+import com.example.VirtualFitON.Models.ShoppingCart;
 import com.example.VirtualFitON.Repositories.CustomerRepository;
+import com.example.VirtualFitON.Repositories.ProductShoppingCartRepository;
+import com.example.VirtualFitON.Repositories.ShoppingCartRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.VirtualFitON.Models.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CustomerService {
@@ -20,6 +26,12 @@ public class CustomerService {
     private CustomerRepository customerRepository;
     @Autowired
     private  PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ProductShoppingCartRepository productShoppingCartRepository;
+
+    @Autowired
+    private ShoppingCartRepository shoppingCartRepository;
 
     @Autowired
     public CustomerService(PasswordEncoder passwordEncoder) {
@@ -98,6 +110,16 @@ public class CustomerService {
         }
         return customer;
     }
+
+    public List<Product> getCustomerCartItems(int customerId){
+        String carts_id = customerRepository.findCartId(customerId);
+        List<Product> cartProductList;
+        cartProductList = productShoppingCartRepository.findProductsByCartId(carts_id);
+
+        return cartProductList;
+    }
+
+
 
 
 }

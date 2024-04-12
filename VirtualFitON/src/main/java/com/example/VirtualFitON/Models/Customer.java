@@ -25,6 +25,9 @@ public class Customer {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "cart_id")
+    private String cartId;
+
     public int getCustomerId() {
         return customerId;
     }
@@ -72,4 +75,5 @@ public class Customer {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

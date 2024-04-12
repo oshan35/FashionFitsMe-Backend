@@ -17,7 +17,7 @@ public class ShoppingCart {
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
