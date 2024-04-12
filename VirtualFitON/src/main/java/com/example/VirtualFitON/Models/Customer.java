@@ -25,6 +25,32 @@ public class Customer {
     @Column(name = "password")
     private String password;
 
+    @OneToOne
+    @JoinColumn(name="cart_id")
+    private ShoppingCart cart;
+
+    public Customer(int customerId, String firstName, String lastName, String country, String username, String password, ShoppingCart cart) {
+        this.customerId = customerId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.country = country;
+        this.username = username;
+        this.password = password;
+        this.cart = cart;
+    }
+
+    public Customer() {
+
+    }
+
+    public ShoppingCart getCart() {
+        return cart;
+    }
+
+    public void setCart(ShoppingCart cart) {
+        this.cart = cart;
+    }
+
     public int getCustomerId() {
         return customerId;
     }

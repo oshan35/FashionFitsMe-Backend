@@ -1,4 +1,5 @@
 package com.example.VirtualFitON.Controllers;
+import com.example.VirtualFitON.DTO.ProductDTO;
 import com.example.VirtualFitON.Exceptions.DatabaseAccessException;
 import com.example.VirtualFitON.Exceptions.InvalidProductDataException;
 import com.example.VirtualFitON.Exceptions.ProductAlreadyExistsException;
@@ -32,7 +33,7 @@ public class ProductShoppingCartController {
     @GetMapping("/product_shopping_cart/{cartId}")
     public ResponseEntity<?> getProductListByCartId(@PathVariable String cartId) {
         try {
-            List<Product> productList = productShoppingCartService.getProductListByCartId(cartId);
+            List<ProductDTO> productList = productShoppingCartService.getProductListByCartId(cartId);
             return new ResponseEntity<>(productList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -44,7 +45,7 @@ public class ProductShoppingCartController {
 
 
     @GetMapping("/product_shopping_cart/totals/{cartId}")
-    public ResponseEntity<Object> getTotals(@PathVariable("cartId") String cartId) {
+    public ResponseEntity<Object> getTotals(@PathVariable("cartId") int cartId) {
         try {
             BigDecimal totalAmount = productShoppingCartService.getTotalAmount(cartId);
             BigDecimal discountAmount = productShoppingCartService.getDiscountAmount(cartId);
