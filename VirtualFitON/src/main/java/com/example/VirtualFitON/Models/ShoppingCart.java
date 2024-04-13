@@ -3,10 +3,7 @@ package com.example.VirtualFitON.Models;
 
 import com.example.VirtualFitON.Models.Customer;
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
-
-
 @Entity
 @Table(name="shopping_cart")
 public class ShoppingCart {
@@ -19,8 +16,6 @@ public class ShoppingCart {
 
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
-
-
 
     @Column(name = "purchese_status")
     private boolean purchaseStatus;

@@ -44,22 +44,17 @@ public class CustomerController {
             sessionId = authorizationHeader.substring(7);
         }
 
-        // If session ID is not found, return an error response
         if (sessionId == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing session ID");
         }
         System.out.println("auth head:"+ authorizationHeader);
 
-        // Retrieve customer ID from Redis using the session ID
         HashOperations<String, String, String> hashOperations = redisTemplate.opsForHash();
         String customerId = hashOperations.get( sessionId, "customerId");
 
-        // Check if the customer ID was found
         if (customerId != null) {
-            // Return the customer ID as a successful response
             return ResponseEntity.ok( customerId);
         } else {
-            // Return a not found status if the customer ID is not found
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer ID not found for the session ID");
         }
     }

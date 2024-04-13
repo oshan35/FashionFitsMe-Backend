@@ -1,12 +1,14 @@
 package com.example.VirtualFitON.Service;
 import com.example.VirtualFitON.DTO.ProductDTO;
+import com.example.VirtualFitON.Exceptions.CustomerNotFoundException;
+import com.example.VirtualFitON.Exceptions.DatabaseAccessException;
+import com.example.VirtualFitON.Exceptions.InvalidProductDataException;
+import com.example.VirtualFitON.Exceptions.ProductAlreadyExistsException;
 import com.example.VirtualFitON.Models.*;
-import com.example.VirtualFitON.Repositories.ProductColorSizeRepository;
-import com.example.VirtualFitON.Repositories.ProductImageRepository;
-import com.example.VirtualFitON.Repositories.ProductShoppingCartRepository;
-import com.example.VirtualFitON.Repositories.ShoppingCartRepository;
+import com.example.VirtualFitON.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,11 @@ public class ProductShoppingCartService{
     @Autowired
     private  ProductImageRepository productImageRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
 
     public List<ProductDTO> getProductListByCartId(String cartId) {
@@ -37,7 +44,34 @@ public class ProductShoppingCartService{
         return mapToProductDTO(products);
 
     }
+    public void addProductToCart(String productId, int customerId) throws InvalidProductDataException, DatabaseAccessException, ProductAlreadyExistsException {
+        try {
+            Customer customer = customerRepository.findByCustomerId(customerId);
+            ShoppingCart shoppingCart=customer.getCart();
+            int cartId=shoppingCart.getCartId();
 
+
+            Product product = productRepository.findByProductId(productId);
+
+            ProductShoppingCart productShoppingCart = new ProductShoppingCart();
+
+            productShoppingCart.setId(new ProductShoppingCartId(productId, cartId)); // Assuming cartId is an int
+
+            productShoppingCart.setProduct(product);
+
+            productShoppingCart.setCart(shoppingCart);
+            System.out.println("Type of shopping cart ID: " + ((Object) shoppingCart.getCartId()).getClass().getSimpleName());
+
+            productShoppingCartRepository.save(productShoppingCart);
+
+        } catch (DuplicateKeyException e) {
+            throw new ProductAlreadyExistsException("Product already exists in the cart");
+        } catch (DataAccessException e) {
+            throw new DatabaseAccessException("Database access error occurred while adding product to cart"+ e);
+        } catch (Exception e) {
+            throw new RuntimeException("An unexpected error occurred while adding product to cart", e);
+        }
+    }
     private List<ProductDTO> mapToProductDTO(List<Product> filteredProducts) {
         List<ProductDTO> filteredProductDTOs = new ArrayList<>();
 
@@ -49,13 +83,11 @@ public class ProductShoppingCartService{
                 if (productImages != null) { // Check if productImages is not null
                     filteredProductDTOs.add(new ProductDTO(product, productImages));
                 } else {
-                    // Handle the case when productImages is null
-                    // You can log an error message or take appropriate action
+
                     System.out.println("Product images for product ID " + product.getProductId() + " are null.");
                 }
             } else {
-                // Handle the case when product is null
-                // You can log an error message or take appropriate action
+
                 System.out.println("Encountered a null product.");
             }
         }

@@ -30,7 +30,7 @@ public class ProductService {
 
     public ProductInfoDTO getProductInformation(String productId) {
         try {
-            Product product = productRepository.findByProductId(productId);
+         Product product = productRepository.findByProductId(productId);
             if (product == null) {
                 throw new ProductNotFoundException("Product not found for id: " + productId);
             }
