@@ -94,7 +94,6 @@ public class ProductShoppingCartService{
         return filteredProductDTOs;
     }
 
-
     public BigDecimal getTotalAmount(int cartId) {
 
         try {
