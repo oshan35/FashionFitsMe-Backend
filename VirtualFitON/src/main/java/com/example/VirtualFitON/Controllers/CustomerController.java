@@ -4,6 +4,7 @@ import com.example.VirtualFitON.DTO.*;
 //import com.example.VirtualFitON.DTO.LoginRequestDto;
 import com.example.VirtualFitON.Exceptions.*;
 import com.example.VirtualFitON.Models.Customer;
+import com.example.VirtualFitON.Models.Product;
 import com.example.VirtualFitON.Service.CustomerService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -14,12 +15,17 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
@@ -127,6 +133,19 @@ public class CustomerController {
         }
     }
 
-
-
+    @GetMapping("/cart/{customerId}")
+    public ResponseEntity<?> getCartItems(@PathVariable int customerId) {
+        try {
+            List<CartItemDTO> products = customerService.getCustomerCartItems(customerId);
+            return ResponseEntity.ok(products);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid customer ID");
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Database error: " + e.getMessage());
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error: " + e.getMessage());
+        }
+    }
 }

@@ -1,18 +1,22 @@
 package com.example.VirtualFitON.Service;
 
-import com.example.VirtualFitON.DTO.CustomerRegisterDTO;
-import com.example.VirtualFitON.DTO.LoginDTO;
-import com.example.VirtualFitON.DTO.LoginRequestDto;
-import com.example.VirtualFitON.DTO.SignUpDTO;
+import com.example.VirtualFitON.DTO.*;
 import com.example.VirtualFitON.Exceptions.MissingFieldException;
 import com.example.VirtualFitON.Exceptions.UsernameAlreadyExistsException;
+import com.example.VirtualFitON.Models.Product;
+import com.example.VirtualFitON.Models.ProductShoppingCart;
+
 import com.example.VirtualFitON.Models.ShoppingCart;
 import com.example.VirtualFitON.Repositories.CustomerRepository;
+import com.example.VirtualFitON.Repositories.ProductShoppingCartRepository;
+import com.example.VirtualFitON.Repositories.ShoppingCartRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.VirtualFitON.Models.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CustomerService {
@@ -22,6 +26,14 @@ public class CustomerService {
     @Autowired
     private  PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private ProductShoppingCartRepository productShoppingCartRepository;
+
+    @Autowired
+    private ShoppingCartRepository shoppingCartRepository;
+
+    @Autowired
+    private ShoppingCartService shoppingCartService;
     @Autowired
     public CustomerService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
@@ -101,6 +113,19 @@ public class CustomerService {
         }
         return customer;
     }
+
+    public List<CartItemDTO> getCustomerCartItems(int customerId){
+        int carts_id = customerRepository.findCartId(customerId);
+        System.out.println("Test 01");
+        List<ProductShoppingCart> cartProductList;
+        cartProductList = productShoppingCartRepository.findCartProductsByCartId(carts_id);
+        System.out.println("Test 02");
+        List<CartItemDTO> cartItems = shoppingCartService.getCartProductList(cartProductList);
+        System.out.println("Test 03");
+        return cartItems;
+    }
+
+
 
 
 }

@@ -38,7 +38,7 @@ public class ProductShoppingCartService{
     private CustomerRepository customerRepository;
 
 
-    public List<ProductDTO> getProductListByCartId(String cartId) {
+    public List<ProductDTO> getProductListByCartId(int cartId) {
         List<Product> products = productShoppingCartRepository.findProductsByCartId(cartId);
 
         return mapToProductDTO(products);
@@ -130,7 +130,7 @@ public class ProductShoppingCartService{
 
     }
 
-    public List<ProductColorSize> getProductColorSizeByCartId(String cartId) {
+    public List<ProductColorSize> getProductColorSizeByCartId(int cartId) {
         return productShoppingCartRepository.findProductColorSizeByCartId(cartId);
     }
 
