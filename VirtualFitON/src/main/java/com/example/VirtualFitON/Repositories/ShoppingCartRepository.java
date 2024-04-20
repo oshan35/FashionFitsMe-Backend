@@ -10,7 +10,8 @@ import java.util.List;
 
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, String> {
 
-    ShoppingCart findByCartId(String cartId);
+    @Query("SELECT sc FROM ShoppingCart sc WHERE sc.cartId = :cartId")
+    ShoppingCart findByCartId(int cartId);
 
     @Query("SELECT sc FROM ShoppingCart sc")
     ShoppingCart getAllCarts();

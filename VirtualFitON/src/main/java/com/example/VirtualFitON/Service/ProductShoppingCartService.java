@@ -25,13 +25,13 @@ public class ProductShoppingCartService{
 
 
 
-    public List<Product> getProductListByCartId(String cartId) {
+    public List<Product> getProductListByCartId(int cartId) {
         List<Product> products = productShoppingCartRepository.findProductsByCartId(cartId);
         System.out.println(products.size());
         return products;
     }
 
-    public BigDecimal getTotalAmount(String cartId) {
+    public BigDecimal getTotalAmount(int cartId) {
         try {
             ShoppingCart shoppingCart = shoppingCartRepository.findByCartId(cartId);
             if (shoppingCart != null) {
@@ -48,7 +48,7 @@ public class ProductShoppingCartService{
         }
     }
 
-    public BigDecimal getDiscountAmount(String cartId) {
+    public BigDecimal getDiscountAmount(int cartId) {
         try {
             ShoppingCart shoppingCart = shoppingCartRepository.findByCartId(cartId);
             if (shoppingCart != null) {
@@ -66,7 +66,7 @@ public class ProductShoppingCartService{
 
     }
 
-    public List<ProductColorSize> getProductColorSizeByCartId(String cartId) {
+    public List<ProductColorSize> getProductColorSizeByCartId(int cartId) {
         return productShoppingCartRepository.findProductColorSizeByCartId(cartId);
     }
 

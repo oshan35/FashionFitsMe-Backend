@@ -1,17 +1,14 @@
 package com.example.VirtualFitON.Models;
 
 import jakarta.persistence.Embeddable;
-
-
 import jakarta.persistence.Column;
-
 import java.io.Serializable;
 
 @Embeddable
 public class ProductColorSizeId implements Serializable {
-
     @Column(name="product_id")
     private String productId;
+
     @Column(name="color")
     private String color;
 

@@ -7,6 +7,6 @@ public interface CustomerRepository  extends JpaRepository<Customer, String> {
     Customer findByUsername(String username);
 
     @Query("SELECT cus.cartId FROM Customer cus WHERE cus.customerId = :customerId")
-    String findCartId(int customerId);
+    int findCartId(int customerId);
 }
 

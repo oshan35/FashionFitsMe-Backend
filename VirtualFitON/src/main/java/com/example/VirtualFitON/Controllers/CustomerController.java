@@ -87,7 +87,7 @@ public class CustomerController {
     @GetMapping("/cart/{customerId}")
     public ResponseEntity<?> getCartItems(@PathVariable int customerId) {
         try {
-            List<Product> products = customerService.getCustomerCartItems(customerId);
+            List<CartItemDTO> products = customerService.getCustomerCartItems(customerId);
             return ResponseEntity.ok(products);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("Invalid customer ID");

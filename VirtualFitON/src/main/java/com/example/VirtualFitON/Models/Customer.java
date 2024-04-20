@@ -26,7 +26,7 @@ public class Customer {
     private String password;
 
     @Column(name = "cart_id")
-    private String cartId;
+    private ShoppingCart shoppingCart;
 
     public int getCustomerId() {
         return customerId;
