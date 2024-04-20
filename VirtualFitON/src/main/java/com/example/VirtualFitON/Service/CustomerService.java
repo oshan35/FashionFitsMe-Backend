@@ -3,11 +3,9 @@ package com.example.VirtualFitON.Service;
 import com.example.VirtualFitON.DTO.*;
 import com.example.VirtualFitON.Exceptions.MissingFieldException;
 import com.example.VirtualFitON.Exceptions.UsernameAlreadyExistsException;
-<<<<<<< HEAD
 import com.example.VirtualFitON.Models.Product;
 import com.example.VirtualFitON.Models.ProductShoppingCart;
-=======
->>>>>>> dev-nehara
+
 import com.example.VirtualFitON.Models.ShoppingCart;
 import com.example.VirtualFitON.Repositories.CustomerRepository;
 import com.example.VirtualFitON.Repositories.ProductShoppingCartRepository;

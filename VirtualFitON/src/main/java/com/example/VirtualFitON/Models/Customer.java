@@ -25,10 +25,6 @@ public class Customer {
     @Column(name = "password")
     private String password;
 
-<<<<<<< HEAD
-    @Column(name = "cart_id")
-    private ShoppingCart shoppingCart;
-=======
     @OneToOne
     @JoinColumn(name="cart_id")
     private ShoppingCart cart;
@@ -54,7 +50,6 @@ public class Customer {
     public void setCart(ShoppingCart cart) {
         this.cart = cart;
     }
->>>>>>> dev-nehara
 
     public int getCustomerId() {
         return customerId;

@@ -15,18 +15,17 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-=======
+
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
->>>>>>> dev-nehara
+
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
@@ -134,7 +133,6 @@ public class CustomerController {
         }
     }
 
-<<<<<<< HEAD
     @GetMapping("/cart/{customerId}")
     public ResponseEntity<?> getCartItems(@PathVariable int customerId) {
         try {
@@ -150,8 +148,4 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error: " + e.getMessage());
         }
     }
-=======
->>>>>>> dev-nehara
-
-
 }

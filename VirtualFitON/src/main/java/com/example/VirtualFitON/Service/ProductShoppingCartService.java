@@ -38,11 +38,7 @@ public class ProductShoppingCartService{
     private CustomerRepository customerRepository;
 
 
-<<<<<<< HEAD
-    public List<Product> getProductListByCartId(int cartId) {
-=======
-    public List<ProductDTO> getProductListByCartId(String cartId) {
->>>>>>> dev-nehara
+    public List<ProductDTO> getProductListByCartId(int cartId) {
         List<Product> products = productShoppingCartRepository.findProductsByCartId(cartId);
 
         return mapToProductDTO(products);
@@ -98,13 +94,9 @@ public class ProductShoppingCartService{
         return filteredProductDTOs;
     }
 
-<<<<<<< HEAD
-    public BigDecimal getTotalAmount(int cartId) {
-=======
 
     public BigDecimal getTotalAmount(int cartId) {
 
->>>>>>> dev-nehara
         try {
             ShoppingCart shoppingCart = shoppingCartRepository.findByCartId(cartId);
             if (shoppingCart != null) {
