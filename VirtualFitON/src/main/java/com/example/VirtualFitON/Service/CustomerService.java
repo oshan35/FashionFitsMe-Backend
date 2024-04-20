@@ -10,6 +10,9 @@ import com.example.VirtualFitON.Models.ShoppingCart;
 import com.example.VirtualFitON.Repositories.CustomerRepository;
 import com.example.VirtualFitON.Repositories.ProductShoppingCartRepository;
 import com.example.VirtualFitON.Repositories.ShoppingCartRepository;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.VirtualFitON.Models.Customer;
@@ -116,13 +119,28 @@ public class CustomerService {
 
     public List<CartItemDTO> getCustomerCartItems(int customerId){
         int carts_id = customerRepository.findCartId(customerId);
-        System.out.println("Test 01");
         List<ProductShoppingCart> cartProductList;
         cartProductList = productShoppingCartRepository.findCartProductsByCartId(carts_id);
-        System.out.println("Test 02");
+
         List<CartItemDTO> cartItems = shoppingCartService.getCartProductList(cartProductList);
-        System.out.println("Test 03");
+
         return cartItems;
+    }
+
+
+    public String deleteCartItem(int customerId, String productId){
+
+        try{
+            int carts_id = customerRepository.findCartId(customerId);
+            productShoppingCartRepository.deleteByProductIdAndCartId(productId,carts_id);
+
+            return productId;
+        }catch (DataAccessException e){
+            return "Item not found";
+        }
+
+
+
     }
 
 

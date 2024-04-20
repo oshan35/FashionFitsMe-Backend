@@ -5,8 +5,10 @@ import com.example.VirtualFitON.Models.ProductColorSize;
 import com.example.VirtualFitON.Models.ProductShoppingCart;
 import com.example.VirtualFitON.Models.ProductShoppingCartId;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,4 +28,9 @@ public interface ProductShoppingCartRepository extends JpaRepository<ProductShop
             "WHERE psc.id.cartId = :cartId")
     List<ProductColorSize> findProductColorSizeByCartId(@Param("cartId") int cartId);
 
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM ProductShoppingCart p WHERE p.id.productId = :productId AND p.id.cartId = :cartId")
+    void deleteByProductIdAndCartId(String productId, int cartId);
 }

@@ -148,4 +148,20 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error: " + e.getMessage());
         }
     }
+
+    @DeleteMapping("/cart/{customerId}/remove/{productId}")
+    public ResponseEntity<?> deleteCartItemByCustomer(@PathVariable int customerId, @PathVariable String productId){
+        try {
+            String prod_id_deleted = customerService.deleteCartItem(customerId,productId);
+            return ResponseEntity.ok(prod_id_deleted);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid customer ID");
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Database error: " + e.getMessage());
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error: " + e.getMessage());
+        }
+    }
 }
