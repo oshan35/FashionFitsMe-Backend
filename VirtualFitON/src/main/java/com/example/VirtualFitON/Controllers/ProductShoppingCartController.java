@@ -32,7 +32,7 @@ public class ProductShoppingCartController {
     ProductShoppingCartRepository productShoppingCartRepository;
     
     @GetMapping("/product_shopping_cart/{cartId}")
-    public ResponseEntity<?> getProductListByCartId(@PathVariable String cartId) {
+    public ResponseEntity<?> getProductListByCartId(@PathVariable int cartId) {
         try {
             List<ProductDTO> productList = productShoppingCartService.getProductListByCartId(cartId);
             return new ResponseEntity<>(productList, HttpStatus.OK);
@@ -87,7 +87,7 @@ public class ProductShoppingCartController {
     }
 
     @GetMapping("/product_shopping_cart/{cartId}/product-color-sizes")
-    public ResponseEntity<List<ProductColorSize>> getProductColorSizeByCartId(@PathVariable String cartId) {
+    public ResponseEntity<List<ProductColorSize>> getProductColorSizeByCartId(@PathVariable int cartId) {
         List<ProductColorSize> productColorSizeList = productShoppingCartService.getProductColorSizeByCartId(cartId);
         return ResponseEntity.ok().body(productColorSizeList);
     }

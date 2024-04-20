@@ -23,6 +23,7 @@ public class ShoppingCart {
     @Column(name = "discount_amount")
     private BigDecimal discountAmount;
 
+
     public ShoppingCart(int cartId, BigDecimal totalAmount,  boolean purchaseStatus, BigDecimal discountAmount) {
         this.cartId = cartId;
         this.totalAmount = totalAmount;
@@ -50,7 +51,6 @@ public class ShoppingCart {
     public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
-
 
 
     public boolean isPurchaseStatus() {
