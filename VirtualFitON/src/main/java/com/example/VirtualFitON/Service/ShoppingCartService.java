@@ -15,7 +15,11 @@ import java.util.List;
 
 @Service
 public class ShoppingCartService {
+
+    @Autowired
     private ProductImageRepository productImageRepository;
+
+
 
     public List<CartItemDTO> getCartProductList(List<ProductShoppingCart> cartItems){
         List<CartItemDTO> cartItemDetails = new ArrayList<>();
