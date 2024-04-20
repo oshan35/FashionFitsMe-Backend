@@ -1,4 +1,6 @@
 package com.example.VirtualFitON.Controllers;
+import com.example.VirtualFitON.DTO.AddProductToCartRequest;
+import com.example.VirtualFitON.DTO.ProductDTO;
 import com.example.VirtualFitON.Exceptions.DatabaseAccessException;
 import com.example.VirtualFitON.Exceptions.InvalidProductDataException;
 import com.example.VirtualFitON.Exceptions.ProductAlreadyExistsException;
@@ -32,7 +34,7 @@ public class ProductShoppingCartController {
     @GetMapping("/product_shopping_cart/{cartId}")
     public ResponseEntity<?> getProductListByCartId(@PathVariable int cartId) {
         try {
-            List<Product> productList = productShoppingCartService.getProductListByCartId(cartId);
+            List<ProductDTO> productList = productShoppingCartService.getProductListByCartId(cartId);
             return new ResponseEntity<>(productList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -40,6 +42,25 @@ public class ProductShoppingCartController {
 
 
 
+    }
+
+    @PostMapping("/product_shopping_cart/addProducts")
+    public ResponseEntity<String> addProductToCart(@RequestBody AddProductToCartRequest request) {
+        try {
+            System.out.println(request.getProductId());
+            System.out.println(request.getCustomerId());
+            productShoppingCartService.addProductToCart(request.getProductId(), request.getCustomerId());
+
+            return new ResponseEntity<>("Product added to cart successfully", HttpStatus.OK);
+        } catch (InvalidProductDataException e) {
+            return new ResponseEntity<>("Invalid product data: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (DatabaseAccessException e) {
+            return new ResponseEntity<>("Database access error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (ProductAlreadyExistsException e) {
+            return new ResponseEntity<>("Product already exists in the cart: " + e.getMessage(), HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 

@@ -3,31 +3,41 @@ package com.example.VirtualFitON.Models;
 
 import com.example.VirtualFitON.Models.Customer;
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
-
-
 @Entity
 @Table(name="shopping_cart")
 public class ShoppingCart {
+
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_id")
     private int cartId;
 
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev-nehara
     @Column(name = "purchese_status")
     private boolean purchaseStatus;
 
     @Column(name = "discount_amount")
     private BigDecimal discountAmount;
 
+<<<<<<< HEAD
     public ShoppingCart(int cartId, BigDecimal totalAmount, boolean purchaseStatus, BigDecimal discountAmount) {
         this.cartId = cartId;
         this.totalAmount = totalAmount;
 
+=======
+    public ShoppingCart(int cartId, BigDecimal totalAmount,  boolean purchaseStatus, BigDecimal discountAmount) {
+        this.cartId = cartId;
+        this.totalAmount = totalAmount;
+//        this.customer = customer;
+>>>>>>> dev-nehara
         this.purchaseStatus = purchaseStatus;
         this.discountAmount = discountAmount;
     }
@@ -52,6 +62,11 @@ public class ShoppingCart {
         this.totalAmount = totalAmount;
     }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> dev-nehara
     public boolean isPurchaseStatus() {
         return purchaseStatus;
     }

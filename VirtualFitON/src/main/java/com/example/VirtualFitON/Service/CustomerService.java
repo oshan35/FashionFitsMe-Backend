@@ -3,8 +3,11 @@ package com.example.VirtualFitON.Service;
 import com.example.VirtualFitON.DTO.*;
 import com.example.VirtualFitON.Exceptions.MissingFieldException;
 import com.example.VirtualFitON.Exceptions.UsernameAlreadyExistsException;
+<<<<<<< HEAD
 import com.example.VirtualFitON.Models.Product;
 import com.example.VirtualFitON.Models.ProductShoppingCart;
+=======
+>>>>>>> dev-nehara
 import com.example.VirtualFitON.Models.ShoppingCart;
 import com.example.VirtualFitON.Repositories.CustomerRepository;
 import com.example.VirtualFitON.Repositories.ProductShoppingCartRepository;
@@ -91,10 +94,12 @@ public class CustomerService {
 
 
         Customer customer = new Customer();
+        ShoppingCart shoppingCart=new ShoppingCart();
 
         customer.setFirstName(signUpDTO.getFirstName());
         customer.setLastName(signUpDTO.getLastName());
         customer.setUsername(signUpDTO.getUsername());
+        customer.setCart(shoppingCart);
 
 
         String encodedPassword = passwordEncoder.encode(signUpDTO.getPassword());

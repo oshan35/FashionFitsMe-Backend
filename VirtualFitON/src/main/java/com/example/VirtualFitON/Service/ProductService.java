@@ -1,14 +1,8 @@
 package com.example.VirtualFitON.Service;
 import com.example.VirtualFitON.DTO.*;
 import com.example.VirtualFitON.Exceptions.*;
-import com.example.VirtualFitON.Models.Brand;
-import com.example.VirtualFitON.Models.Product;
-import com.example.VirtualFitON.Models.ProductColorSize;
-import com.example.VirtualFitON.Models.ProductImage;
-import com.example.VirtualFitON.Repositories.BrandRepository;
-import com.example.VirtualFitON.Repositories.ProductColorSizeRepository;
-import com.example.VirtualFitON.Repositories.ProductImageRepository;
-import com.example.VirtualFitON.Repositories.ProductRepository;
+import com.example.VirtualFitON.Models.*;
+import com.example.VirtualFitON.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -30,16 +24,30 @@ public class ProductService {
     @Autowired
     private ProductColorSizeRepository productColorSizeRepository;
 
+    @Autowired
+    private ReviewRepository reviewRepository;
+
 
     public ProductInfoDTO getProductInformation(String productId) {
         try {
-            Product product = productRepository.findByProductId(productId);
+         Product product = productRepository.findByProductId(productId);
             if (product == null) {
                 throw new ProductNotFoundException("Product not found for id: " + productId);
             }
             List<ProductColorSize>pcs=productColorSizeRepository.findByProductId(productId);
-            List<String> sizes=productColorSizeRepository.findSizesByProductProductId(productId);
+//            List<String> sizes=productColorSizeRepository.findSizesByProductProductId(productId);
+            List<Object[]> sizes=productColorSizeRepository.findSizeCountsByProductId(productId);
+            System.out.println("Items in Sizes:");
+            for (Object[] sizeCount : sizes) {
+                String size = (String) sizeCount[0];
+                long itemCount = (long) sizeCount[1];
+
+
+                System.out.println("Size: " + size + ", Available Items: " + itemCount);
+            }
+
             List<String> colors=productColorSizeRepository.findColorsByProductProductId(productId);
+            List<Review> reviews=reviewRepository.findByProductProductId(productId);
             Map<String,byte[]>image_colors=new HashMap<>();
             byte[] image = new byte[0];
             for(ProductColorSize productColorSize:pcs) {
@@ -57,6 +65,7 @@ public class ProductService {
             productInfoDTO.setColors(colors);
             productInfoDTO.setSizes(sizes);
             productInfoDTO.setImage_colors(image_colors);
+            productInfoDTO.setReviews(reviews);
             productInfoDTO.setImage(image);
             productInfoDTO.setCategory(product.getProductCategory());
             return  productInfoDTO;

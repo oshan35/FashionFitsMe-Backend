@@ -110,7 +110,6 @@ public class ProductController {
         System.out.println("Selected Filters:");
        List<ProductDTO> filteredProducts = productService.filterProducts(filterRequest.getMinPrice(), filterRequest.getMaxPrice(), filterRequest.getSelectedFilters());
         System.out.println(filteredProducts.size());
-        // You can return the filtered products as JSON response
 
         for (Filter selectedFilters : filterRequest.getSelectedFilters()) {
             System.out.println("Title: " + selectedFilters.getTitle());

@@ -1,5 +1,7 @@
 package com.example.VirtualFitON.DTO;
 
+import com.example.VirtualFitON.Models.Review;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -10,9 +12,11 @@ public class ProductInfoDTO {
     private String ProductName;
     private BigDecimal price;
 
-    private List<String> sizes;
+    private List<Object[]> sizes;
 
     private List<String> colors;
+
+    private List<Review> reviews;
 
     private byte[] image;
 
@@ -23,15 +27,24 @@ public class ProductInfoDTO {
     public ProductInfoDTO() {
     }
 
-    public ProductInfoDTO(String productId, String productName, BigDecimal price, List<String> sizes, List<String> colors, byte[] image, String category, Map<String, byte[]> image_colors) {
+    public ProductInfoDTO(String productId, String productName, BigDecimal price, List<Object[]> sizes, List<String> colors, List<Review> reviews, byte[] image, String category, Map<String, byte[]> image_colors) {
         ProductId = productId;
         ProductName = productName;
         this.price = price;
         this.sizes = sizes;
         this.colors = colors;
+        this.reviews = reviews;
         this.image = image;
         this.category = category;
         this.image_colors = image_colors;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     public String getCategory() {
@@ -74,11 +87,11 @@ public class ProductInfoDTO {
         this.price = price;
     }
 
-    public List<String> getSizes() {
+    public List<Object[]> getSizes() {
         return sizes;
     }
 
-    public void setSizes(List<String> sizes) {
+    public void setSizes(List<Object[]> sizes) {
         this.sizes = sizes;
     }
 

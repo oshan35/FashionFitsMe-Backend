@@ -31,7 +31,11 @@ public interface ProductColorSizeRepository extends JpaRepository<ProductColorSi
     @Query("SELECT DISTINCT pcs.product FROM ProductColorSize pcs WHERE pcs.id.size = :size")
     Set<Product> findProductsbySize(String size);
 
-
+    @Query("SELECT pcs.id.size, SUM(pcs.quantity)" +
+            "FROM ProductColorSize pcs " +
+            "WHERE pcs.product.productId = :productId " +
+            "GROUP BY pcs.id.size")
+    List<Object[]> findSizeCountsByProductId(@Param("productId") String productId);
 
 
 
