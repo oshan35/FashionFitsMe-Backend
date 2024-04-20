@@ -44,7 +44,7 @@ public class ProductShoppingCartService{
         return mapToProductDTO(products);
 
     }
-    public void addProductToCart(String productId, int customerId) throws InvalidProductDataException, DatabaseAccessException, ProductAlreadyExistsException {
+    public void addProductToCart(String productId, int customerId, String selectedColor, String selectedSize) throws InvalidProductDataException, DatabaseAccessException, ProductAlreadyExistsException {
         try {
             Customer customer = customerRepository.findByCustomerId(customerId);
             ShoppingCart shoppingCart=customer.getCart();
@@ -55,11 +55,17 @@ public class ProductShoppingCartService{
 
             ProductShoppingCart productShoppingCart = new ProductShoppingCart();
 
-            productShoppingCart.setId(new ProductShoppingCartId(productId, cartId)); // Assuming cartId is an int
+            productShoppingCart.setId(new ProductShoppingCartId(productId, cartId));
 
             productShoppingCart.setProduct(product);
 
             productShoppingCart.setCart(shoppingCart);
+
+            productShoppingCart.setProductColor(selectedColor);
+
+            productShoppingCart.setProductSize(selectedSize);
+
+
             System.out.println("Type of shopping cart ID: " + ((Object) shoppingCart.getCartId()).getClass().getSimpleName());
 
             productShoppingCartRepository.save(productShoppingCart);

@@ -49,7 +49,9 @@ public class ProductShoppingCartController {
         try {
             System.out.println(request.getProductId());
             System.out.println(request.getCustomerId());
-            productShoppingCartService.addProductToCart(request.getProductId(), request.getCustomerId());
+            System.out.println("selected colour"+request.getSelectedColor());
+            System.out.println("selected size" + request.getSelectedSize());
+            productShoppingCartService.addProductToCart(request.getProductId(), request.getCustomerId(),request.getSelectedColor(),request.getSelectedSize());
 
             return new ResponseEntity<>("Product added to cart successfully", HttpStatus.OK);
         } catch (InvalidProductDataException e) {
