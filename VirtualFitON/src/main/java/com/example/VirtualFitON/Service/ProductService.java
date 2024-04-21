@@ -58,6 +58,7 @@ public class ProductService {
                 }
 
             }
+
             ProductInfoDTO productInfoDTO=new ProductInfoDTO();
             productInfoDTO.setProductId(productId);
             productInfoDTO.setProductName(product.getProductName());
@@ -68,6 +69,8 @@ public class ProductService {
             productInfoDTO.setReviews(reviews);
             productInfoDTO.setImage(image);
             productInfoDTO.setCategory(product.getProductCategory());
+            productInfoDTO.setDescription(product.getDescription());
+
             return  productInfoDTO;
         } catch (ProductNotFoundException e) {
             throw new RuntimeException(e);

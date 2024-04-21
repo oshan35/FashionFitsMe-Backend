@@ -28,19 +28,29 @@ public class Product {
     @Column(name = "gender")
     private String gender;
 
+    @Column(name = "description")
+    private String description;
 
 
-
-    public Product(String productId, Brand brand, String productName, BigDecimal price,String productCategory,String gender) {
+    public Product(String productId, Brand brand, String productName, BigDecimal price,String productCategory,String gender,String description) {
         this.productId = productId;
         this.brand = brand;
         this.productName = productName;
         this.price = price;
         this.productCategory=productCategory;
         this.gender=gender;
+        this.description=description;
     }
 
     public Product() {
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getProductId() {
