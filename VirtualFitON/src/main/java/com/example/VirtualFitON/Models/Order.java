@@ -8,8 +8,9 @@ import java.util.Date;
 @Table(name = "orders")
 public class Order {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
-    private String orderId;
+    private Integer orderId;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -27,14 +28,95 @@ public class Order {
     private Date orderDate;
 
     @Column(name = "total")
-    private Integer total;
+    private double total;
 
-    public String getOrderId() {
+    @Column(name = "sub_total")
+    private double subTotal;
+
+    @Column(name = "taxes")
+    private double taxes;
+
+    @Column(name = "shipping")
+    private double shipping;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "phone")
+    private String phone;
+
+
+    public Order(Integer orderId, Customer customer, ShoppingCart shoppingCart, Shipment shipment, Date orderDate, double total, double subTotal, double taxes, double shipping, String email, String phone) {
+        this.orderId = orderId;
+        this.customer = customer;
+        this.shoppingCart = shoppingCart;
+        this.shipment = shipment;
+        this.orderDate = orderDate;
+        this.total = total;
+        this.subTotal = subTotal;
+        this.taxes = taxes;
+        this.shipping = shipping;
+        this.email = email;
+        this.phone = phone;
+    }
+
+    public Order() {
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public Integer getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public double getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    public double getTaxes() {
+        return taxes;
+    }
+
+    public void setTaxes(double taxes) {
+        this.taxes = taxes;
+    }
+
+    public double getShipping() {
+        return shipping;
+    }
+
+    public void setShipping(double shipping) {
+        this.shipping = shipping;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Customer getCustomer() {
@@ -69,11 +151,5 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Integer getTotal() {
-        return total;
-    }
 
-    public void setTotal(Integer total) {
-        this.total = total;
-    }
 }

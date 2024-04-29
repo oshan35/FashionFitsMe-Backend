@@ -11,16 +11,58 @@ public class PaymentRequest {
 
     private int customerId;
 
+    private double total;
 
-    public PaymentRequest(String email, String phone, Address shippingDetails, String selectedDeliveryMethod,int customerId) {
+    private double subTotal;
+    private double shipping;
+    private double taxes;
+
+
+    public PaymentRequest(String email, String phone, Address shippingDetails, String selectedDeliveryMethod, int customerId, double total, double subTotal, double shipping, double taxes) {
         this.email = email;
         this.phone = phone;
         this.shippingDetails = shippingDetails;
         this.selectedDeliveryMethod = selectedDeliveryMethod;
-        this.customerId=customerId;
+        this.customerId = customerId;
+        this.total = total;
+        this.subTotal = subTotal;
+        this.shipping = shipping;
+        this.taxes = taxes;
     }
 
     public PaymentRequest() {
+    }
+
+    public double getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    public double getShipping() {
+        return shipping;
+    }
+
+    public void setShipping(double shipping) {
+        this.shipping = shipping;
+    }
+
+    public double getTaxes() {
+        return taxes;
+    }
+
+    public void setTaxes(double taxes) {
+        this.taxes = taxes;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public int getCustomerId() {

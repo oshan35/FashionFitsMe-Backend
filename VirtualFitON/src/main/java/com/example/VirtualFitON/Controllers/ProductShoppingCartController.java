@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+
 public class ProductShoppingCartController {
     @Autowired
     ProductShoppingCartService productShoppingCartService;

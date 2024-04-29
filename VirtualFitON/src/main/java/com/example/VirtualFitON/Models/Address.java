@@ -14,6 +14,13 @@ public class Address {
     private String city;
     @Column(name = "street")
     private String street;
+
+    @Column(name = "addressName")
+    private String addressName;
+
+    @Column(name = "region")
+    private String region;
+
     @Column(name = "postal_code")
     private String postalCode;
 
@@ -21,16 +28,34 @@ public class Address {
     @JoinColumn(name = "customer_Id")
     private Customer customer;
 
-    public Address(int addressId, String company, String city, String street, String postalCode, Customer customer) {
+    public Address(int addressId, String company, String city, String street, String addressName, String region, String postalCode, Customer customer) {
         this.addressId = addressId;
         this.company = company;
         this.city = city;
         this.street = street;
+        this.addressName = addressName;
+        this.region = region;
         this.postalCode = postalCode;
         this.customer = customer;
     }
 
     public Address() {
+    }
+
+    public String getAddressName() {
+        return addressName;
+    }
+
+    public void setAddressName(String addressName) {
+        this.addressName = addressName;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public int getAddressId() {
