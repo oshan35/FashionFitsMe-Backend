@@ -44,7 +44,7 @@ public class PaymentController {
         System.out.println("Selected Delivery Method: " + selectedDeliveryMethod);
 
 
-        paymentService.createOrder(paymentRequest);
-        return ResponseEntity.ok().body("Payment details received successfully.");
+        int orderId=paymentService.createOrder(paymentRequest);
+        return ResponseEntity.ok().body(orderId);
     }
 }

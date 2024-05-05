@@ -1,16 +1,12 @@
 package com.example.VirtualFitON.Service;
-
+import java.time.format.DateTimeFormatter;
 import com.example.VirtualFitON.DTO.PaymentRequest;
-import com.example.VirtualFitON.Models.Address;
-import com.example.VirtualFitON.Models.Customer;
-import com.example.VirtualFitON.Models.Order;
-import com.example.VirtualFitON.Models.ShoppingCart;
-import com.example.VirtualFitON.Repositories.AddressRepository;
-import com.example.VirtualFitON.Repositories.CustomerRepository;
-import com.example.VirtualFitON.Repositories.OrderRepository;
-import com.example.VirtualFitON.Repositories.ShoppingCartRepository;
+import com.example.VirtualFitON.Models.*;
+import com.example.VirtualFitON.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 public class PaymentService {
@@ -27,14 +23,26 @@ public class PaymentService {
     @Autowired
     OrderRepository orderRepository;
 
+    @Autowired
+    ShipmentRepository shipmentRepository;
 
-    public void createOrder(PaymentRequest paymentRequest) {
 
-        Address shippingAddress = paymentRequest.getShippingDetails();
+    public int createOrder(PaymentRequest paymentRequest) {
         Customer customer = customerRepository.findByCustomerId(paymentRequest.getCustomerId());
+
+        Address shippingAddress = new Address( paymentRequest.getShippingDetails().getCompany(),paymentRequest.getShippingDetails().getCity(),paymentRequest.getShippingDetails().getStreet(),paymentRequest.getShippingDetails().getAddressName(),paymentRequest.getShippingDetails().getRegion(),paymentRequest.getShippingDetails().getPostalCode(),customer);
+        Address savedAddress=addressRepository.save(shippingAddress);
         int cartId = customerRepository.findCartId(paymentRequest.getCustomerId());
         ShoppingCart cart = shoppingCartRepository.findByCartId(cartId);
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate today = LocalDate.now();
+        String formattedDate = today.format(formatter);
+        Shipment shipment = new Shipment();
+        shipment.setShipmentStatus("Ordered");
+        shipment.setShipmentDate(formattedDate);
+        shipment.setAddress(savedAddress);
+        Shipment savedShipment = shipmentRepository.save(shipment);
+        System.out.println("shipment details"+shipment.getShippingId());
         Order order = new Order();
         order.setCustomer(customer);
         order.setShoppingCart(cart);
@@ -44,9 +52,15 @@ public class PaymentService {
         order.setTaxes(paymentRequest.getTaxes());
         order.setEmail(paymentRequest.getEmail());
         order.setPhone(paymentRequest.getPhone());
-        orderRepository.save(order);
-        System.out.println("order  id " + order.getOrderId());
+        order.setShipment(savedShipment);
+        order.setOrderDate(formattedDate);
 
+
+        orderRepository.save(order);
+        System.out.println("order  Date " + formattedDate);
+
+        System.out.println("order  id " + order.getOrderId());
+        return order.getOrderId();
 
     }
 }

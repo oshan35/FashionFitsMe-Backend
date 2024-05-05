@@ -25,7 +25,7 @@ public class Order {
     private Shipment shipment;
 
     @Column(name = "order_date")
-    private Date orderDate;
+    private String orderDate;
 
     @Column(name = "total")
     private double total;
@@ -46,7 +46,7 @@ public class Order {
     private String phone;
 
 
-    public Order(Integer orderId, Customer customer, ShoppingCart shoppingCart, Shipment shipment, Date orderDate, double total, double subTotal, double taxes, double shipping, String email, String phone) {
+    public Order(Integer orderId, Customer customer, ShoppingCart shoppingCart, Shipment shipment, String orderDate, double total, double subTotal, double taxes, double shipping, String email, String phone) {
         this.orderId = orderId;
         this.customer = customer;
         this.shoppingCart = shoppingCart;
@@ -143,11 +143,11 @@ public class Order {
         this.shipment = shipment;
     }
 
-    public Date getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
 

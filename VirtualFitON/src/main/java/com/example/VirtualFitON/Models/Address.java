@@ -15,7 +15,7 @@ public class Address {
     @Column(name = "street")
     private String street;
 
-    @Column(name = "addressName")
+    @Column(name = "address_name")
     private String addressName;
 
     @Column(name = "region")
@@ -40,6 +40,16 @@ public class Address {
     }
 
     public Address() {
+    }
+
+    public Address(String company, String city, String street, String addressName, String region, String postalCode, Customer customer) {
+        this.company = company;
+        this.city = city;
+        this.street = street;
+        this.addressName = addressName;
+        this.region = region;
+        this.postalCode = postalCode;
+        this.customer = customer;
     }
 
     public String getAddressName() {

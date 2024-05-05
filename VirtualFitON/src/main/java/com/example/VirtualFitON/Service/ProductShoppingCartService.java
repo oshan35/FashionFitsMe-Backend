@@ -44,6 +44,13 @@ public class ProductShoppingCartService{
         return mapToProductDTO(products);
 
     }
+
+    public List<Product> getCartProductListByCartId(int cartId) {
+        List<Product> products = productShoppingCartRepository.findProductsByCartId(cartId);
+
+        return products;
+
+    }
     public void addProductToCart(String productId, int customerId, String selectedColor, String selectedSize) throws InvalidProductDataException, DatabaseAccessException, ProductAlreadyExistsException {
         try {
             Customer customer = customerRepository.findByCustomerId(customerId);
