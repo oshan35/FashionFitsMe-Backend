@@ -3,6 +3,7 @@ package com.example.VirtualFitON.DTO;
 import com.example.VirtualFitON.Models.Product;
 import com.example.VirtualFitON.Models.ProductImage;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ProductDTO {
@@ -16,6 +17,8 @@ public class ProductDTO {
 
     public ProductDTO() {
     }
+
+
 
     public Product getProduct() {
         return product;

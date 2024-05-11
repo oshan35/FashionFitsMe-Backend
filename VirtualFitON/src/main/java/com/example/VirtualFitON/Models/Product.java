@@ -30,7 +30,6 @@ public class Product {
 
 
 
-
     public Product(String productId, Brand brand, String productName, BigDecimal price,String productCategory,String gender) {
         this.productId = productId;
         this.brand = brand;
