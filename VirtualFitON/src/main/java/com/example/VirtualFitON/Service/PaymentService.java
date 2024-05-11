@@ -11,21 +11,27 @@ import java.time.LocalDate;
 @Service
 public class PaymentService {
 
-    @Autowired
-    CustomerRepository customerRepository;
 
-    @Autowired
-    ShoppingCartRepository shoppingCartRepository;
+    private final CustomerRepository customerRepository;
 
-    @Autowired
-    AddressRepository addressRepository;
+    private final ShoppingCartRepository shoppingCartRepository;
 
-    @Autowired
-    OrderRepository orderRepository;
 
-    @Autowired
-    ShipmentRepository shipmentRepository;
+    private final AddressRepository addressRepository;
 
+
+    private final OrderRepository orderRepository;
+
+
+    private final ShipmentRepository shipmentRepository;
+    @Autowired
+    public PaymentService(CustomerRepository customerRepository, ShoppingCartRepository shoppingCartRepository, AddressRepository addressRepository, OrderRepository orderRepository, ShipmentRepository shipmentRepository) {
+        this.customerRepository = customerRepository;
+        this.shoppingCartRepository = shoppingCartRepository;
+        this.addressRepository = addressRepository;
+        this.orderRepository = orderRepository;
+        this.shipmentRepository = shipmentRepository;
+    }
 
     public int createOrder(PaymentRequest paymentRequest) {
         Customer customer = customerRepository.findByCustomerId(paymentRequest.getCustomerId());

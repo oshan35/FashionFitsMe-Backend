@@ -13,20 +13,24 @@ import java.util.*;
 
 @Service
 public class ProductService {
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    ProductImageRepository productImageRepository;
+    private final ProductRepository productRepository;
+
+    private final ProductImageRepository productImageRepository;
+
+    private final BrandRepository brandRepository;
+
+    private final ProductColorSizeRepository productColorSizeRepository;
+
+    private final ReviewRepository reviewRepository;
 
     @Autowired
-    BrandRepository brandRepository;
-
-    @Autowired
-    private ProductColorSizeRepository productColorSizeRepository;
-
-    @Autowired
-    private ReviewRepository reviewRepository;
-
+    public ProductService(ProductRepository productRepository, ProductImageRepository productImageRepository, BrandRepository brandRepository, ProductColorSizeRepository productColorSizeRepository, ReviewRepository reviewRepository) {
+        this.productRepository = productRepository;
+        this.productImageRepository = productImageRepository;
+        this.brandRepository = brandRepository;
+        this.productColorSizeRepository = productColorSizeRepository;
+        this.reviewRepository = reviewRepository;
+    }
 
     public ProductInfoDTO getProductInformation(String productId) {
         try {

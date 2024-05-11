@@ -19,24 +19,28 @@ import java.util.Optional;
 
 @Service
 public class ProductShoppingCartService{
-    @Autowired
-    private ProductShoppingCartRepository productShoppingCartRepository;
+    private final ProductShoppingCartRepository productShoppingCartRepository;
+
+
+    private final ShoppingCartRepository shoppingCartRepository;
+
+
+    private final ProductImageRepository productImageRepository;
+
+
+    private final ProductRepository productRepository;
+
+
+    private final CustomerRepository customerRepository;
 
     @Autowired
-    private ShoppingCartRepository shoppingCartRepository;
-
-    @Autowired
-    private ProductColorSizeRepository productColorSizeRepository;
-
-    @Autowired
-    private  ProductImageRepository productImageRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private CustomerRepository customerRepository;
-
+    public ProductShoppingCartService(ProductShoppingCartRepository productShoppingCartRepository, ShoppingCartRepository shoppingCartRepository, ProductColorSizeRepository productColorSizeRepository, ProductImageRepository productImageRepository, ProductRepository productRepository, CustomerRepository customerRepository) {
+        this.productShoppingCartRepository = productShoppingCartRepository;
+        this.shoppingCartRepository = shoppingCartRepository;
+        this.productImageRepository = productImageRepository;
+        this.productRepository = productRepository;
+        this.customerRepository = customerRepository;
+    }
 
     public List<ProductDTO> getProductListByCartId(int cartId) {
         List<Product> products = productShoppingCartRepository.findProductsByCartId(cartId);

@@ -21,20 +21,28 @@ import java.util.List;
 @Service
 public class CustomerService {
 
-    @Autowired
+
     private CustomerRepository customerRepository;
-    @Autowired
+
     private  PasswordEncoder passwordEncoder;
 
-    @Autowired
+
     private ProductShoppingCartRepository productShoppingCartRepository;
 
-    @Autowired
+
     private ShoppingCartRepository shoppingCartRepository;
 
-    @Autowired
+
     private ShoppingCartService shoppingCartService;
     @Autowired
+    public CustomerService(CustomerRepository customerRepository, PasswordEncoder passwordEncoder, ProductShoppingCartRepository productShoppingCartRepository, ShoppingCartRepository shoppingCartRepository, ShoppingCartService shoppingCartService) {
+        this.customerRepository = customerRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.productShoppingCartRepository = productShoppingCartRepository;
+        this.shoppingCartRepository = shoppingCartRepository;
+        this.shoppingCartService = shoppingCartService;
+    }
+
     public CustomerService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
@@ -122,6 +130,7 @@ public class CustomerService {
         System.out.println("Test 02");
         List<CartItemDTO> cartItems = shoppingCartService.getCartProductList(cartProductList);
         System.out.println("Test 03");
+        System.out.println("no of cart items" + cartItems.size());
         return cartItems;
     }
 

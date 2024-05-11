@@ -29,6 +29,9 @@ public class CustomerRegisterDTO {
         this.password = password;
     }
 
+    public CustomerRegisterDTO() {
+
+    }
 
 
     public String getFirstName() {

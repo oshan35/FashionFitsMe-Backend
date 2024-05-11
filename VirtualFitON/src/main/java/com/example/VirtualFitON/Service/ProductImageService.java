@@ -21,11 +21,14 @@ import java.util.List;
 
 public class ProductImageService {
 
-    @Autowired
-    ProductImageRepository productImageRepository;
-    @Autowired
-    ProductRepository productRepository;
+    private final ProductImageRepository productImageRepository;
+    private final ProductRepository productRepository;
 
+    @Autowired
+    public ProductImageService(ProductImageRepository productImageRepository, ProductRepository productRepository) {
+        this.productImageRepository = productImageRepository;
+        this.productRepository = productRepository;
+    }
 
     public List<byte[]> getImageDataListByProductId(String Id) {
         try {

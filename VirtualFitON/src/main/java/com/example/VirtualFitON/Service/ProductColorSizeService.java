@@ -14,11 +14,15 @@ import java.util.regex.Pattern;
 @Service
 public class ProductColorSizeService {
 
-    @Autowired
-    ProductColorSizeRepository productColorSizeRepository;
+    private final ProductColorSizeRepository productColorSizeRepository;
+
+    private final ProductRepository productRepository;
 
     @Autowired
-    ProductRepository productRepository;
+    public ProductColorSizeService(ProductColorSizeRepository productColorSizeRepository, ProductRepository productRepository) {
+        this.productColorSizeRepository = productColorSizeRepository;
+        this.productRepository = productRepository;
+    }
 
     public void saveProductInformation(String productId, String color, String size, int quantity) {
         try {

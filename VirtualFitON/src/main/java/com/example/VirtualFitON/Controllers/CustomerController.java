@@ -31,12 +31,13 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequestMapping("/customer")
 public class CustomerController {
+    private final CustomerService customerService;
+    private final RedisTemplate<String, String> redisTemplate;
     @Autowired
-    CustomerService customerService;
-
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
-
+    public CustomerController(CustomerService customerService, RedisTemplate<String, String> redisTemplate) {
+        this.customerService = customerService;
+        this.redisTemplate = redisTemplate;
+    }
 
 
     @GetMapping("/getCustomerId")
@@ -137,6 +138,7 @@ public class CustomerController {
     public ResponseEntity<?> getCartItems(@PathVariable int customerId) {
         try {
             List<CartItemDTO> products = customerService.getCustomerCartItems(customerId);
+            System.out.println("cart items count at controller"+ products.size());
             return ResponseEntity.ok(products);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("Invalid customer ID");

@@ -27,6 +27,10 @@ public class CartItemDTO {
         this.image = image;
     }
 
+    public CartItemDTO() {
+
+    }
+
     public String getProductId() {
         return productId;
     }

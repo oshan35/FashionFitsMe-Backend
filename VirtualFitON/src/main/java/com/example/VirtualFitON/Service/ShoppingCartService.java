@@ -16,10 +16,12 @@ import java.util.List;
 @Service
 public class ShoppingCartService {
 
+
+    private final ProductImageRepository productImageRepository;
     @Autowired
-    private ProductImageRepository productImageRepository;
-
-
+    public ShoppingCartService(ProductImageRepository productImageRepository) {
+        this.productImageRepository = productImageRepository;
+    }
 
     public List<CartItemDTO> getCartProductList(List<ProductShoppingCart> cartItems){
         List<CartItemDTO> cartItemDetails = new ArrayList<>();

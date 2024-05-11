@@ -21,16 +21,22 @@ import java.util.List;
 @Service
 public class OrderService {
 
-    @Autowired
-    OrderRepository orderRepository;
-    @Autowired
-    ProductShoppingCartService productShoppingCartService;
+    private final OrderRepository orderRepository;
+    private final ProductShoppingCartService productShoppingCartService;
+
+    private final ProductImageRepository productImageRepository;
+
+
+    private final ProductShoppingCartRepository productShoppingCartRepository;
 
     @Autowired
-    ProductImageRepository productImageRepository;
+    public OrderService(OrderRepository orderRepository, ProductShoppingCartService productShoppingCartService, ProductImageRepository productImageRepository, ProductShoppingCartRepository productShoppingCartRepository) {
+        this.orderRepository = orderRepository;
+        this.productShoppingCartService = productShoppingCartService;
+        this.productImageRepository = productImageRepository;
+        this.productShoppingCartRepository = productShoppingCartRepository;
+    }
 
-    @Autowired
-    ProductShoppingCartRepository productShoppingCartRepository;
     public OrderDTO getOrderDetails(int orderId){
 
         Order order=orderRepository.findByOrderId(orderId);
@@ -47,6 +53,7 @@ public class OrderService {
             orderProducts.add(orderProductDTO);
         }
         OrderDTO orderDTO=new OrderDTO(orderProducts,order.getOrderDate(),order.getShipment().getAddress(), order.getEmail(), order.getPhone(), order.getTotal(),order.getSubTotal(),order.getShipping(),order.getTaxes(),order.getShipment().getShipmentStatus());
+        System.out.println("order products size"+orderProducts.size());
         return orderDTO;
 
     }
