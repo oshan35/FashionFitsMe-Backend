@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class OrderController {
-    @Autowired
-    OrderService orderService;
 
+    private final OrderService orderService;
+    @Autowired
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     @PostMapping("/getOrder")
     public ResponseEntity<?> getOrderDetails( @RequestBody OrderRequest orderRequest) {
