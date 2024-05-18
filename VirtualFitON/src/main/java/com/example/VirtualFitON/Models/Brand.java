@@ -1,5 +1,7 @@
 package com.example.VirtualFitON.Models;
+
 import jakarta.persistence.*;
+
 
 
 @Entity
