@@ -56,6 +56,7 @@ public class ProductShoppingCartService{
 
     }
     public void addProductToCart(String productId, int customerId, String selectedColor, String selectedSize) throws InvalidProductDataException, DatabaseAccessException, ProductAlreadyExistsException {
+
         try {
             Customer customer = customerRepository.findByCustomerId(customerId);
             ShoppingCart shoppingCart=customer.getCart();
@@ -72,12 +73,12 @@ public class ProductShoppingCartService{
 
             productShoppingCart.setCart(shoppingCart);
 
+            productShoppingCart.setOrderQuantity(1);
+
             productShoppingCart.setProductColor(selectedColor);
 
             productShoppingCart.setProductSize(selectedSize);
 
-
-            System.out.println("Type of shopping cart ID: " + ((Object) shoppingCart.getCartId()).getClass().getSimpleName());
 
             productShoppingCartRepository.save(productShoppingCart);
 
@@ -151,6 +152,21 @@ public class ProductShoppingCartService{
         return productShoppingCartRepository.findProductColorSizeByCartId(cartId);
     }
 
+
+    public void removeProductFromCart(String productId, int customerId) throws Exception {
+        try {
+            Customer customer = customerRepository.findByCustomerId(customerId);
+            ShoppingCart shoppingCart = customer.getCart();
+            int cartId = shoppingCart.getCartId();
+
+            ProductShoppingCartId productShoppingCartId = new ProductShoppingCartId(productId, cartId);
+            productShoppingCartRepository.deleteById(productShoppingCartId);
+        } catch (DataAccessException e) {
+            throw new DatabaseAccessException("Database access error occurred while removing product from cart"+ e);
+        } catch (Exception e) {
+            throw new RuntimeException("An unexpected error occurred while removing product from cart", e);
+        }
+    }
 
 
 

@@ -3,10 +3,11 @@ package com.example.VirtualFitON.DTO;
 public class AddProductToCartRequest {
     private String productId;
     private int customerId;
-
     private String selectedColor;
-
     private String selectedSize;
+
+
+
 
     public AddProductToCartRequest(String productId, int customerId, String selectedColor, String selectedSize) {
         this.productId = productId;

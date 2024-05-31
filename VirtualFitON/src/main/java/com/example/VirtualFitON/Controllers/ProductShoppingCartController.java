@@ -45,7 +45,17 @@ public class ProductShoppingCartController {
 
 
     }
-
+    @DeleteMapping("/product_shopping_cart/removeProduct")
+    public ResponseEntity<String> removeProductFromCart(@RequestBody Map<String, Object> payload) {
+        try {
+            String productId = (String) payload.get("productId");
+            int customerId = (int) payload.get("customerId");
+            productShoppingCartService.removeProductFromCart(productId, customerId);
+            return new ResponseEntity<>("Product removed from cart successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @PostMapping("/product_shopping_cart/addProducts")
     public ResponseEntity<String> addProductToCart(@RequestBody AddProductToCartRequest request) {
         try {

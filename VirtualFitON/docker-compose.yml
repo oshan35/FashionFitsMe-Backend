@@ -1,23 +1,25 @@
 version: '3.8'
+
 services:
-  app:
-    container_name: spring-boot-app
+  spring-app:
     build:
       context: .
+      dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "5000:5000"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3307/FashionFitsMe
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=Satn200@
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3307/FashionFitsMe
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Satn200@
+      SPRING_REDIS_HOST: redis-service
+      SPRING_REDIS_PORT: 6379
+      SPRING_REDIS_PASSWORD: Satn200@
     depends_on:
-      - db
-  db:
-    container_name: mysql-db
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mydb
-    ports:
-      - "3307:3306"
+      - redis-service
 
+  redis-service:
+    image: redis
+    ports:
+      - "6379:6379"
+    environment:
+      REDIS_PASSWORD: Satn200@
