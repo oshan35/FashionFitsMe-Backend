@@ -1,12 +1,10 @@
 package com.example.VirtualFitON.Controllers;
 
 import com.example.VirtualFitON.DTO.*;
-//import com.example.VirtualFitON.DTO.LoginRequestDto;
 import com.example.VirtualFitON.Exceptions.*;
 import com.example.VirtualFitON.Models.Customer;
 import com.example.VirtualFitON.Models.Product;
 import com.example.VirtualFitON.Service.CustomerService;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.aop.scope.ScopedProxyUtils;

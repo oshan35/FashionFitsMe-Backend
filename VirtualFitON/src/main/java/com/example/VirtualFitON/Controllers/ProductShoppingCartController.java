@@ -56,6 +56,7 @@ public class ProductShoppingCartController {
             return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @PostMapping("/product_shopping_cart/addProducts")
     public ResponseEntity<String> addProductToCart(@RequestBody AddProductToCartRequest request) {
         try {
