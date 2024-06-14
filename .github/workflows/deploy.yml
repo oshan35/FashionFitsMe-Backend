@@ -34,7 +34,7 @@ jobs:
 
     - name: Build and push Docker images
       run: |
-        docker build -t tnehara831/fashionfitsme-backend:latest .
+        docker build -t tnehara831/fashionfitsme-backend:latest VirtualFitON
         docker push tnehara831/fashionfitsme-backend:latest
       
 
