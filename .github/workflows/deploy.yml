@@ -37,9 +37,6 @@ jobs:
         docker build -t tnehara831/fashionfitsme-backend:latest VirtualFitON
         docker push tnehara831/fashionfitsme-backend:latest
 
-    - name: Decode SSH key
-      run: echo "${{ secrets.EC2_SSH_KEY_BASE64 }}" | base64 --decode > /tmp/ssh_key && chmod 600 /tmp/ssh_key
-
     - name: SSH to EC2 and update backend service
       uses: appleboy/ssh-action@master
       with:
