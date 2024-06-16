@@ -41,11 +41,11 @@ jobs:
       run: echo "${{ secrets.EC2_SSH_KEY_BASE64 }}" | base64 --decode > /tmp/ssh_key && chmod 600 /tmp/ssh_key
 
     - name: SSH to EC2 and update backend service
-      uses: appleboy/ssh-action@v0.1.8
+      uses: appleboy/ssh-action@master
       with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
-          key: /tmp/ssh_key
+          key: ${{ secrets.EC2_SSH_KEY_BASE64 }}
           script: |
             docker-compose -f FashionFitsMe/docker-compose.yml pull spring-app
             docker-compose -f FashionFitsMe/docker-compose.yml up -d spring-app
