@@ -37,14 +37,6 @@ jobs:
         docker build -t tnehara831/fashionfitsme-backend:latest VirtualFitON
         docker push tnehara831/fashionfitsme-backend:latest
 
-    - name: Deploy to EC2 server
-      uses: easingthemes/ssh-deploy@main
-      env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY_BASE64 }}
-          REMOTE_HOST: ${{ secrets.EC2_HOST }}
-          REMOTE_USER: ${{ secrets.EC2_USERNAME }}
-          TARGET: FashionFitsMe
-
     - name: SSH to EC2 and update backend service
       uses: appleboy/ssh-action@master
       with:
