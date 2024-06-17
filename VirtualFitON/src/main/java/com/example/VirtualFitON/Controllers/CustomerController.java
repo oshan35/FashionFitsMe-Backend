@@ -5,6 +5,8 @@ import com.example.VirtualFitON.Exceptions.*;
 import com.example.VirtualFitON.Models.Customer;
 import com.example.VirtualFitON.Models.Product;
 import com.example.VirtualFitON.Service.CustomerService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.aop.scope.ScopedProxyUtils;
@@ -12,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +38,9 @@ import java.util.Map;
 public class CustomerController {
     private final CustomerService customerService;
     private final RedisTemplate<String, String> redisTemplate;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Autowired
     public CustomerController(CustomerService customerService, RedisTemplate<String, String> redisTemplate) {
@@ -153,4 +159,34 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error: " + e.getMessage());
         }
     }
+
+    @GetMapping("/getmeasurements")
+    public ResponseEntity<?> getMeasurements(@RequestParam int customerId, @RequestParam String gender, @RequestParam double height, @RequestParam double weight) {
+        String url = "http://bodymeasurements-service:6000/measurements?param1={param1}&param2={param2}&param3={param3}";
+        System.out.println("Inside get measurements..");
+
+        Map<String, String> params = new HashMap<>();
+        params.put("param1", gender);
+        params.put("param2", String.valueOf(height));
+        params.put("param3", String.valueOf(weight));
+
+        try {
+            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class, params);
+            String responseBody = response.getBody();
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> responseMap = objectMapper.readValue(responseBody, new TypeReference<Map<String, Object>>() {});
+            customerService.saveCustomerBodyMeasurements(customerId,responseMap);
+
+            return ResponseEntity.ok().body("Customer ID: " + customerId + ", Measurements: " + response.getBody());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while fetching measurements for Customer ID " + customerId + ": " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/virtualFitOn")
+    public ResponseEntity<?> getVirtualFitOn(@RequestParam int customerId, @RequestParam int productId){
+
+    }
+
 }

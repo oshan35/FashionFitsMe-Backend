@@ -6,9 +6,9 @@ services:
     ports:
       - "5000:5000"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service:3306/FashionFitsMe
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/FashionFitsMe
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: Satn200@
+      SPRING_DATASOURCE_PASSWORD: OshanD991260099V
       SPRING_REDIS_HOST: redis-service
       SPRING_REDIS_PORT: 6379
     depends_on:
@@ -30,17 +30,11 @@ services:
     ports:
       - "6379:6379"
 
-  frontend:
-    image: tnehara831/fashionfitsme-frontend:latest
+  bodymeasurements-service:
+    image: bodymeasurementsapp
     ports:
-      - "3000:80"
-    environment:
-      NODE_ENV: production
+      - "6000:6000"
 
 networks:
-  default:
-    name: fashionfitsme-network
+  virtualfiton-network:
     driver: bridge
-
-volumes:
-  mysql_data:

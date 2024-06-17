@@ -3,20 +3,19 @@ package com.example.VirtualFitON.Service;
 import com.example.VirtualFitON.DTO.*;
 import com.example.VirtualFitON.Exceptions.MissingFieldException;
 import com.example.VirtualFitON.Exceptions.UsernameAlreadyExistsException;
-import com.example.VirtualFitON.Models.Product;
-import com.example.VirtualFitON.Models.ProductShoppingCart;
+import com.example.VirtualFitON.Models.*;
 
-import com.example.VirtualFitON.Models.ShoppingCart;
+import com.example.VirtualFitON.Repositories.CustomerMeasurementRepository;
 import com.example.VirtualFitON.Repositories.CustomerRepository;
 import com.example.VirtualFitON.Repositories.ProductShoppingCartRepository;
 import com.example.VirtualFitON.Repositories.ShoppingCartRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.example.VirtualFitON.Models.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CustomerService {
@@ -34,6 +33,11 @@ public class CustomerService {
 
 
     private ShoppingCartService shoppingCartService;
+
+    @Autowired
+    private CustomerMeasurementRepository customerMeasurementRepository;
+
+
     @Autowired
     public CustomerService(CustomerRepository customerRepository, PasswordEncoder passwordEncoder, ProductShoppingCartRepository productShoppingCartRepository, ShoppingCartRepository shoppingCartRepository, ShoppingCartService shoppingCartService) {
         this.customerRepository = customerRepository;
@@ -124,17 +128,70 @@ public class CustomerService {
 
     public List<CartItemDTO> getCustomerCartItems(int customerId){
         int carts_id = customerRepository.findCartId(customerId);
-        System.out.println("Test 01");
         List<ProductShoppingCart> cartProductList;
         cartProductList = productShoppingCartRepository.findCartProductsByCartId(carts_id);
-        System.out.println("Test 02");
         List<CartItemDTO> cartItems = shoppingCartService.getCartProductList(cartProductList);
-        System.out.println("Test 03");
-        System.out.println("no of cart items" + cartItems.size());
         return cartItems;
     }
+    public void saveCustomerBodyMeasurements(int customerId,Map<String, Object> bodyMeasurements) {
 
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
 
+        CustomerMeasurement customerMeasurement = new CustomerMeasurement();
+        customerMeasurement.setCustomer(customer);
+
+        if (bodyMeasurements.containsKey("ankle_circumference")) {
+            customerMeasurement.setAnkleCircumference((Double) bodyMeasurements.get("ankle_circumference"));
+        }
+        if (bodyMeasurements.containsKey("arm_length")) {
+            customerMeasurement.setArmLength((Double) bodyMeasurements.get("arm_length"));
+        }
+        if (bodyMeasurements.containsKey("bicep_circumference")) {
+            customerMeasurement.setBicepCircumference((Double) bodyMeasurements.get("bicep_circumference"));
+        }
+        if (bodyMeasurements.containsKey("calf_circumference")) {
+            customerMeasurement.setCalfCircumference((Double) bodyMeasurements.get("calf_circumference"));
+        }
+        if (bodyMeasurements.containsKey("chest_circumference")) {
+            customerMeasurement.setChestCircumference((Double) bodyMeasurements.get("chest_circumference"));
+        }
+        if (bodyMeasurements.containsKey("forearm_circumference")) {
+            customerMeasurement.setForearmCircumference((Double) bodyMeasurements.get("forearm_circumference"));
+        }
+        if (bodyMeasurements.containsKey("head_circumference")) {
+            customerMeasurement.setHeadCircumference((Double) bodyMeasurements.get("head_circumference"));
+        }
+        if (bodyMeasurements.containsKey("hip_circumference")) {
+            customerMeasurement.setHipCircumference((Double) bodyMeasurements.get("hip_circumference"));
+        }
+        if (bodyMeasurements.containsKey("inside_leg_length")) {
+            customerMeasurement.setInsideLegLength((Double) bodyMeasurements.get("inside_leg_length"));
+        }
+        if (bodyMeasurements.containsKey("neck_circumference")) {
+            customerMeasurement.setNeckCircumference((Double) bodyMeasurements.get("neck_circumference"));
+        }
+        if (bodyMeasurements.containsKey("shoulder_breadth")) {
+            customerMeasurement.setShoulderBreadth((Double) bodyMeasurements.get("shoulder_breadth"));
+        }
+        if (bodyMeasurements.containsKey("shoulder_to_crotch")) {
+            customerMeasurement.setShoulderToCrotch((Double) bodyMeasurements.get("shoulder_to_crotch"));
+        }
+        if (bodyMeasurements.containsKey("thigh_circumference")) {
+            customerMeasurement.setThighCircumference((Double) bodyMeasurements.get("thigh_circumference"));
+        }
+        if (bodyMeasurements.containsKey("waist_circumference")) {
+            customerMeasurement.setWaistCircumference((Double) bodyMeasurements.get("waist_circumference"));
+        }
+        if (bodyMeasurements.containsKey("wrist_circumference")) {
+            customerMeasurement.setWristCircumference((Double) bodyMeasurements.get("wrist_circumference"));
+        }
+        if (bodyMeasurements.containsKey("body_model")) {
+            customerMeasurement.setBodyModel((byte[]) bodyMeasurements.get("body_model"));
+        }
+
+        customerMeasurementRepository.save(customerMeasurement);
+    }
 
 
 }
