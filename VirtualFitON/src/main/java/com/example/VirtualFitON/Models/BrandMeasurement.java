@@ -54,9 +54,7 @@
 //}
 
 package com.example.VirtualFitON.Models;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -68,15 +66,20 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Table(name = "brand_measurement")
 public class BrandMeasurement {
 
     @Id
-    private String measurementId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "measurement_id", nullable = false)
+    private Long measurementId;
 
     private String category;
+    private String item;
     private String size;
 
     @ManyToOne
+    @JoinColumn(name = "brand_id", referencedColumnName = "brandId")
     private Brand brand;
 
     private BigDecimal ankleCircumference;

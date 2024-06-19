@@ -20,3 +20,4 @@ public class ProductVariantDTO {
     private Integer noOfItems;
     private byte[] image;
 }
+
