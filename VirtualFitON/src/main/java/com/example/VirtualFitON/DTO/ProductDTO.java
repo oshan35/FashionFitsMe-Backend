@@ -13,11 +13,10 @@ public class ProductDTO {
 
     private String productId;
     private String productName;
-    private BrandDTO brand;
-    private BigDecimal price;
+    private String brandName;
     private String description;
     private byte[] productMedia;
-    private String productCategory;
-    private String itemCategory;
+    private String category;
+    private String item;
 
 }

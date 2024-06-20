@@ -15,8 +15,12 @@ import java.math.BigDecimal;
 public class ProductVariant {
 
     @Id
-    private String variantId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "variant_id", nullable = false)
+    private Long variantId;
+
     @ManyToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "productId")
     private Product product;
 
     private String color;
@@ -24,6 +28,7 @@ public class ProductVariant {
     private BigDecimal price;
     private Integer noOfItems;
     @Lob
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] image;
 
 }

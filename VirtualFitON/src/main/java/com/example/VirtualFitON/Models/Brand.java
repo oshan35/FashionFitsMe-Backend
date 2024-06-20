@@ -41,9 +41,7 @@
 
 package com.example.VirtualFitON.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -52,12 +50,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Table(name = "brand", indexes = {
+        @Index(name = "idx_brand_name", columnList = "brand_name")
+})
 public class Brand {
 
     @Id
     private String brandId;
+
+    @Column(name = "brand_name", unique = true, nullable = false)
     private String name;
-    @Lob  // To store large objects
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB") // To store large objects
     private byte[] productMedia;
 }
 

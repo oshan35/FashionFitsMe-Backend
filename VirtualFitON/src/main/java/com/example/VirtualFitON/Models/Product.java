@@ -85,15 +85,17 @@ public class Product {
     private String productId;
     private String productName;
 
-    @ManyToOne  // Assuming a Many-to-One relationship
-    private Brand brand;
 
-    private BigDecimal price;
+    @JoinColumn(name = "brand_name", referencedColumnName = "brand_name")
+    private String brandName;
+
+
     private String description;
 
     @Lob  // To store large objects
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] productMedia;
 
-    private String productCategory;
-    private String itemCategory;
+    private String category;
+    private String item;
 }

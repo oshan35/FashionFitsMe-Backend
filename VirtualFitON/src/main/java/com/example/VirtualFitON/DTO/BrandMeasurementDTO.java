@@ -12,13 +12,10 @@ import java.math.BigDecimal;
 @Data
 public class BrandMeasurementDTO {
 
-    private Long measurementId;
-
     private String category;
     private String size;
     private String item;
     private Brand brand;
-
     private BigDecimal ankleCircumference;
     private BigDecimal armLength;
     private BigDecimal bicepCircumference;
