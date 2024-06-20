@@ -6,8 +6,9 @@ import jakarta.persistence.*;
 public class Customer {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
-    private String customerId;
+    private int customerId;
 
     @Column(name = "first_name")
     private String firstName;
@@ -24,11 +25,37 @@ public class Customer {
     @Column(name = "password")
     private String password;
 
-    public String getCustomerId() {
+    @OneToOne
+    @JoinColumn(name="cart_id")
+    private ShoppingCart cart;
+
+    public Customer(int customerId, String firstName, String lastName, String country, String username, String password, ShoppingCart cart) {
+        this.customerId = customerId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.country = country;
+        this.username = username;
+        this.password = password;
+        this.cart = cart;
+    }
+
+    public Customer() {
+
+    }
+
+    public ShoppingCart getCart() {
+        return cart;
+    }
+
+    public void setCart(ShoppingCart cart) {
+        this.cart = cart;
+    }
+
+    public int getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(String customerId) {
+    public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
 
@@ -71,4 +98,5 @@ public class Customer {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

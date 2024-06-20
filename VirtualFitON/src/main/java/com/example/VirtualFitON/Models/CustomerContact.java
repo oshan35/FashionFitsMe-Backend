@@ -1,7 +1,6 @@
 package com.example.VirtualFitON.Models;
 
 import jakarta.persistence.*;
-
 @Entity
 @Table(name="customer_contact")
 public class CustomerContact {
@@ -14,6 +13,13 @@ public class CustomerContact {
     @MapsId("customer_Id")
     private Customer customer;
 
+    public CustomerContact(CustomerContactId id, Customer customer) {
+        this.id = id;
+        this.customer = customer;
+    }
+
+    public CustomerContact() {
+    }
 
     public CustomerContactId getId() {
         return id;

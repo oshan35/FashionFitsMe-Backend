@@ -1,22 +1,35 @@
 package com.example.VirtualFitON.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.VirtualFitON.Models.Product;
+import com.example.VirtualFitON.Models.ProductImage;
 
-import java.math.BigDecimal;
+import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
 public class ProductDTO {
+    private Product product;
+    private List<ProductImage>productImages;
 
-    private String productId;
-    private String productName;
-    private String brandName;
-    private String description;
-    private byte[] productMedia;
-    private String category;
-    private String item;
+    public ProductDTO(Product product, List<ProductImage> productImages) {
+        this.product = product;
+        this.productImages = productImages;
+    }
 
+    public ProductDTO() {
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public List<ProductImage> getProductImages() {
+        return productImages;
+    }
+
+    public void setProductImages(List<ProductImage> productImages) {
+        this.productImages = productImages;
+    }
 }

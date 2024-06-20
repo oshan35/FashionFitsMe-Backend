@@ -10,9 +10,9 @@ public class ProductShoppingCartId implements Serializable {
     @Column(name="product_id")
     private String productId;
     @Column(name="cart_id")
-    private String cartId;
+    private int cartId;
 
-    public ProductShoppingCartId(String productId, String cartId) {
+    public ProductShoppingCartId(String productId, int cartId) {
         this.productId = productId;
         this.cartId = cartId;
     }
@@ -28,11 +28,11 @@ public class ProductShoppingCartId implements Serializable {
         this.productId = productId;
     }
 
-    public String getCartId() {
+    public int getCartId() {
         return cartId;
     }
 
-    public void setCartId(String cartId) {
+    public void setCartId(int cartId) {
         this.cartId = cartId;
     }
 

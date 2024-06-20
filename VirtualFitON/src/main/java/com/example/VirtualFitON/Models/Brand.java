@@ -41,6 +41,7 @@
 
 package com.example.VirtualFitON.Models;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -56,16 +57,49 @@ import lombok.NoArgsConstructor;
 public class Brand {
 
     @Id
+    @Column(name = "brand_id")
     private String brandId;
 
-    @Column(name = "brand_name", unique = true, nullable = false)
-    private String name;
+    @Column(name = "brand_name")
+    private String brandName;
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB") // To store large objects
+    @Column(name = "product_media")
     private byte[] productMedia;
-}
 
+
+    public Brand(String brandId, String brandName, byte[] productMedia) {
+        this.brandId = brandId;
+        this.brandName = brandName;
+        this.productMedia = productMedia;
+    }
+
+    public Brand() {
+    }
+
+    public byte[] getProductMedia() {
+        return productMedia;
+    }
+
+    public void setProductMedia(byte[] productMedia) {
+        this.productMedia = productMedia;
+    }
+
+    public String getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(String brandId) {
+        this.brandId = brandId;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+}
 
 
 

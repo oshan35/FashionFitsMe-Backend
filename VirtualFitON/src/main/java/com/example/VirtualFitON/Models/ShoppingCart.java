@@ -3,23 +3,19 @@ package com.example.VirtualFitON.Models;
 
 import com.example.VirtualFitON.Models.Customer;
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
-
-
 @Entity
 @Table(name="shopping_cart")
 public class ShoppingCart {
+
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_id")
-    private String cartId;
+    private int cartId;
 
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
 
     @Column(name = "purchese_status")
     private boolean purchaseStatus;
@@ -27,10 +23,11 @@ public class ShoppingCart {
     @Column(name = "discount_amount")
     private BigDecimal discountAmount;
 
-    public ShoppingCart(String cartId, BigDecimal totalAmount, Customer customer, boolean purchaseStatus, BigDecimal discountAmount) {
+
+    public ShoppingCart(int cartId, BigDecimal totalAmount,  boolean purchaseStatus, BigDecimal discountAmount) {
         this.cartId = cartId;
         this.totalAmount = totalAmount;
-        this.customer = customer;
+//        this.customer = customer;
         this.purchaseStatus = purchaseStatus;
         this.discountAmount = discountAmount;
     }
@@ -39,11 +36,11 @@ public class ShoppingCart {
     }
 
 
-    public String getCartId() {
+    public int getCartId() {
         return cartId;
     }
 
-    public void setCartId(String cartId) {
+    public void setCartId(int cartId) {
         this.cartId = cartId;
     }
 
@@ -55,13 +52,6 @@ public class ShoppingCart {
         this.totalAmount = totalAmount;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
 
     public boolean isPurchaseStatus() {
         return purchaseStatus;

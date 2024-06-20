@@ -22,10 +22,53 @@ public class ProductShoppingCart {
     @MapsId("cartId")
     private ShoppingCart cart;
 
+    @Column(name = "product_color")
+    private String productColor;
+
+    @Column(name = "product_size")
+    private String productSize;
+
+    @Column(name = "product_quantity")
+    private int orderQuantity;
+
+
     public ProductShoppingCart(ProductShoppingCartId id, Product product, ShoppingCart cart) {
         this.id = id;
         this.product = product;
         this.cart = cart;
+    }
+
+    public ProductShoppingCart(ProductShoppingCartId id, Product product, ShoppingCart cart, String productColor, String productSize, int orderQuantity) {
+        this.id = id;
+        this.product = product;
+        this.cart = cart;
+        this.productColor = productColor;
+        this.productSize = productSize;
+        this.orderQuantity = orderQuantity;
+    }
+
+    public String getProductColor() {
+        return productColor;
+    }
+
+    public void setProductColor(String productColor) {
+        this.productColor = productColor;
+    }
+
+    public String getProductSize() {
+        return productSize;
+    }
+
+    public void setProductSize(String productSize) {
+        this.productSize = productSize;
+    }
+
+    public int getOrderQuantity() {
+        return orderQuantity;
+    }
+
+    public void setOrderQuantity(int orderQuantity) {
+        this.orderQuantity = orderQuantity;
     }
 
     public ProductShoppingCart() {

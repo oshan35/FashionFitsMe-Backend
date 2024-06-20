@@ -5,8 +5,6 @@ import jakarta.persistence.Id;
 
 public class CustomerRegisterDTO {
 
-    private String customerId;
-
 
     private String firstName;
 
@@ -22,8 +20,8 @@ public class CustomerRegisterDTO {
 
     private String password;
 
-    public CustomerRegisterDTO(String customerId, String firstName, String lastName, String country, String username, String password) {
-        this.customerId = customerId;
+    public CustomerRegisterDTO( String firstName, String lastName, String country, String username, String password) {
+       // this.customerId = customerId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;
@@ -31,13 +29,10 @@ public class CustomerRegisterDTO {
         this.password = password;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public CustomerRegisterDTO() {
+
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
 
     public String getFirstName() {
         return firstName;

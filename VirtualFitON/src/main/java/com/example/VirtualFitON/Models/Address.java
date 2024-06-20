@@ -1,38 +1,96 @@
 package com.example.VirtualFitON.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+
+import jakarta.persistence.*;
 
 @Entity
 public class Address {
     @Id
-    private String addressId;
-
-    private String state;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "address_id")
+    private int addressId;
+    @Column(name = "company")
+    private String company;
+    @Column(name = "city")
     private String city;
+    @Column(name = "street")
     private String street;
-    private String zip;
+
+    @Column(name = "address_name")
+    private String addressName;
+
+    @Column(name = "region")
+    private String region;
+
+    @Column(name = "postal_code")
+    private String postalCode;
 
     @ManyToOne
-    @JoinColumn(name = "customerId")
+    @JoinColumn(name = "customer_Id")
     private Customer customer;
 
-    public String getAddressId() {
+    public Address(int addressId, String company, String city, String street, String addressName, String region, String postalCode, Customer customer) {
+        this.addressId = addressId;
+        this.company = company;
+        this.city = city;
+        this.street = street;
+        this.addressName = addressName;
+        this.region = region;
+        this.postalCode = postalCode;
+        this.customer = customer;
+    }
+
+    public Address() {
+    }
+
+    public Address(String company, String city, String street, String addressName, String region, String postalCode, Customer customer) {
+        this.company = company;
+        this.city = city;
+        this.street = street;
+        this.addressName = addressName;
+        this.region = region;
+        this.postalCode = postalCode;
+        this.customer = customer;
+    }
+
+    public String getAddressName() {
+        return addressName;
+    }
+
+    public void setAddressName(String addressName) {
+        this.addressName = addressName;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public int getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(String addressId) {
+    public void setAddressId(int addressId) {
         this.addressId = addressId;
     }
 
-    public String getState() {
-        return state;
+    public String getCompany() {
+        return company;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     public String getCity() {
@@ -51,13 +109,7 @@ public class Address {
         this.street = street;
     }
 
-    public String getZip() {
-        return zip;
-    }
 
-    public void setZip(String zip) {
-        this.zip = zip;
-    }
 
     public Customer getCustomer() {
         return customer;
