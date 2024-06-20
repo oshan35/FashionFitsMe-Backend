@@ -1,6 +1,5 @@
 package com.example.VirtualFitON.Repositories;
 
-import com.example.VirtualFitON.Models.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
