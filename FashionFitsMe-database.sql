@@ -217,19 +217,6 @@ CREATE TABLE shipper(
 	PRIMARY KEY (shipper_id)
 );
 
--- INSERT INTO shipper (shipper_id, shipper_name, contact_no)
--- VALUES
---     ('001', 'Shipper1', '123-456-7780'),
---     ('002', 'Shipper2', '987-654-3210'),
---     ('003', 'Shipper3', '555-123-4567'),
---     ('004', 'Shipper4', '999-888-7777'),
---     ('005', 'Shipper5', '111-222-3333'),
---     ('006', 'Shipper6', '444-555-6666'),
---     ('007', 'Shipper7', '777-888-9999'),
--- 	('008', 'Shipper8', '733-888-9999'),
--- 	('009', 'Shipper9', '777-338-9344');
-
-
 
 -- Creating shipment table
 CREATE TABLE shipments (
@@ -242,19 +229,6 @@ CREATE TABLE shipments (
 	constraint FK_shipments foreign key (address_id) references address(address_id),
 	constraint FK_shipments_shipper foreign key (shipper_id) references shipper(shipper_id) on delete set null on update cascade
 );
-
-
--- INSERT INTO shipments (shipping_Id, shipper_Id, address_Id, shipment_Status, shipment_Date)
--- VALUES
---     ('SHIP001', '001', 11111, 'InTransit', '2023-09-10'),
---     ('SHIP002', '002', 22222, 'Delivered', '2023-09-11'),
---     ('SHIP003', '003', 33333, 'Pending', '2023-09-12'),
---     ('SHIP004', '004', 44444, 'InTransit', '2023-09-13'),
---     ('SHIP005', '005', 55555, 'Delivered', '2023-09-14'),
---     ('SHIP006', '006', 66666, 'Delivered', '2023-09-15'),
--- 	('SHIP007', '007', 77777, 'Delivered', '2023-10-14'),
--- 	('SHIP008', '004', 44444, 'InTransit', '2023-10-24'),
--- 	('SHIP009', '004', 33333, 'Delivered', '2023-10-14');
 
 
 
@@ -276,19 +250,6 @@ ALTER TABLE orders
 MODIFY total DECIMAL(10, 2);
 
 
--- INSERT INTO orders (order_Id, customer_Id, cart_Id, shipping_Id, order_Date, total)
--- VALUES
---     ('ORDER001', 'CUST001', 'Cart001', 'SHIP001', '2023-09-10', 250),
---     ('ORDER002', 'CUST002', 'Cart002', 'SHIP002', '2023-09-11', 150),
---     ('ORDER003', 'CUST003', 'Cart003', 'SHIP003', '2023-09-12', 300),
---     ('ORDER004', 'CUST002', 'Cart004', 'SHIP004', '2023-09-13', 175),
---     ('ORDER005', 'CUST003', 'Cart005', 'SHIP005', '2023-09-14', 200),
---     ('ORDER006', 'CUST002','Cart006', 'SHIP006', '2023-09-15', 180),
---     ('ORDER007', 'CUST001', 'Cart007', 'SHIP007', '2023-09-16', 210),
---     ('ORDER009', 'CUST002', 'Cart008', 'SHIP005', '2023-09-16', 410),
---     ('ORDER010', 'CUST001', 'Cart008', 'SHIP006', '2023-09-16', 310);
-
-
 
 -- Creating payment table
 CREATE TABLE payment (
@@ -299,19 +260,6 @@ CREATE TABLE payment (
 	PRIMARY KEY (payment_no,order_id),
     constraint FK_order_payment foreign key (order_id) references orders(order_id)
 );
-
--- INSERT INTO payment (payment_no, order_Id, payment_Method, payment_Details)
--- VALUES
---     ('PAYMENT001', 'ORDER001', 'CreditCard', 'Card_No:0000-1111-1111-1234-Expiry:12/25'),
---     ('PAYMENT002', 'ORDER002', 'PayPal', 'PayPal_Email:abc@gmail.com'),
---     ('PAYMENT003', 'ORDER003', 'CreditCard', 'Card_No:1111-0000-2222-5678-Expiry:06/24'),
---     ('PAYMENT004', 'ORDER004', 'BankTransfer', 'Account_No:12345678-Bank:XYZBank'),
---     ('PAYMENT005', 'ORDER005', 'CashOnDelivery', 'Amount:200USD-Collect_upon_Delivery'),
---     ('PAYMENT006', 'ORDER006', 'CreditCard', 'Card_No:1234-0000-3434-7890-Expiry:10/25'),
---     ('PAYMENT007', 'ORDER007', 'PayPal', 'PayPal_Email:sam@yahooo.com'),
---     ('PAYMENT008', 'ORDER003', 'CreditCard', 'Amount:200USD-Collect_upon_Delivery'),
---     ('PAYMENT009', 'ORDER003', 'CreditCard', 'PayPal_Email:sam@yahooo.com');
-
 
 
 -- Trigers to update total in order when a new item added to the cart
@@ -385,41 +333,5 @@ select * from product_color_size;
 UPDATE product
 SET price = 10005
 WHERE product_id = 'p1005';
-
-
--- INSERT INTO product_color_size (product_Id, color, size, quantity)
--- VALUES 
---     -- Assuming P1001 is a T-shirt
---     ('P1001', 'Black', 'S', 50),
---     ('P1001', 'Black', 'M', 75),
---     ('P1001', 'Black', 'L', 100),
---     ('P1001', 'White', 'S', 50),
---     ('P1001', 'White', 'M', 75),
---     ('P1001', 'White', 'L', 100),
---     
---     -- Assuming P1002 is a pair of Jeans
---     ('P1002', 'Blue', '32', 60),
---     ('P1002', 'Blue', '34', 80),
---     ('P1002', 'Blue', '36', 40),
---     ('P1002', 'Black', '32', 60),
---     ('P1002', 'Black', '34', 80),
---     ('P1002', 'Black', '36', 40),
-
---     -- Assuming P1003 is a Dress
---     ('P1003', 'Red', 'S', 70),
---     ('P1003', 'Red', 'M', 90),
---     ('P1003', 'Red', 'L', 50),
---     ('P1003', 'Green', 'S', 70),
---     ('P1003', 'Green', 'M', 90),
---     ('P1003', 'Green', 'L', 50),
-
---     -- Assuming P1004 is a Sweater
---     ('P1004', 'Grey', 'S', 80),
---     ('P1004', 'Grey', 'M', 100),
---     ('P1004', 'Grey', 'L', 60),
---     ('P1004', 'Navy', 'S', 80),
---     ('P1004', 'Navy', 'M', 100),
---     ('P1004', 'Navy', 'L', 60);
-
 
 
