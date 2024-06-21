@@ -101,11 +101,12 @@ public class CustomerService {
 
         Customer customer = new Customer();
         ShoppingCart shoppingCart=new ShoppingCart();
-        System.out.println("cart id"+shoppingCart.getCartId());
+        ShoppingCart savedShoppingCart=shoppingCartRepository.save(shoppingCart);
+        System.out.println("cart id after saving "+savedShoppingCart.getCartId());
         customer.setFirstName(signUpDTO.getFirstName());
         customer.setLastName(signUpDTO.getLastName());
         customer.setUsername(signUpDTO.getUsername());
-        customer.setCart(shoppingCart);
+        customer.setCart(savedShoppingCart);
 
 
         String encodedPassword = passwordEncoder.encode(signUpDTO.getPassword());
