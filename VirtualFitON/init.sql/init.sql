@@ -152,7 +152,6 @@ CREATE TABLE customer_contact(
 create table product_shopping_cart(
 	product_id VARCHAR(20) NOT NULL,
 	cart_id int not null,
-    product_id VARCHAR(20) NOT NULL,
     product_color VARCHAR(20) NOT NULL,
     product_size VARCHAR(20) NOT NULL,
     product_quantity  VARCHAR(20) NOT NULL,
