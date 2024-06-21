@@ -59,31 +59,31 @@ public class CustomerService {
     }
 
 
-    public void registerCustomer(CustomerRegisterDTO customerDTO) throws UsernameAlreadyExistsException {
-        Customer existingCustomer = customerRepository.findByUsername(customerDTO.getUsername());
-        if (existingCustomer != null) {
-            throw new UsernameAlreadyExistsException("Username already exists");
-        }
-        if (customerDTO.getFirstName() == null || customerDTO.getLastName() == null ||
-                customerDTO.getCountry() == null || customerDTO.getUsername() == null ||
-                customerDTO.getPassword() == null ) {
-            throw new MissingFieldException("One or more required fields are missing");
-        }
-
-
-        Customer customer = new Customer();
-
-        customer.setFirstName(customerDTO.getFirstName());
-        customer.setLastName(customerDTO.getLastName());
-        customer.setCountry(customerDTO.getCountry());
-        customer.setUsername(customerDTO.getUsername());
-
-
-        String encodedPassword = passwordEncoder.encode(customerDTO.getPassword());
-        customer.setPassword(encodedPassword);
-
-        customerRepository.save(customer);
-    }
+//    public void registerCustomer(CustomerRegisterDTO customerDTO) throws UsernameAlreadyExistsException {
+//        Customer existingCustomer = customerRepository.findByUsername(customerDTO.getUsername());
+//        if (existingCustomer != null) {
+//            throw new UsernameAlreadyExistsException("Username already exists");
+//        }
+//        if (customerDTO.getFirstName() == null || customerDTO.getLastName() == null ||
+//                customerDTO.getCountry() == null || customerDTO.getUsername() == null ||
+//                customerDTO.getPassword() == null ) {
+//            throw new MissingFieldException("One or more required fields are missing");
+//        }
+//
+//
+//        Customer customer = new Customer();
+//
+//        customer.setFirstName(customerDTO.getFirstName());
+//        customer.setLastName(customerDTO.getLastName());
+//        customer.setCountry(customerDTO.getCountry());
+//        customer.setUsername(customerDTO.getUsername());
+//
+//
+//        String encodedPassword = passwordEncoder.encode(customerDTO.getPassword());
+//        customer.setPassword(encodedPassword);
+//
+//        customerRepository.save(customer);
+//    }
 
 
     public void signUpCustomer(SignUpDTO signUpDTO) throws UsernameAlreadyExistsException {
