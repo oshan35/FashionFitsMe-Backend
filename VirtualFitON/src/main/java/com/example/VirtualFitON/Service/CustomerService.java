@@ -101,7 +101,7 @@ public class CustomerService {
 
         Customer customer = new Customer();
         ShoppingCart shoppingCart=new ShoppingCart();
-
+        System.out.println("cart id"+shoppingCart.getCartId());
         customer.setFirstName(signUpDTO.getFirstName());
         customer.setLastName(signUpDTO.getLastName());
         customer.setUsername(signUpDTO.getUsername());
