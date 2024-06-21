@@ -21,15 +21,13 @@ public class ProductService {
 
     private final ProductColorSizeRepository productColorSizeRepository;
 
-    private final ReviewRepository reviewRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ProductImageRepository productImageRepository, BrandRepository brandRepository, ProductColorSizeRepository productColorSizeRepository, ReviewRepository reviewRepository) {
+    public ProductService(ProductRepository productRepository, ProductImageRepository productImageRepository, BrandRepository brandRepository, ProductColorSizeRepository productColorSizeRepository) {
         this.productRepository = productRepository;
         this.productImageRepository = productImageRepository;
         this.brandRepository = brandRepository;
         this.productColorSizeRepository = productColorSizeRepository;
-        this.reviewRepository = reviewRepository;
     }
 
     public ProductInfoDTO getProductInformation(String productId) {
@@ -51,7 +49,6 @@ public class ProductService {
             }
 
             List<String> colors=productColorSizeRepository.findColorsByProductProductId(productId);
-            List<Review> reviews=reviewRepository.findByProductProductId(productId);
             Map<String,byte[]>image_colors=new HashMap<>();
             byte[] image = new byte[0];
             for(ProductColorSize productColorSize:pcs) {
@@ -70,7 +67,6 @@ public class ProductService {
             productInfoDTO.setColors(colors);
             productInfoDTO.setSizes(sizes);
             productInfoDTO.setImage_colors(image_colors);
-            productInfoDTO.setReviews(reviews);
             productInfoDTO.setImage(image);
             productInfoDTO.setCategory(product.getProductCategory());
             productInfoDTO.setDescription(product.getDescription());
