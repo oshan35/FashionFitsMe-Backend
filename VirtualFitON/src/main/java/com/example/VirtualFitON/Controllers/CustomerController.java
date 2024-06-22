@@ -174,6 +174,7 @@ public class CustomerController {
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class, params);
             String responseBody = response.getBody();
 
+            // Convert response body to Java Map
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, Object> responseMap = objectMapper.readValue(responseBody, new TypeReference<Map<String, Object>>() {});
             customerService.saveCustomerBodyMeasurements(customerId,responseMap);
@@ -184,9 +185,25 @@ public class CustomerController {
         }
     }
 
-    @GetMapping("/virtualFitOn")
-    public ResponseEntity<?> getVirtualFitOn(@RequestParam int customerId, @RequestParam int productId){
+    @GetMapping("/getMatchingSize")
+    public ResponseEntity<?> getMatchingSize(@RequestParam int customerId, @RequestParam String productId){
+        String url = "http://bodymeasurements-service:6000/getMatchingSizeAndRate?param1={param1}&param2={param2}";
+        try {
+
+            return ResponseEntity.ok(products);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid customer ID");
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Database error: " + e.getMessage());
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error: " + e.getMessage());
+        }
 
     }
+
+//    @GetMapping("/virtualFitOn")
+//    public ResponseEntity<?> getVirtualFitOn(@RequestParam int customerId, @RequestParam int productId)
 
 }

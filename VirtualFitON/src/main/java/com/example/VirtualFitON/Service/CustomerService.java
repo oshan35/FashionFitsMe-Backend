@@ -133,6 +133,7 @@ public class CustomerService {
         List<CartItemDTO> cartItems = shoppingCartService.getCartProductList(cartProductList);
         return cartItems;
     }
+
     public void saveCustomerBodyMeasurements(int customerId,Map<String, Object> bodyMeasurements) {
 
         Customer customer = customerRepository.findById(customerId)
@@ -192,6 +193,8 @@ public class CustomerService {
 
         customerMeasurementRepository.save(customerMeasurement);
     }
+
+
 
 
 }

@@ -121,13 +121,9 @@ public class ProductController {
 
     @GetMapping("/getProductInformation")
     public ResponseEntity<?> getAllProducts(@RequestParam("productId") String productId) {
-
-
         System.out.println(productId);
-             ProductInfoDTO productInfoDTO=productService.getProductInformation(productId);
-            return new ResponseEntity<>(productInfoDTO, HttpStatus.OK);
-
-
+        ProductInfoDTO productInfoDTO=productService.getProductInformation(productId);
+        return new ResponseEntity<>(productInfoDTO, HttpStatus.OK);
     }
 
     @PostMapping("/getHomeProducts")
