@@ -60,11 +60,14 @@ public class ProductController {
             @RequestParam("price") String price,
             @RequestParam("productCategory") String productCategory,
             @RequestParam("gender") String gender,
-            @RequestParam("brand") String brand
-    ) {
+            @RequestParam("brand") String brand,
+            @RequestParam("description") String description
+
+
+            ) {
         try {
             System.out.println("Test: "+productId);
-            productService.saveProduct(productId, productName, price, productCategory,gender,brand);
+            productService.saveProduct(productId, productName, price, productCategory,gender,brand,description);
             return ResponseEntity.ok("Product saved successfully.");
         } catch (InvalidProductDataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
