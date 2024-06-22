@@ -1,0 +1,26 @@
+name: CD Pipeline
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+      - completed
+
+jobs:
+  deploy:  
+
+    runs-on: self-hosted
+
+    steps:
+     
+      - name: Pull Docker Compose backend image
+        run: |
+          docker-compose -f /home/ec2-user/deploy/docker-compose.yml pull spring-app
+
+      - name: Start backend container in detached mode
+        run: |
+          docker-compose -f /home/ec2-user/deploy/docker-compose.yml up -d spring-app
+
+      - name: (Optional) Verify frontend container status (if needed)
+        run: |
+          docker ps | grep spring-app  # Check if frontend container is running
