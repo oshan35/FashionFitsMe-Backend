@@ -7,12 +7,15 @@ import jakarta.persistence.*;
 public class CustomerMeasurement {
 
     @Id
-    @OneToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
-    private Customer customer;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @OneToOne()
+    @JoinColumn(name = "customer_id", unique = true)
+    private Customer customer;
+
+
 
     @Column(name = "ankle_circumference")
     private Double ankleCircumference;

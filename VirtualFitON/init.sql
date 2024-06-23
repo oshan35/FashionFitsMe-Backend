@@ -1,5 +1,7 @@
-drop database  FashionFitsMe;
+drop  database FashionFitsMe;
+
 create database FashionFitsMe;
+
 
 use FashionFitsMe;
 
@@ -71,9 +73,9 @@ CREATE TABLE product_image (
     size varchar(20) NOT NULL,
     quantity int NOT NULL,
     PRIMARY KEY(product_id, color, size),
-	foreign key (product_id) references Product(product_id)
+	foreign key (product_id) references product(product_id)
 );
-  
+
 CREATE TABLE shopping_cart (
 	cart_id int auto_increment,
     total_amount DECIMAL(10,2),
@@ -82,7 +84,7 @@ CREATE TABLE shopping_cart (
 	PRIMARY KEY (cart_id)
 );
 
-    
+
 -- Creating customer table
 CREATE TABLE customer (
 	customer_id int AUTO_INCREMENT NOT NULL,
@@ -127,7 +129,7 @@ CREATE TABLE customer_measurement(
 CREATE TABLE customer_brand(
 	customer_id int NOT NULL,
     brand_id varchar(50) NOT NULL,
-	
+
 	primary key (customer_id,brand_id),
 	foreign key (customer_id) references customer(customer_id),
 	foreign key (brand_id) references brand(brand_id)
@@ -144,9 +146,9 @@ CREATE TABLE customer_contact(
     foreign key (customer_id) references customer(customer_id)
 );
 
-    
 
- 
+
+
 
 -- Creating product_shoppingCart table
 create table product_shopping_cart(
@@ -165,7 +167,7 @@ create table product_shopping_cart(
 
 -- Creating address table
 CREATE TABLE address(
-	address_id VARCHAR(150) NOT NULL,
+	address_id int AUTO_INCREMENT NOT NULL,
 	customer_id int NOT NULL,
     company VARCHAR(40) NOT NULL,
 	city VARCHAR(40) NOT NULL,
@@ -195,13 +197,13 @@ CREATE TABLE shipments (
 	shipment_status VARCHAR(150) NOT NULL,
 	shipment_date VARCHAR(30) NOT NULL,
 	PRIMARY KEY (shipping_id,address_id),
-	constraint FK_shipments foreign key (address_id) references address(address_id),
+	constraint FK_shipments foreign key (address_id) references address(address_id)
 );
 
 CREATE TABLE orders(
 	order_id VARCHAR(30) NOT NULL,
 	customer_id int,
-	cart_id VARCHAR(30),
+	cart_id int,
 	shipping_id VARCHAR(30),
 	order_date VARCHAR(30) NOT NULL,
 	total DECIMAL(10, 2) DEFAULT NULL,
@@ -231,70 +233,78 @@ CREATE TABLE payment (
     constraint FK_order_payment foreign key (order_id) references orders(order_id)
 );
 
+        primary key (customer_id,brand_id),
+        foreign key (customer_id) references customer(customer_id),
+        foreign key (brand_id) references brand(brand_id)
 
--- Trigers to update total in order when a new item added to the cart
-DELIMITER //
-
-CREATE TRIGGER insert_order_total
-AFTER INSERT ON product_shopping_cart
-FOR EACH ROW
-BEGIN
-    DECLARE order_total DECIMAL(10, 2);
-    
-    -- Calculate the total for the given cartId
-    SELECT SUM(p.price)
-    INTO order_total
-    FROM product_shopping_cart scp
-    INNER JOIN product p ON scp.product_Id = p.product_Id
-    WHERE scp.cart_Id = NEW.cart_Id;
-    
-    -- Update the product_shopping_cart table with the new total
-    UPDATE shopping_Cart
-    SET total_amount=order_total
-    WHERE cart_Id = NEW.cart_Id;
-    
-    -- Update the order table with the new total
-    UPDATE orders
-    SET total = order_total
-    WHERE cart_Id = NEW.cart_Id;
-END;
-//
+);
 
 
-DELIMITER //
 
-CREATE TRIGGER update_order_total
-AFTER UPDATE ON product_shopping_cart
-FOR EACH ROW
-BEGIN
-    DECLARE order_total DECIMAL(10, 2);
-    
-    -- Calculate the total for the given cartId
-    SELECT SUM(p.price)
-    INTO order_total
-    FROM shopping_cart scp
-    INNER JOIN product p ON scp.product_id = p.product_id
-    WHERE scp.cart_Id = NEW.cart_Id;
-    
-     -- Update the product_shopping_cart table with the new total
-      UPDATE shopping_Cart
-    SET total_amount=order_total
-    WHERE cart_Id = NEW.cart_Id;
-    
-    -- Update the order table with the new total
-    UPDATE orders
-    SET total = order_total
-    WHERE cartId = NEW.cart_Id;
-END;
-//
+-- Creating customer contact table
+CREATE TABLE customer_contact(
+        customer_id int NOT NULL,
+    contact_no VARCHAR(20) NOT NULL,
+    PRIMARY KEY (customer_id, contact_no),
+    foreign key (customer_id) references customer(customer_id)
+);
 
 
 
 
 
+-- Creating product_shoppingCart table
+create table product_shopping_cart(
+        product_id VARCHAR(20) NOT NULL,
+        cart_id int not null,
+    product_color VARCHAR(20) NOT NULL,
+    product_size VARCHAR(20) NOT NULL,
+    product_quantity  VARCHAR(20) NOT NULL,
+        primary key(product_id,cart_id),
+        constraint FK_products foreign key (product_id) references product(product_id),
+        constraint FK_cart foreign key (cart_id) references shopping_cart(cart_id)
+);
 
 
 
 
+-- Creating address table
+CREATE TABLE address(
+        address_id int AUTO_INCREMENT NOT NULL,
+        customer_id int NOT NULL,
+    company VARCHAR(40) NOT NULL,
+        city VARCHAR(40) NOT NULL,
+        street VARCHAR(40) NOT NULL,
+        address_name VARCHAR(30) NOT NULL,
+    region VARCHAR(30) NOT NULL,
+    postal_code VARCHAR(30) NOT NULL,
+        PRIMARY KEY (address_id),
+    constraint FK_customer_address foreign key (customer_id) references customer(customer_id)
+);
 
 
+
+-- Creating shipper table
+CREATE TABLE shipper(
+        shipper_id VARCHAR(30) NOT NULL,
+        shipper_name VARCHAR(100) NOT NULL,
+        contact_no VARCHAR(20) NOT NULL,
+        PRIMARY KEY (shipper_id)
+);
+
+
+-- Creating shipment table
+CREATE TABLE shipments (
+        shipping_id VARCHAR(30) NOT NULL,
+        address_id VARCHAR(150) NOT NULL,
+        shipment_status VARCHAR(150) NOT NULL,
+        shipment_date VARCHAR(30) NOT NULL,
+        PRIMARY KEY (shipping_id,address_id),
+        constraint FK_shipments foreign key (address_id) references address(address_id)
+);
+
+CREATE TABLE orders(
+        order_id VARCHAR(30) NOT NULL,
+        customer_id int,
+        cart_id int,
+        shipping_id VARCHAR(30),
