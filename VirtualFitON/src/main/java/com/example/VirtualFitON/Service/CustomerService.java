@@ -134,14 +134,17 @@ public class CustomerService {
         List<CartItemDTO> cartItems = shoppingCartService.getCartProductList(cartProductList);
         return cartItems;
     }
-
-    public void saveCustomerBodyMeasurements(int customerId,Map<String, Object> bodyMeasurements) {
-
+    public void saveCustomerBodyMeasurements(int customerId, Map<String, Object> bodyMeasurements) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
         CustomerMeasurement customerMeasurement = new CustomerMeasurement();
         customerMeasurement.setCustomer(customer);
+
+        // Set the id manually (example: generating a random number, UUID, or using a sequence)
+        // In this example, let's use a simple incrementing id logic (this is just an example, you should use a more robust solution in production)
+        Long newId = customerMeasurementRepository.count() + 1;
+        customerMeasurement.setId(newId);
 
         if (bodyMeasurements.containsKey("ankle_circumference")) {
             customerMeasurement.setAnkleCircumference((Double) bodyMeasurements.get("ankle_circumference"));
@@ -194,8 +197,6 @@ public class CustomerService {
 
         customerMeasurementRepository.save(customerMeasurement);
     }
-
-
 
 
 }

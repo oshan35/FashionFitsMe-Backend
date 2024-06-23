@@ -5,13 +5,14 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="customer_measurement")
 public class CustomerMeasurement {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @Id
+    @OneToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
     private Customer customer;
+
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "ankle_circumference")
     private Double ankleCircumference;

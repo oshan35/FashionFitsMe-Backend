@@ -62,7 +62,7 @@ public class BrandMeasurement {
     @Column(name = "size")
     private String size;
 
-    @Column(name = "thigh_circumferenc")
+    @Column(name = "thigh_circumference")
     private double thighCircumference;
 
     @Column(name = "waist_circumference")
