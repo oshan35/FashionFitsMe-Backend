@@ -65,9 +65,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+
 @Table(name = "brand_measurement")
 public class BrandMeasurement {
 
@@ -75,15 +73,9 @@ public class BrandMeasurement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long measurement_id;
 
-    private String category;
-    private String item;
-    private String size;
-
     @ManyToOne
-    @JoinColumn(name = "brand_id", referencedColumnName = "brandId")
+    @JoinColumn(name = "brand_id")
     private Brand brand;
-
-
 
     @Column(name = "ankle_circumference")
     private double ankleCircumference;
@@ -130,7 +122,7 @@ public class BrandMeasurement {
     @Column(name = "size")
     private String size;
 
-    @Column(name = "size")
+    @Column(name = "thigh_circumference")
     private double thighCircumference;
 
     @Column(name = "waist_circumference")

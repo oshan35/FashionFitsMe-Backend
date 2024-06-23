@@ -1,36 +1,53 @@
 package com.example.VirtualFitON.Controllers;
-
-import com.example.VirtualFitON.DTO.BrandDTO;
-import com.example.VirtualFitON.DTO.ProductDTO;
 import com.example.VirtualFitON.Models.Brand;
 import com.example.VirtualFitON.Service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping(value = "Brand")
 @CrossOrigin
 public class BrandController {
-
     @Autowired
     private BrandService brandService;
 
-    @PostMapping("/saveBrand")
-    public BrandDTO saveBrand(@RequestBody BrandDTO brandDTO)
-    {
-        return brandService.saveBrand(brandDTO);
+    @PostMapping("/add-brand")
+    public Brand addBrand(@RequestBody Brand brand){
+        return brandService.saveBrand(brand);
     }
 
-    @GetMapping("/getBrand")
-    public List<BrandDTO> getBrand()
-    {
+    @PostMapping("/add-brands")
+    public List<Brand> addBrands(@RequestBody List<Brand> brands){
+        return brandService.saveBrands(brands);
+    }
+
+    @GetMapping("/getAllBrands")
+    public List<Brand> getAllBrands(){
         return brandService.getAllBrands();
     }
 
+    @GetMapping("/getBrandById/{id}")
+    public Brand getBrandById(@PathVariable String id){
+        return brandService.findBrandById(id);
+    }
 
+    @GetMapping("/getBrand/{brandName}")
+    public Brand getBrandByName(@PathVariable String brandName){
+        return brandService.findBrandByName(brandName);
+    }
+
+    @PutMapping("/updateBrand")
+    public Brand updateBrand(@RequestBody Brand brand){
+        return brandService.updateBrand(brand);
+    }
+
+    @DeleteMapping("/deleteBrand/{id}")
+    public String deleteBrand(@PathVariable String id){
+        return brandService.deleteBrand(id);
+    }
 
 
 

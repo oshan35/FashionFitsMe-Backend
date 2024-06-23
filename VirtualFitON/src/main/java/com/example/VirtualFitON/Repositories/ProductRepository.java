@@ -24,5 +24,6 @@ public interface ProductRepository extends JpaRepository <Product,String>{
                                      @Param("maxPrice") int maxPrice);
 
 
+    Product findByProductName(String name);
 
 }

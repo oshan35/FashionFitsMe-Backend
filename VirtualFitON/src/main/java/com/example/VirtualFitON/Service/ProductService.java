@@ -70,6 +70,7 @@ import com.example.VirtualFitON.Exceptions.*;
 import com.example.VirtualFitON.Models.*;
 import com.example.VirtualFitON.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -77,7 +78,6 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @Service
-@Transactional
 public class ProductService {
     private final ProductRepository productRepository;
 
@@ -88,6 +88,54 @@ public class ProductService {
     private final ProductColorSizeRepository productColorSizeRepository;
 
 
+    public ProductDetailsDto getProductDetails(String productId) {
+        Product product = productRepository.findByProductId(productId);
+        if (product == null) {
+            System.out.println("Product not found!");
+        }
+
+        List<ProductColorSize> productColorSizes = productColorSizeRepository.findByProductId(productId);
+        List<ProductImage> productImages = productImageRepository.findByProductProductId(productId);
+
+        return new ProductDetailsDto(product, productColorSizes, productImages);
+    }
+
+    public Product saveProduct(Product product)
+    {
+        return productRepository.save(product);
+    }
+
+    public List<Product> getAllProduct(){
+        return productRepository.findAll();
+    }
+
+    public Product findProductById(String id)
+    {
+        if(productRepository.findById(id).isEmpty())
+            throw new BrandNotFoundException("Requested product doesn't exist!");
+        return productRepository.findById(id).get();
+    }
+
+    public Product findProductByName(String name){
+        return productRepository.findByProductName(name);
+    }
+
+    public String deleteProduct(String id){
+        productRepository.deleteById(id);
+        return "Product delete Successful!!" +id;
+    }
+
+    public Product updateProduct(Product product){
+        Product existingProduct = productRepository.findById(product.getProductId()).orElse(null);
+        existingProduct.setProductName(product.getProductName());
+        existingProduct.setPrice(product.getPrice());
+        existingProduct.setProductCategory(product.getProductCategory());
+        existingProduct.setGender(product.getGender());
+        existingProduct.setDescription(product.getDescription());
+        return productRepository.save(existingProduct);
+    }
+
+
     @Autowired
     public ProductService(ProductRepository productRepository, ProductImageRepository productImageRepository, BrandRepository brandRepository, ProductColorSizeRepository productColorSizeRepository) {
         this.productRepository = productRepository;
@@ -95,6 +143,9 @@ public class ProductService {
         this.brandRepository = brandRepository;
         this.productColorSizeRepository = productColorSizeRepository;
     }
+
+
+
 
     public ProductInfoDTO getProductInformation(String productId) {
         try {
@@ -347,10 +398,10 @@ public class ProductService {
     }
 
 
-    public void saveProduct(String productId, String productName, String price,String productCategory,String gender, String brandName) throws IOException {
+    public void saveProduct(String productId, String productName, String price,String productCategory,String gender, String brandName, String description) throws IOException {
         try {
             // Check if product data is valid
-            if (productId == null || productId.isEmpty() || productName == null || productName.isEmpty() || price == null || gender == null ||brandName == null|| productCategory==null || price.isEmpty() ) {
+            if (productId == null || productId.isEmpty() || productName == null || productName.isEmpty() || price == null || gender == null ||brandName == null|| productCategory==null || price.isEmpty() || description == null) {
                 throw new InvalidProductDataException("Invalid product data. Please provide all required fields.");
             }
 
@@ -370,9 +421,8 @@ public class ProductService {
             product.setProductCategory(productCategory);
             product.setGender(gender);
             product.setBrand(brand);
+            product.setDescription(description);
             productRepository.save(product);
-
-
 
 
         } catch (InvalidProductDataException | ProductAlreadyExistsException e) {

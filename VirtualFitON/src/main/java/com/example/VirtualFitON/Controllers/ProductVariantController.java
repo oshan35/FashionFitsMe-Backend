@@ -9,12 +9,5 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "ProductVariant")
 @CrossOrigin
 public class ProductVariantController {
-    @Autowired
-    private ProductVariantService productVariantService;
 
-    @PostMapping("/saveProductVariant")
-    public ProductVariantDTO saveProductVariant(@RequestBody ProductVariantDTO productVariantDTO)
-    {
-        return productVariantService.saveProductVariant(productVariantDTO);
-    }
 }

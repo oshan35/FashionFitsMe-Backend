@@ -71,12 +71,11 @@ package com.example.VirtualFitON.Models;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Entity
-@NoArgsConstructor
+
 @AllArgsConstructor
 @Data
 public class Product {
@@ -87,6 +86,10 @@ public class Product {
 
     @Column(name = "price")
     private BigDecimal price;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
     @Column(name = "product_category")
     private String productCategory;

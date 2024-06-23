@@ -40,6 +40,8 @@ public class ProductImage {
         this.imageData = imageData;
     }
 
+
+
     public String getColour() {
         return colour;
     }

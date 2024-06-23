@@ -48,12 +48,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
-@Table(name = "brand", indexes = {
-        @Index(name = "idx_brand_name", columnList = "brand_name")
-})
+@Table(name = "brand")
 public class Brand {
 
     @Id

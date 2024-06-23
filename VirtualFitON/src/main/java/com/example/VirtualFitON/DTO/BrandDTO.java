@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class BrandDTO {
 
     private String brandId;
-    private String name;
+    private String brandName;
     private byte[] productMedia;
 
 }

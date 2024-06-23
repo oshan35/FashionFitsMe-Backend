@@ -13,4 +13,5 @@ public class Config {
         return new LettuceConnectionFactory(); // Or configure connection settings if not default
     }
 
+
 }

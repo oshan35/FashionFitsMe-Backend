@@ -12,13 +12,5 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 public class ProductVariantService {
-    @Autowired
-    private ProductVariantRepository productVariantRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
-    public ProductVariantDTO saveProductVariant(ProductVariantDTO productVariantDTO){
-        productVariantRepository.save(modelMapper.map(productVariantDTO, ProductVariant.class));
-        return productVariantDTO;
-    }
 }
