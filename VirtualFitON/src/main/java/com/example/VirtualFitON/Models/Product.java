@@ -69,15 +69,13 @@
 package com.example.VirtualFitON.Models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+
 
 import java.math.BigDecimal;
 
 @Entity
 
-@AllArgsConstructor
-@Data
+
 public class Product {
 
     @Id

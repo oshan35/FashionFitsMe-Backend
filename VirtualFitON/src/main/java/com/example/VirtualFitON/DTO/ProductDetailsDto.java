@@ -1,17 +1,13 @@
 package com.example.VirtualFitON.DTO;
 
 import com.example.VirtualFitON.Models.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class ProductDetailsDto {
 
     private String productId;
@@ -36,9 +32,7 @@ public class ProductDetailsDto {
         this.images = productImages.stream().map(ImageDto::new).collect(Collectors.toList());
     }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
+
     public static class ColorSizeDto {
         private String productId;
         private String color;
@@ -53,9 +47,7 @@ public class ProductDetailsDto {
         }
     }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
+
     public static class ImageDto {
         private String productId;
         private String color;

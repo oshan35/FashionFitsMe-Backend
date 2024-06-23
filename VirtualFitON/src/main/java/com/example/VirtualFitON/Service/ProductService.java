@@ -398,7 +398,7 @@ public class ProductService {
     }
 
 
-    public void saveProduct(String productId, String productName, String price,String productCategory,String gender, String brandName,String description) throws IOException {
+    public void saveProduct(String productId, String productName, String price,String productCategory,String gender, String brandName, String description) throws IOException {
         try {
             // Check if product data is valid
             if (productId == null || productId.isEmpty() || productName == null || productName.isEmpty() || price == null || gender == null ||brandName == null|| productCategory==null || price.isEmpty() || description == null) {
