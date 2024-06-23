@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   spring-app:
-    image: tnehara831/fashionfitsme-backend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "5000:5000"
     environment:

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:3001", allowCredentials = "true")
+@CrossOrigin(origins = "http://34.222.253.72:3000", allowCredentials = "true")
 @RestController
 @RequestMapping(value = "product")
 public class ProductImageController {

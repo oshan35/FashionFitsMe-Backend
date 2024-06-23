@@ -29,7 +29,7 @@ import java.util.Map;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://34.222.253.72:3000", allowCredentials = "true")
 @RequestMapping("/customer")
 
 public class CustomerController {
@@ -71,23 +71,23 @@ public class CustomerController {
 
 
 
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody CustomerRegisterDTO requestDto) {
-        try {
-            customerService.registerCustomer(requestDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
-        } catch (UsernameAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exists");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid input data");
-        } catch (DataAccessException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Database error:"+ e.getMessage());
-        } catch (SecurityException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Security error");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
-    }
+//    @PostMapping("/register")
+//    public ResponseEntity<String> registerUser(@RequestBody CustomerRegisterDTO requestDto) {
+//        try {
+//            customerService.registerCustomer(requestDto);
+//            return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+//        } catch (UsernameAlreadyExistsException e) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exists");
+//        } catch (IllegalArgumentException e) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid input data");
+//        } catch (DataAccessException e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Database error:"+ e.getMessage());
+//        } catch (SecurityException e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Security error");
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+//        }
+//    }
 
 
     @PostMapping("/signup")

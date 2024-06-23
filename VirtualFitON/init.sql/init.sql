@@ -1,5 +1,6 @@
- create database FashionFitsMe;
--- drop database  FashionFitsMe;
+drop database  FashionFitsMe;
+create database FashionFitsMe;
+
 use FashionFitsMe;
 
 -- creating brand table
@@ -87,7 +88,6 @@ CREATE TABLE customer (
 	customer_id int AUTO_INCREMENT NOT NULL,
 	first_name VARCHAR(150) NOT NULL,
 	last_name VARCHAR(150) NOT NULL,
-	country VARCHAR(30) NOT NULL,
     username VARCHAR(30) NOT NULL,
     cart_id int not null,
     password VARCHAR(300) NOT NULL,
@@ -152,7 +152,6 @@ CREATE TABLE customer_contact(
 create table product_shopping_cart(
 	product_id VARCHAR(20) NOT NULL,
 	cart_id int not null,
-    product_id VARCHAR(20) NOT NULL,
     product_color VARCHAR(20) NOT NULL,
     product_size VARCHAR(20) NOT NULL,
     product_quantity  VARCHAR(20) NOT NULL,

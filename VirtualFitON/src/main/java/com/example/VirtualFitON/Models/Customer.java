@@ -16,8 +16,6 @@ public class Customer {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "country")
-    private String country;
 
     @Column(name = "username")
     private String username;
@@ -29,11 +27,10 @@ public class Customer {
     @JoinColumn(name="cart_id")
     private ShoppingCart cart;
 
-    public Customer(int customerId, String firstName, String lastName, String country, String username, String password, ShoppingCart cart) {
+    public Customer(int customerId, String firstName, String lastName, String username, String password, ShoppingCart cart) {
         this.customerId = customerId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.country = country;
         this.username = username;
         this.password = password;
         this.cart = cart;
@@ -75,13 +72,6 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
 
     public String getUsername() {
         return username;

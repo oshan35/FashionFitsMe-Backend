@@ -21,7 +21,8 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3001", allowCredentials = "true")
+@RequestMapping("/products")
+@CrossOrigin(origins = "http://34.222.253.72:3000", allowCredentials = "true")
 public class ProductController {
     @Autowired
     private ProductService productService;
@@ -99,7 +100,9 @@ public class ProductController {
             @RequestParam("gender") String gender,
             @RequestParam("brand") String brand,
             @RequestParam("description") String description
-    ) {
+
+
+            ) {
         try {
             System.out.println("Test: "+productId);
             productService.saveProduct(productId, productName, price, productCategory,gender,brand,description);
