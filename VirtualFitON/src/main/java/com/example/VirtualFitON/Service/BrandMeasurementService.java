@@ -6,7 +6,7 @@ import com.example.VirtualFitON.Models.Brand;
 import com.example.VirtualFitON.Models.BrandMeasurement;
 import com.example.VirtualFitON.Repositories.BrandMeasurementRepository;
 import com.example.VirtualFitON.Repositories.BrandRepository;
-import org.modelmapper.ModelMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,15 +1,11 @@
 package com.example.VirtualFitON.DTO;
 
 import com.example.VirtualFitON.Models.Brand;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 import java.math.BigDecimal;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+
 public class BrandMeasurementDTO {
 
     private String category;

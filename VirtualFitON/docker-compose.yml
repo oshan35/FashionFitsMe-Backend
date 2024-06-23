@@ -1,47 +1,103 @@
-version: '3.8'
+#version: '3.8'
+#
+#services:
+#  spring-app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#      - "5000:5000"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service:3306/FashionFitsMe
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: Satn200@
+#      SPRING_REDIS_HOST: redis-service
+#      SPRING_REDIS_PORT: 6379
+#    depends_on:
+#      - mysql-service
+#      - redis-service
+#
+#  mysql-service:
+#    image: mysql:8.0
+#    ports:
+#      - "3306:3306"
+#    environment:
+#      MYSQL_ROOT_PASSWORD: Satn200@
+#      MYSQL_DATABASE: FashionFitsMe
+#    volumes:
+#      - mysql_data:/var/lib/mysql
+#
+#  redis-service:
+#    image: redis:latest
+#    ports:
+#      - "6379:6379"
+#
+#  frontend:
+#    image: tnehara831/fashionfitsme-frontend:latest
+#    ports:
+#      - "3000:80"
+#    environment:
+#      NODE_ENV: production
+#
+#networks:
+#  default:
+#    name: fashionfitsme-network
+#    driver: bridge
+#
+#volumes:
+#  mysql_data:
+
+
 
 services:
+  frontend:
+    image: tnehara831/fashionfitsme-frontend:latest
+    environment:
+      NODE_ENV: production
+    ports:
+      - "3000:80"
+    networks:
+      - fashionfitsme-network
+
+  mysql-service:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: FashionFitsMe
+      MYSQL_ROOT_PASSWORD: Satn200@
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - fashionfitsme-network
+
+  redis-service:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - fashionfitsme-network
+
   spring-app:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "5000:5000"
+    depends_on:
+      - mysql-service
+      - redis-service
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service:3306/FashionFitsMe
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: Satn200@
       SPRING_REDIS_HOST: redis-service
       SPRING_REDIS_PORT: 6379
-    depends_on:
-      - mysql-service
-      - redis-service
-
-  mysql-service:
-    image: mysql:8.0
     ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: Satn200@
-      MYSQL_DATABASE: FashionFitsMe
-    volumes:
-      - mysql_data:/var/lib/mysql
-
-  redis-service:
-    image: redis:latest
-    ports:
-      - "6379:6379"
-
-  frontend:
-    image: tnehara831/fashionfitsme-frontend:latest
-    ports:
-      - "3000:80"
-    environment:
-      NODE_ENV: production
+      - "5000:5000"
+    networks:
+      - fashionfitsme-network
 
 networks:
-  default:
-    name: fashionfitsme-network
+  fashionfitsme-network:
     driver: bridge
 
 volumes:
