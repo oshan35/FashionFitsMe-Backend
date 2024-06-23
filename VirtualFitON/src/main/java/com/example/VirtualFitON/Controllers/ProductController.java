@@ -1,9 +1,12 @@
+
+
 package com.example.VirtualFitON.Controllers;
 import com.example.VirtualFitON.DTO.*;
 import com.example.VirtualFitON.Exceptions.DatabaseAccessException;
 import com.example.VirtualFitON.Exceptions.InvalidProductDataException;
 import com.example.VirtualFitON.Exceptions.ProductAlreadyExistsException;
 import com.example.VirtualFitON.Exceptions.ProductImageSaveException;
+import com.example.VirtualFitON.Models.Brand;
 import com.example.VirtualFitON.Models.Product;
 import com.example.VirtualFitON.Repositories.ProductShoppingCartRepository;
 import com.example.VirtualFitON.Service.ProductService;
@@ -21,9 +24,44 @@ import java.util.Set;
 @RequestMapping("/products")
 @CrossOrigin(origins = "http://34.222.253.72:3000", allowCredentials = "true")
 public class ProductController {
-
     @Autowired
     private ProductService productService;
+
+    @GetMapping("/product/{productId}")
+    public ResponseEntity<ProductDetailsDto> getProductDetails(@PathVariable String productId) {
+        ProductDetailsDto productDetails = productService.getProductDetails(productId);
+        return ResponseEntity.ok(productDetails);
+    }
+    @PostMapping("/addProduct")
+    public Product addProduct(@RequestBody Product product){
+        return productService.saveProduct(product);
+    }
+
+    @GetMapping("/getAllProducts")
+    public List<Product> getAllProducts(){
+        return productService.getAllProduct();
+    }
+
+    @GetMapping("/getProductById/{id}")
+    public Product getProductById(@PathVariable String id)
+    {
+        return productService.findProductById(id);
+    }
+
+    @GetMapping("/getProduct/{name}")
+    public Product getProductByName(@PathVariable String name){
+        return productService.findProductByName(name);
+    }
+
+    @PutMapping("/updateProduct")
+    public Product updateProduct(@RequestBody Product product){
+        return productService.updateProduct(product);
+    }
+
+    @DeleteMapping("/deleteProduct/{id}")
+    public String deleteProduct(@PathVariable String id){
+        return productService.deleteProduct(id);
+    }
 
 
     @PostMapping("/add-product-with-images")
@@ -62,9 +100,7 @@ public class ProductController {
             @RequestParam("gender") String gender,
             @RequestParam("brand") String brand,
             @RequestParam("description") String description
-
-
-            ) {
+    ) {
         try {
             System.out.println("Test: "+productId);
             productService.saveProduct(productId, productName, price, productCategory,gender,brand,description);
@@ -101,7 +137,6 @@ public class ProductController {
         System.out.println(filterDTO.getBrand());
         System.out.println(filterDTO.getSize());
         System.out.println(filterDTO.getGender());
-
 
         return productService.filterProductsOld(filterDTO);
     }

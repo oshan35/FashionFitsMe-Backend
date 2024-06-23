@@ -15,8 +15,6 @@ public class ProductColorSize {
     @MapsId("productId")
     private Product product;
 
-
-
     @Column(name = "quantity")
     private int quantity;
 
