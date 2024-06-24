@@ -10,5 +10,8 @@ import java.util.List;
 public interface BrandMeasurementRepository extends JpaRepository<BrandMeasurement, Long> {
 
     // New method to find by both brandId and category
+    List<BrandMeasurement> findByCategoryAndItemAndSize(String category, String item, String size);
+
     List<BrandMeasurement> findByBrand_BrandIdAndCategory(String brandId, String category);
+
 }
