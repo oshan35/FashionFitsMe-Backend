@@ -262,7 +262,6 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while fetching matching size: " + e.getMessage());
         }
     }
-
     @PostMapping("/saveMeasurements")
     public ResponseEntity<?> saveMeasurements(@RequestBody CustomerMeasurementDTO responseBody) {
         try {
