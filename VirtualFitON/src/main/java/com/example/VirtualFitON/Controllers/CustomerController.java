@@ -198,23 +198,20 @@ public class CustomerController {
         String url = "http://bodymeasurements-service:6000/sizematch";
 
         try {
-
             Map<String, Map<String, Double>> brandMeasurements = brandMeasurementService.getBrandMeasurementsByBrandId(productId);
-
             Map<String, Double> customerMeasurements = customerMeasurementService.getCustomerMeasurementObject(customerId);
-
 
             Map<String, Object> requestBody = new HashMap<>();
             requestBody.put("product_measurements", brandMeasurements);
             requestBody.put("customer_measurements", customerMeasurements);
 
-            // Convert the request body to JSON
-            ObjectMapper objectMapper = new ObjectMapper();
-            String jsonRequestBody = objectMapper.writeValueAsString(requestBody);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
 
-            // Send the POST request to the Flask service
-            ResponseEntity<String> response = restTemplate.postForEntity(url, jsonRequestBody, String.class);
-            // Return the response from the Flask service to the frontend
+            HttpEntity<String> entity = new HttpEntity<>(new ObjectMapper().writeValueAsString(requestBody), headers);
+
+            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+
             return ResponseEntity.ok(response.getBody());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("Invalid customer ID");
@@ -228,7 +225,6 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while fetching matching size: " + e.getMessage());
         }
     }
-
     @PostMapping("/saveMeasurements")
     public ResponseEntity<?> saveMeasurements(@RequestBody Map<String, Object> body) {
         try {

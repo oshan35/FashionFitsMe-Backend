@@ -286,7 +286,7 @@ CREATE TABLE address(
 
 -- Creating shipper table
 CREATE TABLE shipper(
-        shipper_id VARCHAR(30) NOT NULL,
+        shipper_id int AUTO_INCREMENT NOT NULL,
         shipper_name VARCHAR(100) NOT NULL,
         contact_no VARCHAR(20) NOT NULL,
         PRIMARY KEY (shipper_id)
@@ -295,8 +295,8 @@ CREATE TABLE shipper(
 
 -- Creating shipment table
 CREATE TABLE shipments (
-        shipping_id VARCHAR(30) NOT NULL,
-        address_id VARCHAR(150) NOT NULL,
+        shipping_id int AUTO_INCREMENT NOT NULL,
+        address_id int NOT NULL,
         shipment_status VARCHAR(150) NOT NULL,
         shipment_date VARCHAR(30) NOT NULL,
         PRIMARY KEY (shipping_id,address_id),
@@ -304,7 +304,43 @@ CREATE TABLE shipments (
 );
 
 CREATE TABLE orders(
-        order_id VARCHAR(30) NOT NULL,
-        customer_id int,
-        cart_id int,
-        shipping_id VARCHAR(30),
+                       order_id int AUTO_INCREMENT NOT NULL,
+                       customer_id int,
+                       cart_id int,
+                       shipping_id int,
+                       order_date VARCHAR(30) NOT NULL,
+                       total DECIMAL(10, 2) DEFAULT NULL,
+                       sub_total DECIMAL(10, 2) DEFAULT NULL,
+                       taxes DECIMAL(10, 2) DEFAULT NULL,
+                       shipping DECIMAL(10, 2) DEFAULT NULL,
+                       email VARCHAR(30),
+                       phone VARCHAR(30),
+
+
+                       PRIMARY KEY (order_id),
+                       constraint FK_orders foreign key (customer_id) references customer(customer_id) on delete set null on update cascade,
+                       constraint FK_orders_shopping_cart foreign key (cart_id) references shopping_cart(cart_id) on delete set null on update cascade,
+                       constraint FK_orders_shipments foreign key (shipping_id) references shipments(shipping_id) on delete set null on update cascade
+);
+
+
+
+
+-- Creating payment table
+CREATE TABLE payment (
+                         payment_no int AUTO_INCREMENT NOT NULL,
+                         order_id int NOT NULL,
+                         payment_method VARCHAR(100) NOT NULL,
+                         payment_details VARCHAR(150) NOT NULL,
+                         PRIMARY KEY (payment_no,order_id),
+                         constraint FK_order_payment foreign key (order_id) references orders(order_id)
+);
+
+CREATE TABLE shipments (
+                           shipping_id int NOT NULL,
+                           address_id int NOT NULL,
+                           shipment_status VARCHAR(150) NOT NULL,
+                           shipment_date VARCHAR(30) NOT NULL,
+                           PRIMARY KEY (shipping_id,address_id),
+                           constraint FK_shipments foreign key (address_id) references address(address_id)
+);

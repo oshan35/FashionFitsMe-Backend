@@ -44,6 +44,8 @@ services:
     image: bodymeasurementsapp
     ports:
       - "6000:6000"
+    networks:
+      - virtualfiton-network
 
 networks:
   virtualfiton-network:
