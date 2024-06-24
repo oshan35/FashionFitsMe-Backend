@@ -1,5 +1,6 @@
 package com.example.VirtualFitON.Controllers;
 
+import com.example.VirtualFitON.DTO.OrderDTO;
 import com.example.VirtualFitON.DTO.OrderRequest;
 import com.example.VirtualFitON.DTO.PaymentRequest;
 import com.example.VirtualFitON.Service.OrderService;
@@ -7,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/orders")
 
-@CrossOrigin(origins = "http://34.222.253.72:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:5000", allowCredentials = "true")
 public class OrderController {
 
     private final OrderService orderService;
@@ -26,5 +29,8 @@ public class OrderController {
         return  ResponseEntity.ok(orderService.getOrderDetails(orderId));
 
     }
-
+    @GetMapping("/customer/{customerId}")
+    public List<OrderDTO> getOrdersByCustomerId(@PathVariable int customerId) {
+        return orderService.getOrdersByCustomerId(customerId);
+    }
 }

@@ -16,6 +16,8 @@ services:
     depends_on:
       - mysql-service
       - redis-service
+    networks:
+      - virtualfiton-network
 
   mysql-service:
     image: mysql:8.0
@@ -26,22 +28,27 @@ services:
       MYSQL_DATABASE: FashionFitsMe
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - virtualfiton-network
 
   redis-service:
     image: redis:latest
     ports:
       - "6379:6379"
+    networks:
+      - virtualfiton-network
 
-  frontend:
-    image: tnehara831/fashionfitsme-frontend:latest
+
+  bodymeasurements-service:
+    image: bodymeasurementsapp
     ports:
-      - "3000:80"
-    environment:
-      NODE_ENV: production
+      - "6000:6000"
+    networks:
+      - virtualfiton-network
 
 networks:
-  default:
-    name: fashionfitsme-network
+  virtualfiton-network:
     driver: bridge
 
 volumes:

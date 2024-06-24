@@ -19,7 +19,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/products")
-@CrossOrigin(origins = "http://34.222.253.72:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:5000", allowCredentials = "true")
 public class ProductController {
 
     @Autowired
@@ -124,13 +124,9 @@ public class ProductController {
 
     @GetMapping("/getProductInformation")
     public ResponseEntity<?> getAllProducts(@RequestParam("productId") String productId) {
-
-
         System.out.println(productId);
-             ProductInfoDTO productInfoDTO=productService.getProductInformation(productId);
-            return new ResponseEntity<>(productInfoDTO, HttpStatus.OK);
-
-
+        ProductInfoDTO productInfoDTO=productService.getProductInformation(productId);
+        return new ResponseEntity<>(productInfoDTO, HttpStatus.OK);
     }
 
     @PostMapping("/getHomeProducts")
