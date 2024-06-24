@@ -24,10 +24,8 @@ public class BrandMeasurementService {
         Product product = productRepository.findByProductId(productId);
 
         List<BrandMeasurement> brandMeasurements = brandMeasurementRepository.findByBrand_BrandIdAndCategory(product.getBrand().getBrandId(), product.getProductCategory() );
-        // Initialize the map to hold the measurements
 
         Map<String, Map<String, Double>> measurements = new HashMap<>();
-
 
         // Loop through each measurement and add it to the map
         for (BrandMeasurement bm : brandMeasurements) {

@@ -134,7 +134,7 @@ public class CustomerService {
         List<CartItemDTO> cartItems = shoppingCartService.getCartProductList(cartProductList);
         return cartItems;
     }
-    public void saveCustomerBodyMeasurements(int customerId, Map<String, Object> bodyMeasurements) {
+    public void saveCustomerBodyMeasurements(int customerId, Map<String, Object> bodyMeasurements, String bodymesh_URL) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
@@ -191,8 +191,9 @@ public class CustomerService {
         if (bodyMeasurements.containsKey("wrist_circumference")) {
             customerMeasurement.setWristCircumference((Double) bodyMeasurements.get("wrist_circumference"));
         }
-        if (bodyMeasurements.containsKey("body_model")) {
-            customerMeasurement.setBodyModel((byte[]) bodyMeasurements.get("body_model"));
+
+        if (bodymesh_URL != null){
+            customerMeasurement.setBodyModelUrl(bodymesh_URL);
         }
 
         customerMeasurementRepository.save(customerMeasurement);

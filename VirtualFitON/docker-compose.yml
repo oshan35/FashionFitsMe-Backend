@@ -14,23 +14,19 @@ services:
       SPRING_REDIS_HOST: redis-service
       SPRING_REDIS_PORT: 6379
     depends_on:
-      - mysql-service
       - redis-service
-
-  mysql-service:
-    image: mysql:8.0
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: Satn200@
-      MYSQL_DATABASE: FashionFitsMe
-    volumes:
-      - mysql_data:/var/lib/mysql
 
   redis-service:
     image: redis:latest
     ports:
       - "6379:6379"
+
+  frontend:
+    image: tnehara831/fashionfitsme-frontend:latest
+    ports:
+      - "3000:80"
+    environment:
+      NODE_ENV: production
 
   bodymeasurements-service:
     image: bodymeasurementsapp
@@ -38,5 +34,6 @@ services:
       - "6000:6000"
 
 networks:
-  virtualfiton-network:
+  default:
+    name: fashionfitsme-network
     driver: bridge
