@@ -11,6 +11,8 @@ import java.util.Set;
 
 public interface ProductColorSizeRepository extends JpaRepository<ProductColorSize, String> {
 
+
+
     @Query("SELECT pcs FROM ProductColorSize pcs WHERE pcs.product.productId = :productId AND pcs.id.color = :color AND pcs.id.size= :size")
     ProductColorSize findByProductIdAndColorAndSize(String productId, String color, String size);
 
