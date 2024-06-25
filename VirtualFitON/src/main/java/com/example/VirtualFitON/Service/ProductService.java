@@ -21,24 +21,22 @@ public class ProductService {
 
     private final ProductColorSizeRepository productColorSizeRepository;
 
-    private final ReviewRepository reviewRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ProductImageRepository productImageRepository, BrandRepository brandRepository, ProductColorSizeRepository productColorSizeRepository, ReviewRepository reviewRepository) {
+    public ProductService(ProductRepository productRepository, ProductImageRepository productImageRepository, BrandRepository brandRepository, ProductColorSizeRepository productColorSizeRepository) {
         this.productRepository = productRepository;
         this.productImageRepository = productImageRepository;
         this.brandRepository = brandRepository;
         this.productColorSizeRepository = productColorSizeRepository;
-        this.reviewRepository = reviewRepository;
     }
 
     public ProductInfoDTO getProductInformation(String productId) {
         try {
-         Product product = productRepository.findByProductId(productId);
+            Product product = productRepository.findByProductId(productId);
             if (product == null) {
                 throw new ProductNotFoundException("Product not found for id: " + productId);
             }
-            List<ProductColorSize>pcs=productColorSizeRepository.findByProductId(productId);
+            List<ProductColorSize> pcs=productColorSizeRepository.findByProductId(productId);
 //            List<String> sizes=productColorSizeRepository.findSizesByProductProductId(productId);
             List<Object[]> sizes=productColorSizeRepository.findSizeCountsByProductId(productId);
             System.out.println("Items in Sizes:");
@@ -51,7 +49,6 @@ public class ProductService {
             }
 
             List<String> colors=productColorSizeRepository.findColorsByProductProductId(productId);
-            List<Review> reviews=reviewRepository.findByProductProductId(productId);
             Map<String,byte[]>image_colors=new HashMap<>();
             byte[] image = new byte[0];
             for(ProductColorSize productColorSize:pcs) {
@@ -70,7 +67,6 @@ public class ProductService {
             productInfoDTO.setColors(colors);
             productInfoDTO.setSizes(sizes);
             productInfoDTO.setImage_colors(image_colors);
-            productInfoDTO.setReviews(reviews);
             productInfoDTO.setImage(image);
             productInfoDTO.setCategory(product.getProductCategory());
             productInfoDTO.setDescription(product.getDescription());
@@ -285,10 +281,11 @@ public class ProductService {
     }
 
 
-    public void saveProduct(String productId, String productName, String price,String productCategory,String gender, String brandName) throws IOException {
+    public void saveProduct(String productId, String productName, String price, String productCategory, String gender, String brandName, String description) throws IOException {
         try {
             // Check if product data is valid
             if (productId == null || productId.isEmpty() || productName == null || productName.isEmpty() || price == null || gender == null ||brandName == null|| productCategory==null || price.isEmpty() ) {
+                System.out.println("LOG : Invalid product");
                 throw new InvalidProductDataException("Invalid product data. Please provide all required fields.");
             }
 
@@ -308,6 +305,8 @@ public class ProductService {
             product.setProductCategory(productCategory);
             product.setGender(gender);
             product.setBrand(brand);
+            product.setDescription(description);
+            System.out.println("TEST: CREATED PRODUCT OBJ");
             productRepository.save(product);
 
 

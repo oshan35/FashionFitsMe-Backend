@@ -58,4 +58,42 @@ public class OrderService {
 
     }
 
+
+    public List<OrderDTO> getOrdersByCustomerId(int customerId) {
+        // Find all orders for the given customer ID
+        List<Order> orders = orderRepository.findByCustomer_CustomerId(customerId);
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+
+        for (Order order : orders) {
+            List<OrderProductDTO> orderProducts = new ArrayList<>();
+
+            ShoppingCart shoppingCart = order.getShoppingCart();
+            List<ProductShoppingCart> cartProductList = productShoppingCartRepository.findCartProductsByCartId(shoppingCart.getCartId());
+
+            for (ProductShoppingCart cartProduct : cartProductList) {
+                byte[] productImage = productImageRepository.findByProductIdAndColor(cartProduct.getProduct().getProductId(), cartProduct.getProductColor());
+                OrderItemDTO productDTO = new OrderItemDTO(cartProduct.getProduct(), productImage);
+                OrderProductDTO orderProductDTO = new OrderProductDTO(productDTO, order.getShipment().getAddress(), order.getEmail(), order.getPhone());
+                orderProducts.add(orderProductDTO);
+            }
+
+            OrderDTO orderDTO = new OrderDTO(
+                    orderProducts,
+                    order.getOrderDate(),
+                    order.getShipment().getAddress(),
+                    order.getEmail(),
+                    order.getPhone(),
+                    order.getTotal(),
+                    order.getSubTotal(),
+                    order.getShipping(),
+                    order.getTaxes(),
+                    order.getShipment().getShipmentStatus()
+            );
+            orderDTOList.add(orderDTO);
+        }
+
+        return orderDTOList;
+    }
+
+
 }

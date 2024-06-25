@@ -1,7 +1,6 @@
 package com.example.VirtualFitON.Models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 @Embeddable

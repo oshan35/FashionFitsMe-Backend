@@ -1,7 +1,6 @@
 package com.example.VirtualFitON.Models;
 
 import jakarta.persistence.*;
-
 @Entity
 @Table(name="customer_contact")
 public class CustomerContact {
