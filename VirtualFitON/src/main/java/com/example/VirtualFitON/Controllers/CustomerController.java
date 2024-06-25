@@ -184,22 +184,27 @@ public class CustomerController {
             // Fetch measurements
             ResponseEntity<String> response = restTemplate.getForEntity(measurementsUrl, String.class, params);
             String responseBody = response.getBody();
+            System.out.println("[+] got the output from api call");
 
             // Convert response body to Java Map
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, Object> responseMap = objectMapper.readValue(responseBody, new TypeReference<Map<String, Object>>() {});
+            System.out.println("[+] output map: "+responseMap.toString());
 
             Map<String, Object> meshcapadeMap = customerMeasurementService.mapCustomerMeasurements(responseMap);
+            System.out.println("[+] output meshcapadeMap : "+meshcapadeMap.toString());
 
             String modelUrl = createBodyModelUsingMeshcapade(meshcapadeMap, requestBody.getGender()); // Replace this with the actual model URL logic
+            System.out.println("[+] got the body mesh url : "+modelUrl);
 
             customerMeasurementService.saveCustomerMeasurements(requestBody.getCustomerId(), responseMap, modelUrl);
+            System.out.println("[+] customer measurement saved.");
 
             Map<String, Object> responseData = new HashMap<>();
             responseData.put("customerId", requestBody.getCustomerId());
             responseData.put("measurements", responseMap);
             responseData.put("modelUrl", modelUrl);
-
+            System.out.println("[+] created response object: "+ responseData.toString());
 
 
             return ResponseEntity.ok().body(responseData);
@@ -233,11 +238,14 @@ public class CustomerController {
 
         try {
             Map<String, Map<String, Double>> brandMeasurements = brandMeasurementService.getBrandMeasurementsByBrandId(productId);
+            System.out.println("[+] got brand measuremnets: "+ brandMeasurements.toString());
             Map<String, Double> customerMeasurements = customerMeasurementService.getCustomerMeasurementObject(customerId);
+            System.out.println("[+] got customer measuremnets: "+ customerMeasurements.toString());
 
             Map<String, Object> requestBody = new HashMap<>();
             requestBody.put("product_measurements", brandMeasurements);
             requestBody.put("customer_measurements", customerMeasurements);
+            System.out.println("[+] request body: "+ requestBody.toString());
 
 
             HttpHeaders headers = new HttpHeaders();
@@ -246,6 +254,7 @@ public class CustomerController {
             HttpEntity<String> entity = new HttpEntity<>(new ObjectMapper().writeValueAsString(requestBody), headers);
 
             ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+            System.out.println("[+] response recived "+response.getStatusCode()+ " "+ response.getBody());
 
             return ResponseEntity.ok(response.getBody());
         } catch (IllegalArgumentException e) {
