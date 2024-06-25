@@ -65,9 +65,13 @@ public class CustomerService {
 
     public Customer signUpCustomer(SignUpDTO signUpDTO) throws UsernameAlreadyExistsException {
         Customer existingCustomer = customerRepository.findByUsername(signUpDTO.getUsername());
-
+        System.out.println("firstName"+signUpDTO.getFirstName());
+        System.out.println("lastName"+signUpDTO.getLastName());
+        System.out.println("username"+signUpDTO.getUsername());
+        System.out.println("password"+signUpDTO.getPassword());
         if (existingCustomer != null) {
             throw new UsernameAlreadyExistsException("Username already exists");
+
         }
         if (    signUpDTO.getFirstName() == null ||
                 signUpDTO.getLastName() == null  ||

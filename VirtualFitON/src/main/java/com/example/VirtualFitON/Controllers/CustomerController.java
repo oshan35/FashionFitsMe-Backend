@@ -107,7 +107,8 @@ public class CustomerController {
                 Map<String, String> response = new HashMap<>();
                 response.put("sessionId", session.getId());
 
-                return ResponseEntity.ok(response);         } else {
+                return ResponseEntity.ok(response);         }
+            else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
             }
 
