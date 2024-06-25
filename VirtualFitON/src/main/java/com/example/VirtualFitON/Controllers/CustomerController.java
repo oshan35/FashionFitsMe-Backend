@@ -265,7 +265,7 @@ public class CustomerController {
     @PostMapping("/saveMeasurements")
     public ResponseEntity<?> saveMeasurements(@RequestBody CustomerMeasurementDTO responseBody) {
         try {
-            customerMeasurementService.updateCustomerMeasurement(customerMeasurementService);
+            customerMeasurementService.updateCustomerMeasurement(responseBody);
             return ResponseEntity.ok("Measurements saved successfully");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error saving measurements: " + e.getMessage());

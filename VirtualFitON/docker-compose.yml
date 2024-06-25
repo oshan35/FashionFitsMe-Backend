@@ -44,7 +44,6 @@ services:
     networks:
       - fashionfitsme-network
 
-
   bodymeasurements-service:
     image: bodymeasurementsapp
     ports:
@@ -55,3 +54,6 @@ services:
 networks:
   fashionfitsme-network:
     driver: bridge
+
+volumes:
+  mysql_data: {}

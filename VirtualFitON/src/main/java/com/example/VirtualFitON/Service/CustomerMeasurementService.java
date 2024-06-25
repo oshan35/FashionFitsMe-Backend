@@ -24,7 +24,6 @@ public class CustomerMeasurementService {
     public Map<String, Double> getCustomerMeasurementObject(int customerId) {
         CustomerMeasurement customerMeasurement = customerMeasurementRepository.findByCustomerCustomerId(customerId);
 
-        // Convert the measurements to a map
         Map<String, Double> measurements = new HashMap<>();
         measurements.put("ankle_circumference", customerMeasurement.getAnkleCircumference());
         measurements.put("arm_length", customerMeasurement.getArmLength());
