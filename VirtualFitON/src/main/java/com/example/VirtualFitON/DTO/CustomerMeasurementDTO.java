@@ -1,83 +1,30 @@
-package com.example.VirtualFitON.Models;
+package com.example.VirtualFitON.DTO;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name="customer_measurement")
-public class CustomerMeasurement {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @OneToOne()
-    @JoinColumn(name = "customer_id", unique = true)
-    private Customer customer;
-
-    @Column(name = "ankle_circumference")
+public class CustomerMeasurementDTO {
+    private int customerId;
     private Double ankleCircumference;
-
-    @Column(name = "arm_length")
     private Double armLength;
-
-    @Column(name = "bicep_circumference")
     private Double bicepCircumference;
-
-    @Column(name = "calf_circumference")
     private Double calfCircumference;
-
-    @Column(name = "chest_circumference")
     private Double chestCircumference;
-
-    @Column(name = "forearm_circumference")
     private Double forearmCircumference;
-
-    @Column(name = "head_circumference")
     private Double headCircumference;
-
-    @Column(name = "hip_circumference")
     private Double hipCircumference;
-
-    @Column(name = "inside_leg_length")
     private Double insideLegLength;
-
-    @Column(name = "neck_circumference")
     private Double neckCircumference;
-
-    @Column(name = "shoulder_breadth")
     private Double shoulderBreadth;
-
-    @Column(name = "shoulder_to_crotch")
     private Double shoulderToCrotch;
-
-    @Column(name = "thigh_circumference")
     private Double thighCircumference;
-
-    @Column(name = "waist_circumference")
     private Double waistCircumference;
-
-    @Column(name = "wrist_circumference")
     private Double wristCircumference;
 
-    @Column(name = "body_model")
-    private String bodyModelUrl;        // DATABASE CHANGE
-
-    public Long getId() {
-        return id;
+    // Getters and Setters
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public Double getAnkleCircumference() {
@@ -198,13 +145,5 @@ public class CustomerMeasurement {
 
     public void setWristCircumference(Double wristCircumference) {
         this.wristCircumference = wristCircumference;
-    }
-
-    public String getBodyModelUrl() {
-        return bodyModelUrl;
-    }
-
-    public void setBodyModelUrl(String bodyModelUrl) {
-        this.bodyModelUrl = bodyModelUrl;
     }
 }

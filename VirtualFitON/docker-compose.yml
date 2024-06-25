@@ -92,7 +92,6 @@ services:
       SPRING_REDIS_HOST: redis-service
       SPRING_REDIS_PORT: 6379
     depends_on:
-      - mysql-service
       - redis-service
     networks:
       - fashionfitsme-network
@@ -131,6 +130,3 @@ services:
 networks:
   fashionfitsme-network:
     driver: bridge
-
-volumes:
-  mysql_data:
