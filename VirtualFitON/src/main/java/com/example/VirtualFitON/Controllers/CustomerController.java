@@ -172,7 +172,7 @@ public class CustomerController {
     @PostMapping("/getmeasurements")
     public ResponseEntity<?> getMeasurements(@RequestBody GetMeasurementDTO requestBody) {
 
-        String measurementsUrl = "http://localhost:6000/measurements?param1={param1}&param2={param2}&param3={param3}";
+        String measurementsUrl = "http://bodymeasurements-service:6000/measurements?param1={param1}&param2={param2}&param3={param3}";
         System.out.println("Inside get measurements..");
 
         Map<String, String> params = new HashMap<>();
@@ -229,7 +229,7 @@ public class CustomerController {
     }
     @GetMapping("/getMatchingSize")
     public ResponseEntity<?> getMatchingSize(@RequestParam int customerId, @RequestParam String productId) {
-        String url = "http://localhost:6000/sizematch";
+        String url = "http://bodymeasurements-service:6000/sizematch";
 
         try {
             Map<String, Map<String, Double>> brandMeasurements = brandMeasurementService.getBrandMeasurementsByBrandId(productId);
