@@ -281,10 +281,11 @@ public class ProductService {
     }
 
 
-    public void saveProduct(String productId, String productName, String price,String productCategory,String gender, String brandName) throws IOException {
+    public void saveProduct(String productId, String productName, String price, String productCategory, String gender, String brandName, String description) throws IOException {
         try {
             // Check if product data is valid
             if (productId == null || productId.isEmpty() || productName == null || productName.isEmpty() || price == null || gender == null ||brandName == null|| productCategory==null || price.isEmpty() ) {
+                System.out.println("LOG : Invalid product");
                 throw new InvalidProductDataException("Invalid product data. Please provide all required fields.");
             }
 
@@ -304,6 +305,8 @@ public class ProductService {
             product.setProductCategory(productCategory);
             product.setGender(gender);
             product.setBrand(brand);
+            product.setDescription(description);
+            System.out.println("TEST: CREATED PRODUCT OBJ");
             productRepository.save(product);
 
 

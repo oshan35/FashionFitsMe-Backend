@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/orders")
 
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://54.191.229.94:3000", allowCredentials = "true")
 public class OrderController {
 
     private final OrderService orderService;

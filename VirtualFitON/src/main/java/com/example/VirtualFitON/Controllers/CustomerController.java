@@ -5,6 +5,7 @@ import com.example.VirtualFitON.Exceptions.*;
 import com.example.VirtualFitON.Models.Customer;
 import com.example.VirtualFitON.Models.Product;
 import com.example.VirtualFitON.Service.BrandMeasurementService;
+import com.example.VirtualFitON.Service.CartService;
 import com.example.VirtualFitON.Service.CustomerMeasurementService;
 import com.example.VirtualFitON.Service.CustomerService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -34,7 +35,7 @@ import java.util.Map;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://54.191.229.94:3000", allowCredentials = "true")
 @RequestMapping("/customer")
 
 public class CustomerController {
@@ -49,6 +50,11 @@ public class CustomerController {
 
     @Autowired
     private CustomerMeasurementService customerMeasurementService;
+
+    @Autowired
+    private CartService cartService;
+
+
 
 
     String API_KEY = "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJuSnVpYzVwbXk1T1hGSjVmY1RIQTdUNVktRHZVbVVOR2xxVHBqS0hDVnU4In0.eyJleHAiOjE3MTkyNzY5OTYsImlhdCI6MTcxOTI0MDk5NywiYXV0aF90aW1lIjoxNzE5MjQwOTk2LCJqdGkiOiIzMTM0MWJjNS0zY2RhLTRhMjQtYjdhZS02ZDhlNjBlMTg2ZDciLCJpc3MiOiJodHRwczovL2F1dGgubWVzaGNhcGFkZS5jb20vcmVhbG1zL21lc2hjYXBhZGUtbWUiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiYzFjMjgxMGQtOTdkYy00ZjlkLWIzYmQtNDljZGY5OTIyOTdhIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibWVzaGNhcGFkZS1tZSIsIm5vbmNlIjoiMmVmZTE3OTUtMDE0MS00ODlkLTgxZDItYzFhMzU1YzQzYmU1Iiwic2Vzc2lvbl9zdGF0ZSI6IjAyNTgyMzQ3LTYwMjktNDk5Yi05ZmQwLTRjY2E3YTEzMWE0YSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9tZXNoY2FwYWRlLmNvbSIsImh0dHBzOi8vbWUubWVzaGNhcGFkZS5jb20iLCJodHRwczovL21lc2hjYXBhZGUubWUiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1nY21jIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwic2lkIjoiMDI1ODIzNDctNjAyOS00OTliLTlmZDAtNGNjYTdhMTMxYTRhIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJPc2hhbiBEZXZpbmRhIiwicHJlZmVycmVkX3VzZXJuYW1lIjoib3NoYW4uZGV2aW5kYTM1QGdtYWlsLmNvbSIsImdpdmVuX25hbWUiOiJPc2hhbiIsImZhbWlseV9uYW1lIjoiRGV2aW5kYSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NJTDVRUzF4Z1hlSm5nNk1fZFM2WGlvcnQ0cnpuVVlLbkpYWVJBQ0lxV2pfb05FUkJjPXM5Ni1jIiwiZW1haWwiOiJvc2hhbi5kZXZpbmRhMzVAZ21haWwuY29tIn0.aFJ0uHSPDyMd2bEj53ZCOWYj0ZGsZzaRAvGjQs3WK7dw085uz8SMqdBXbBLCtItUnXzzuIaRuUd9SJZa2p3vm72QLkEsAXRieIdvF-2g7zCAnvznlLxSqxJ-z0uYBhuqn8QNK2tF6cge04GY4KrDJzbLzKCPM0D6vE2LUSoFUN3tD1TRzt6IVh__Im_ze1DdQ4P-7ZsXvUoVl79R56qwioxX8vbiiMIV4GFu63jzpXWGPV_q75FNp29q5Qcy4wD8uci0p4WtgQrMkrXtnAb5-c9d05iGjLFkt9rgT5BOG2azMWUNXp_9p0Cc0QBZCDX9-Xh-FioebH5ghi8XLBPrqA";
@@ -265,10 +271,20 @@ public class CustomerController {
     @PostMapping("/saveMeasurements")
     public ResponseEntity<?> saveMeasurements(@RequestBody CustomerMeasurementDTO responseBody) {
         try {
-            customerMeasurementService.updateCustomerMeasurement(customerMeasurementService);
+            customerMeasurementService.updateCustomerMeasurement(responseBody);
             return ResponseEntity.ok("Measurements saved successfully");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error saving measurements: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("cart/clear/{customerId}")
+    public ResponseEntity<String> clearCart(@PathVariable int customerId) {
+        try {
+            cartService.clearCart(customerId);
+            return ResponseEntity.ok("Cart cleared successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Failed to clear the cart");
         }
     }
 }
