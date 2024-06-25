@@ -65,16 +65,16 @@ public class CustomerService {
 
     public Customer signUpCustomer(SignUpDTO signUpDTO) throws UsernameAlreadyExistsException {
         Customer existingCustomer = customerRepository.findByUsername(signUpDTO.getUsername());
-        System.out.println("firstName"+signUpDTO.getFirstName());
-        System.out.println("lastName"+signUpDTO.getLastName());
+        System.out.println("firstName"+signUpDTO.getFirstname());
+        System.out.println("lastName"+signUpDTO.getLastname());
         System.out.println("username"+signUpDTO.getUsername());
         System.out.println("password"+signUpDTO.getPassword());
         if (existingCustomer != null) {
             throw new UsernameAlreadyExistsException("Username already exists");
 
         }
-        if (    signUpDTO.getFirstName() == null ||
-                signUpDTO.getLastName() == null  ||
+        if (    signUpDTO.getFirstname() == null ||
+                signUpDTO.getLastname() == null  ||
                 signUpDTO.getUsername() == null ||
                 signUpDTO.getPassword() == null ) {
             throw new MissingFieldException("One or more required fields are missing");
@@ -85,8 +85,8 @@ public class CustomerService {
         ShoppingCart shoppingCart=new ShoppingCart();
         ShoppingCart savedShoppingCart=shoppingCartRepository.save(shoppingCart);
         System.out.println("cart id after saving "+savedShoppingCart.getCartId());
-        customer.setFirstName(signUpDTO.getFirstName());
-        customer.setLastName(signUpDTO.getLastName());
+        customer.setFirstName(signUpDTO.getFirstname());
+        customer.setLastName(signUpDTO.getLastname());
         customer.setUsername(signUpDTO.getUsername());
         customer.setCart(savedShoppingCart);
 
