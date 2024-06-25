@@ -88,28 +88,10 @@ public class CustomerController {
 
 
 
-//    @PostMapping("/register")
-//    public ResponseEntity<String> registerUser(@RequestBody CustomerRegisterDTO requestDto) {
-//        try {
-//            customerService.registerCustomer(requestDto);
-//            return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
-//        } catch (UsernameAlreadyExistsException e) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exists");
-//        } catch (IllegalArgumentException e) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid input data");
-//        } catch (DataAccessException e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Database error:"+ e.getMessage());
-//        } catch (SecurityException e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Security error");
-//        } catch (RuntimeException e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-//        }
-//    }
-
-
     @PostMapping("/signup")
     public ResponseEntity<String> signUpUser(@RequestBody SignUpDTO signUpDTO) {
         try {
+            System.out.println("Received signup data: " + signUpDTO);
             customerService.signUpCustomer(signUpDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
         } catch (UsernameAlreadyExistsException e) {

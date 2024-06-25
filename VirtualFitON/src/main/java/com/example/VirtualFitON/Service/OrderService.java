@@ -64,7 +64,11 @@ public class OrderService {
         List<Order> orders = orderRepository.findByCustomer_CustomerId(customerId);
         List<OrderDTO> orderDTOList = new ArrayList<>();
 
+
+
         for (Order order : orders) {
+
+            System.out.println("printed order id in order summary"+order.getOrderId());
             List<OrderProductDTO> orderProducts = new ArrayList<>();
 
             ShoppingCart shoppingCart = order.getShoppingCart();
