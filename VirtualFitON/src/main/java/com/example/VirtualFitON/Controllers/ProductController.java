@@ -22,7 +22,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/products")
-@CrossOrigin(origins = "http://3.87.155.15:3000", allowCredentials = "true")
+@CrossOrigin
 public class ProductController {
     @Autowired
     private ProductService productService;
