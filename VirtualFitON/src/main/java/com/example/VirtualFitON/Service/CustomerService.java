@@ -116,7 +116,10 @@ public class CustomerService {
         String encodedPassword = passwordEncoder.encode(signUpDTO.getPassword());
         customer.setPassword(encodedPassword);
 
-        customerRepository.save(customer);
+        Customer savedCustomer=customerRepository.save(customer);
+        System.out.println("customer id id after signup "+savedCustomer.getCustomerId());
+
+
     }
 
     public Customer LoginCustomer(LoginDTO loginDTO)  {
