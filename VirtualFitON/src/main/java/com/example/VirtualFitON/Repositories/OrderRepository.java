@@ -16,4 +16,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("SELECT o.shoppingCart FROM Order o WHERE o.orderId = :orderId")
     ShoppingCart findProductsbyOrderId(Integer orderId);
 
+
+
 }

@@ -45,8 +45,21 @@ public class Order {
     @Column(name = "phone")
     private String phone;
 
+    @Column(name="order_status")
+    private String orderStatus;
 
-    public Order(Integer orderId, Customer customer, ShoppingCart shoppingCart, Shipment shipment, String orderDate, double total, double subTotal, double taxes, double shipping, String email, String phone) {
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+
+
+
+    public Order(String orderStatus, Integer orderId, Customer customer, ShoppingCart shoppingCart, Shipment shipment, String orderDate, double total, double subTotal, double taxes, double shipping, String email, String phone) {
         this.orderId = orderId;
         this.customer = customer;
         this.shoppingCart = shoppingCart;
@@ -58,6 +71,7 @@ public class Order {
         this.shipping = shipping;
         this.email = email;
         this.phone = phone;
+        this.orderStatus = orderStatus;
     }
 
     public Order() {

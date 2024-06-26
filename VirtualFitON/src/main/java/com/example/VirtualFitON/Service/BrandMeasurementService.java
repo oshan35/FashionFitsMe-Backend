@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BrandMeasurementService {
@@ -19,6 +20,9 @@ public class BrandMeasurementService {
     @Autowired
     private BrandMeasurementRepository brandMeasurementRepository;
 
+    public List<BrandMeasurement> getMeasurements(String brandId, String category, String item, String size) {
+        return brandMeasurementRepository.findByBrandIdAndCategoryAndItemAndSize(brandId, category, item, size);
+    }
     public BrandMeasurement saveBrandMeasurement(BrandMeasurement brandMeasurement){
         return brandMeasurementRepository.save(brandMeasurement);
     }
@@ -54,22 +58,32 @@ public class BrandMeasurementService {
         return "Brand delete Successful!!" +id;
     }
 
-    public BrandMeasurement updateBrandMeasurement(BrandMeasurement brandMeasurement){
-        BrandMeasurement existingBrand = brandMeasurementRepository.findById(brandMeasurement.getMeasurement_id()).orElse(null);
-        existingBrand.setAnkleCircumference(brandMeasurement.getAnkleCircumference());
-        existingBrand.setBicepCircumference(brandMeasurement.getBicepCircumference());
-        existingBrand.setArmLength(brandMeasurement.getArmLength());
-        existingBrand.setCalfCircumference(brandMeasurement.getCalfCircumference());
-        existingBrand.setChestCircumference(brandMeasurement.getChestCircumference());
-        existingBrand.setForearmCircumference(brandMeasurement.getForearmCircumference());
-        existingBrand.setHeadCircumference(brandMeasurement.getHeadCircumference());
-        existingBrand.setHipCircumference(brandMeasurement.getHipCircumference());
-        existingBrand.setInsideLegLength(brandMeasurement.getInsideLegLength());
-        existingBrand.setNeckCircumference(brandMeasurement.getNeckCircumference());
-        existingBrand.setThighCircumference(brandMeasurement.getThighCircumference());
-        existingBrand.setShoulderBreadth(brandMeasurement.getShoulderBreadth());
-        existingBrand.setShoulderBreadth(brandMeasurement.getShoulderBreadth());
-        existingBrand.setShoulderToCrotch(brandMeasurement.getShoulderToCrotch());
-        return brandMeasurementRepository.save(existingBrand);
+    @Autowired
+    public BrandMeasurementService(BrandMeasurementRepository measurementRepository) {
+        this.brandMeasurementRepository = measurementRepository;
     }
+
+    public BrandMeasurement updateBrandMeasurement(Long measurementId, BrandMeasurement updatedMeasurement) {
+        BrandMeasurement existingMeasurement = brandMeasurementRepository.findById(measurementId)
+                .orElseThrow(() -> new IllegalArgumentException("Measurement with id " + measurementId + " not found"));
+
+        // Update properties that you want to allow modification
+        existingMeasurement.setAnkleCircumference(updatedMeasurement.getAnkleCircumference());
+        existingMeasurement.setArmLength(updatedMeasurement.getArmLength());
+        existingMeasurement.setBicepCircumference(updatedMeasurement.getBicepCircumference());
+        existingMeasurement.setShoulderToCrotch(updatedMeasurement.getShoulderToCrotch());
+        existingMeasurement.setShoulderBreadth(updatedMeasurement.getShoulderBreadth());
+        existingMeasurement.setCalfCircumference(updatedMeasurement.getCalfCircumference());
+        existingMeasurement.setChestCircumference(updatedMeasurement.getChestCircumference());
+        existingMeasurement.setForearmCircumference(updatedMeasurement.getForearmCircumference());
+        existingMeasurement.setHeadCircumference(updatedMeasurement.getHeadCircumference());
+        existingMeasurement.setHipCircumference(updatedMeasurement.getHipCircumference());
+        existingMeasurement.setInsideLegLength(updatedMeasurement.getInsideLegLength());
+        existingMeasurement.setNeckCircumference(updatedMeasurement.getNeckCircumference());
+        existingMeasurement.setThighCircumference(updatedMeasurement.getThighCircumference());
+        existingMeasurement.setWaistCircumference(updatedMeasurement.getWaistCircumference());
+        existingMeasurement.setWristCircumference(updatedMeasurement.getWristCircumference());
+        return brandMeasurementRepository.save(existingMeasurement);
+    }
+
 }

@@ -160,7 +160,8 @@ public class BrandMeasurement {
     }
 
 
-    public BrandMeasurement() {
+    public BrandMeasurement(){
+
     }
 
     public Long getMeasurement_id() {

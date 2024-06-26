@@ -1,9 +1,7 @@
 package com.example.VirtualFitON.Service;
 
-import com.example.VirtualFitON.DTO.OrderDTO;
-import com.example.VirtualFitON.DTO.OrderItemDTO;
-import com.example.VirtualFitON.DTO.OrderProductDTO;
-import com.example.VirtualFitON.DTO.ProductDTO;
+import com.example.VirtualFitON.DTO.*;
+import com.example.VirtualFitON.Exceptions.OrderNotFoundException;
 import com.example.VirtualFitON.Models.Order;
 import com.example.VirtualFitON.Models.Product;
 import com.example.VirtualFitON.Models.ProductShoppingCart;
@@ -17,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -28,6 +27,45 @@ public class OrderService {
 
 
     private final ProductShoppingCartRepository productShoppingCartRepository;
+
+    public Order updateOrderStatus(Integer orderId, String newStatus) {
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        if (optionalOrder.isPresent()) {
+            Order order = optionalOrder.get();
+            order.setOrderStatus(newStatus);
+            return orderRepository.save(order);
+        } else {
+            throw new RuntimeException("Order not found with id: " + orderId);
+        }
+    }
+
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    public OrderDetailsDTO getOrderDetails(Integer orderId) {
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        if (optionalOrder.isPresent()) {
+            Order order = optionalOrder.get();
+            // Convert Order entity to OrderDetailsDTO
+            OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
+            orderDetailsDTO.setOrderId(order.getOrderId());
+            orderDetailsDTO.setCustomer(order.getCustomer());
+            orderDetailsDTO.setShoppingCart(order.getShoppingCart());
+            orderDetailsDTO.setShipment(order.getShipment());
+            orderDetailsDTO.setOrderDate(order.getOrderDate());
+            orderDetailsDTO.setTotal(order.getTotal());
+            orderDetailsDTO.setSubTotal(order.getSubTotal());
+            orderDetailsDTO.setTaxes(order.getTaxes());
+            orderDetailsDTO.setShipping(order.getShipping());
+            orderDetailsDTO.setEmail(order.getEmail());
+            orderDetailsDTO.setPhone(order.getPhone());
+            orderDetailsDTO.setOrderStatus(order.getOrderStatus());
+            return orderDetailsDTO;
+        } else {
+            throw new OrderNotFoundException("Order not found with id: " + orderId);
+        }
+    }
 
     @Autowired
     public OrderService(OrderRepository orderRepository, ProductShoppingCartService productShoppingCartService, ProductImageRepository productImageRepository, ProductShoppingCartRepository productShoppingCartRepository) {

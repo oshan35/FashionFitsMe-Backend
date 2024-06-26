@@ -7,7 +7,6 @@ import jakarta.persistence.Lob;
 import java.math.BigDecimal;
 
 @Entity
-
 public class ProductVariant {
 
     public ProductVariant(Long variantId, Product product, String color, String size, BigDecimal price, Integer noOfItems, byte[] image) {

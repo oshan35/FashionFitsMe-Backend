@@ -1,4 +1,5 @@
 package com.example.VirtualFitON.Controllers;
+import com.example.VirtualFitON.DTO.BrandDetailsDTO;
 import com.example.VirtualFitON.Models.Brand;
 import com.example.VirtualFitON.Service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "Brand")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+//@CrossOrigin(origins = "http://3.87.155.15:3000", allowCredentials = "true")
 public class BrandController {
     @Autowired
     private BrandService brandService;
@@ -47,6 +49,11 @@ public class BrandController {
     @DeleteMapping("/deleteBrand/{id}")
     public String deleteBrand(@PathVariable String id){
         return brandService.deleteBrand(id);
+    }
+
+    @GetMapping("/{brandId}")
+    public BrandDetailsDTO getBrandDetails(@PathVariable String brandId) {
+        return brandService.getBrandDetails(brandId);
     }
 
 
