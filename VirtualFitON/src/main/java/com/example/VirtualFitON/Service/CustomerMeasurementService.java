@@ -93,6 +93,8 @@ public class CustomerMeasurementService {
         customerMeasurement.setWristCircumference(customerMeasurementDTO.getWristCircumference());
         //customerMeasurement.setBodyModelUrl(modelUrl);
 
+        customerMeasurementRepository.save(customerMeasurement);
+
     }
 
     public Map<String, Object> mapCustomerMeasurements(Map<String, Object> measurements) {
