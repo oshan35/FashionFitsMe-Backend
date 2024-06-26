@@ -57,13 +57,9 @@ package com.example.VirtualFitON.Models;
 
 
 import jakarta.persistence.*;
-
-
-
 import java.math.BigDecimal;
 
 @Entity
-
 @Table(name = "brand_measurement")
 public class BrandMeasurement {
 

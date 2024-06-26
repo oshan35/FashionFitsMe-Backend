@@ -149,11 +149,11 @@ public class ProductService {
 
     public ProductInfoDTO getProductInformation(String productId) {
         try {
-         Product product = productRepository.findByProductId(productId);
+            Product product = productRepository.findByProductId(productId);
             if (product == null) {
                 throw new ProductNotFoundException("Product not found for id: " + productId);
             }
-            List<ProductColorSize>pcs=productColorSizeRepository.findByProductId(productId);
+            List<ProductColorSize> pcs=productColorSizeRepository.findByProductId(productId);
 //            List<String> sizes=productColorSizeRepository.findSizesByProductProductId(productId);
             List<Object[]> sizes=productColorSizeRepository.findSizeCountsByProductId(productId);
             System.out.println("Items in Sizes:");

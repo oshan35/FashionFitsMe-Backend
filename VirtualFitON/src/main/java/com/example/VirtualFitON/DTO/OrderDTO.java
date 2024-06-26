@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 public class OrderDTO {
+
+    private int orderId;
     private List<OrderProductDTO> products;
     private String orderDate;
     private Address deliveryAddress;
@@ -23,7 +25,7 @@ public class OrderDTO {
     public OrderDTO() {
     }
 
-    public OrderDTO(List<OrderProductDTO> products, String orderDate, Address deliveryAddress, String email, String phone, double total, double subTotal, double shipping, double taxes, String selectedDeliveryMethod) {
+    public OrderDTO(int orderId,List<OrderProductDTO> products, String orderDate, Address deliveryAddress, String email, String phone, double total, double subTotal, double shipping, double taxes, String selectedDeliveryMethod) {
         this.products = products;
         this.orderDate = orderDate;
         this.deliveryAddress = deliveryAddress;
@@ -34,6 +36,15 @@ public class OrderDTO {
         this.shipping = shipping;
         this.taxes = taxes;
         this.selectedDeliveryMethod = selectedDeliveryMethod;
+        this.orderId = orderId;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public List<OrderProductDTO> getProducts() {

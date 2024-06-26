@@ -22,8 +22,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/products")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
-//@CrossOrigin(origins = "http://3.87.155.15:3000", allowCredentials = "true")
+@CrossOrigin
 public class ProductController {
     @Autowired
     private ProductService productService;
@@ -106,7 +105,7 @@ public class ProductController {
             ) {
         try {
             System.out.println("Test: "+productId);
-            productService.saveProduct(productId, productName, price, productCategory,gender,brand,description);
+            productService.saveProduct(productId, productName, price, productCategory,gender,brand, description);
             return ResponseEntity.ok("Product saved successfully.");
         } catch (InvalidProductDataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -162,13 +161,9 @@ public class ProductController {
 
     @GetMapping("/getProductInformation")
     public ResponseEntity<?> getAllProducts(@RequestParam("productId") String productId) {
-
-
         System.out.println(productId);
-             ProductInfoDTO productInfoDTO=productService.getProductInformation(productId);
-            return new ResponseEntity<>(productInfoDTO, HttpStatus.OK);
-
-
+        ProductInfoDTO productInfoDTO=productService.getProductInformation(productId);
+        return new ResponseEntity<>(productInfoDTO, HttpStatus.OK);
     }
 
     @PostMapping("/getHomeProducts")

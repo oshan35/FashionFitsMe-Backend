@@ -1,6 +1,7 @@
 package com.example.VirtualFitON.Controllers;
 
 import com.example.VirtualFitON.DTO.OrderDetailsDTO;
+import com.example.VirtualFitON.DTO.OrderDTO;
 import com.example.VirtualFitON.DTO.OrderRequest;
 import com.example.VirtualFitON.DTO.PaymentRequest;
 import com.example.VirtualFitON.Models.Order;
@@ -14,8 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/orders")
 
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
-//@CrossOrigin(origins = "http://3.87.155.15:3000", allowCredentials = "true")
+@CrossOrigin
 public class OrderController {
 
     private final OrderService orderService;
@@ -44,7 +44,10 @@ public class OrderController {
         return  ResponseEntity.ok(orderService.getOrderDetails(orderId));
 
     }
-
+    @GetMapping("/customer/{customerId}")
+    public List<OrderDTO> getOrdersByCustomerId(@PathVariable int customerId) {
+        return orderService.getOrdersByCustomerId(customerId);
+    }
     @GetMapping("/getAllOrders")
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();

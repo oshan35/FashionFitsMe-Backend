@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
-//@CrossOrigin(origins = "http://3.87.155.15:3000", allowCredentials = "true")
+@CrossOrigin
+
 public class ProductColorSizeController {
     @Autowired
     ProductColorSizeService productColorSizeService;

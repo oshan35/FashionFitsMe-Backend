@@ -12,7 +12,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Second stage: Create a minimal runtime image
-FROM openjdk:17-jdk
+FROM openjdk:17
 
 # Set the working directory inside the container
 WORKDIR /app

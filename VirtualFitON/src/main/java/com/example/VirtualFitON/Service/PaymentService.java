@@ -62,11 +62,11 @@ public class PaymentService {
         order.setOrderDate(formattedDate);
 
 
-        orderRepository.save(order);
+        Order savedOrder=orderRepository.save(order);
         System.out.println("order  Date " + formattedDate);
 
-        System.out.println("order  id " + order.getOrderId());
-        return order.getOrderId();
+        System.out.println("order  id " + savedOrder.getOrderId());
+        return savedOrder.getOrderId();
 
     }
 }

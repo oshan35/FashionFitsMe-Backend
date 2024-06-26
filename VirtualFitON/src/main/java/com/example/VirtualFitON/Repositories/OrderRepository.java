@@ -17,5 +17,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     ShoppingCart findProductsbyOrderId(Integer orderId);
 
 
+    List<Order> findByCustomer_CustomerId(int customerId);
 
 }

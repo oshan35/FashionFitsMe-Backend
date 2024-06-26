@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+
 @RestController
-@CrossOrigin(origins = "http://3.87.155.15:3000", allowCredentials = "true")
+@CrossOrigin
 public class PaymentController {
 
     @Autowired
@@ -45,6 +47,6 @@ public class PaymentController {
 
 
         int orderId=paymentService.createOrder(paymentRequest);
-        return ResponseEntity.ok().body(orderId);
+        return ResponseEntity.ok().body(Collections.singletonMap("orderId", orderId));
     }
 }
