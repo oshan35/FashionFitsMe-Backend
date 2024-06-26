@@ -198,7 +198,7 @@ public class CustomerController {
             //String modelUrl = createBodyModelUsingMeshcapade(meshcapadeMap, requestBody.getGender()); // Replace this with the actual model URL logic
             System.out.println("[+] got the body mesh url : "+modelUrl);
 
-            //customerMeasurementService.saveCustomerMeasurements(requestBody.getCustomerId(), responseMap, modelUrl);
+            customerMeasurementService.saveCustomerMeasurements(requestBody.getCustomerId(), responseMap, modelUrl);
             System.out.println("[+] customer measurement saved.");
 
             Map<String, Object> responseData = new HashMap<>();
