@@ -72,7 +72,7 @@ public class CustomerMeasurementService {
 
     }
 
-    public void updateCustomerMeasurement(CustomerMeasurementDTO customerMeasurementDTO, String modelUrl){
+    public void updateCustomerMeasurement(CustomerMeasurementDTO customerMeasurementDTO){
         Customer customer = customerRepository.findById(customerMeasurementDTO.getCustomerId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid customer ID"));
 
@@ -93,10 +93,10 @@ public class CustomerMeasurementService {
         customerMeasurement.setThighCircumference(customerMeasurementDTO.getThighCircumference());
         customerMeasurement.setWaistCircumference(customerMeasurementDTO.getWaistCircumference());
         customerMeasurement.setWristCircumference(customerMeasurementDTO.getWristCircumference());
-        customerMeasurement.setBodyModelUrl(modelUrl);
+       // customerMeasurement.setBodyModelUrl(modelUrl);
 
-        CustomerMeasurement savedCustomerMeasurement=customerMeasurementRepository.save(customerMeasurement);
-        System.out.println("updated customer measurement"+savedCustomerMeasurement.getCustomer().getCustomerId());
+        customerMeasurementRepository.save(customerMeasurement);
+        System.out.println("updated customer measurement"+customer.getCustomerId());
 
     }
 
