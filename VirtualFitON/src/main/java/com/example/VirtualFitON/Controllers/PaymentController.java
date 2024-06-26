@@ -53,7 +53,7 @@ public class PaymentController {
         String customerEmail = email;
         String subject = "Order Confirmation";
         String text = "Thank you for your order! Your order number is " + orderId;
-        emailService.sendOrderConfirmationEmail(customerEmail, subject, text);
+//        emailService.sendOrderConfirmationEmail(customerEmail, subject, text);
         return ResponseEntity.ok().body(orderId);
     }
 }
