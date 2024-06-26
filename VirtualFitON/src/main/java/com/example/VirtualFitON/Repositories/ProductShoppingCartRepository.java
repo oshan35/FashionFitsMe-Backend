@@ -1,9 +1,6 @@
 package com.example.VirtualFitON.Repositories;
 
-import com.example.VirtualFitON.Models.Product;
-import com.example.VirtualFitON.Models.ProductColorSize;
-import com.example.VirtualFitON.Models.ProductShoppingCart;
-import com.example.VirtualFitON.Models.ProductShoppingCartId;
+import com.example.VirtualFitON.Models.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,4 +23,5 @@ public interface ProductShoppingCartRepository extends JpaRepository<ProductShop
             "WHERE psc.id.cartId = :cartId")
     List<ProductColorSize> findProductColorSizeByCartId(@Param("cartId") int cartId);
 
+    void deleteByCart(ShoppingCart cart);
 }

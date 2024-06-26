@@ -105,7 +105,7 @@ public class ProductController {
             ) {
         try {
             System.out.println("Test: "+productId);
-            productService.saveProduct(productId, productName, price, productCategory,gender,brand,description);
+            productService.saveProduct(productId, productName, price, productCategory,gender,brand, description);
             return ResponseEntity.ok("Product saved successfully.");
         } catch (InvalidProductDataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

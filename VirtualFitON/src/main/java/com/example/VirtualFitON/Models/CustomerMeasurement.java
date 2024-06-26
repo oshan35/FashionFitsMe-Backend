@@ -11,8 +11,8 @@ public class CustomerMeasurement {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne()
-    @JoinColumn(name = "customer_id", unique = true)
+    @OneToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
     private Customer customer;
 
     @Column(name = "ankle_circumference")
