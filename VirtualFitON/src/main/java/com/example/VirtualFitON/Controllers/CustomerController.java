@@ -195,8 +195,8 @@ public class CustomerController {
             responseData.put("modelUrl", modelUrl);
 
 
-
             return ResponseEntity.ok().body(responseData);
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while fetching measurements for Customer ID " + requestBody.getCustomerId() + ": " + e.getMessage());
         }
