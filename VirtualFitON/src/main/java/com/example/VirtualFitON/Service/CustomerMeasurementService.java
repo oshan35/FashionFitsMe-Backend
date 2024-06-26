@@ -73,11 +73,12 @@ public class CustomerMeasurementService {
     }
 
     public void updateCustomerMeasurement(CustomerMeasurementDTO customerMeasurementDTO){
-        Customer customer = customerRepository.findById(customerMeasurementDTO.getCustomerId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid customer ID"));
+        CustomerMeasurement customerMeasurement = customerMeasurementRepository.findByCustomerCustomerId(customerMeasurementDTO.getCustomerId());
 
-        CustomerMeasurement customerMeasurement = new CustomerMeasurement();
-        customerMeasurement.setCustomer(customer);
+        if (customerMeasurement == null) {
+            throw new IllegalArgumentException("Customer measurement not found for customer ID: " + customerMeasurementDTO.getCustomerId());
+        }
+
         customerMeasurement.setAnkleCircumference(customerMeasurementDTO.getAnkle_circumference());
         customerMeasurement.setArmLength(customerMeasurementDTO.getArm_length());
         customerMeasurement.setBicepCircumference(customerMeasurementDTO.getBicep_circumference());
@@ -96,7 +97,7 @@ public class CustomerMeasurementService {
        // customerMeasurement.setBodyModelUrl(modelUrl);
 
         customerMeasurementRepository.save(customerMeasurement);
-        System.out.println("updated customer measurement"+customer.getCustomerId());
+        System.out.println("updated customer measurement"+customerMeasurement.getCustomer().getCustomerId());
 
     }
 
