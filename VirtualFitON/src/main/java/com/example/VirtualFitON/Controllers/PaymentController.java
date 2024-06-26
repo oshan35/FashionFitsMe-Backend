@@ -3,11 +3,12 @@ package com.example.VirtualFitON.Controllers;
 import com.example.VirtualFitON.DTO.PaymentRequest;
 import com.example.VirtualFitON.Models.Address;
 import com.example.VirtualFitON.Models.Order;
-import com.example.VirtualFitON.Service.EmailService;
 import com.example.VirtualFitON.Service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
 
 @RestController
 @CrossOrigin
@@ -15,9 +16,6 @@ public class PaymentController {
 
     @Autowired
     PaymentService paymentService;
-
-    @Autowired
-    EmailService emailService;
     @PostMapping("/payment")
     public ResponseEntity<?> processPayment(@RequestBody PaymentRequest paymentRequest) {
         String email = paymentRequest.getEmail();
@@ -49,11 +47,6 @@ public class PaymentController {
 
 
         int orderId=paymentService.createOrder(paymentRequest);
-
-        String customerEmail = email;
-        String subject = "Order Confirmation";
-        String text = "Thank you for your order! Your order number is " + orderId;
-//        emailService.sendOrderConfirmationEmail(customerEmail, subject, text);
-        return ResponseEntity.ok().body(orderId);
+        return ResponseEntity.ok().body(Collections.singletonMap("orderId", orderId));
     }
 }
