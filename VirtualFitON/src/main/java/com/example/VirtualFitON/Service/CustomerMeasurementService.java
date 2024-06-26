@@ -78,21 +78,21 @@ public class CustomerMeasurementService {
 
         CustomerMeasurement customerMeasurement = new CustomerMeasurement();
         customerMeasurement.setCustomer(customer);
-        customerMeasurement.setAnkleCircumference(customerMeasurementDTO.getAnkleCircumference());
-        customerMeasurement.setArmLength(customerMeasurementDTO.getArmLength());
-        customerMeasurement.setBicepCircumference(customerMeasurementDTO.getBicepCircumference());
-        customerMeasurement.setCalfCircumference(customerMeasurementDTO.getCalfCircumference());
-        customerMeasurement.setChestCircumference(customerMeasurementDTO.getChestCircumference());
-        customerMeasurement.setForearmCircumference(customerMeasurementDTO.getForearmCircumference());
-        customerMeasurement.setHeadCircumference(customerMeasurementDTO.getHeadCircumference());
-        customerMeasurement.setHipCircumference(customerMeasurementDTO.getHipCircumference());
-        customerMeasurement.setInsideLegLength(customerMeasurementDTO.getInsideLegLength());
-        customerMeasurement.setNeckCircumference(customerMeasurementDTO.getNeckCircumference());
-        customerMeasurement.setShoulderBreadth(customerMeasurementDTO.getShoulderBreadth());
-        customerMeasurement.setShoulderToCrotch(customerMeasurementDTO.getShoulderToCrotch());
-        customerMeasurement.setThighCircumference(customerMeasurementDTO.getThighCircumference());
-        customerMeasurement.setWaistCircumference(customerMeasurementDTO.getWaistCircumference());
-        customerMeasurement.setWristCircumference(customerMeasurementDTO.getWristCircumference());
+        customerMeasurement.setAnkleCircumference(customerMeasurementDTO.getAnkle_circumference());
+        customerMeasurement.setArmLength(customerMeasurementDTO.getArm_length());
+        customerMeasurement.setBicepCircumference(customerMeasurementDTO.getBicep_circumference());
+        customerMeasurement.setCalfCircumference(customerMeasurementDTO.getCalf_circumference());
+        customerMeasurement.setChestCircumference(customerMeasurementDTO.getChest_circumference());
+        customerMeasurement.setForearmCircumference(customerMeasurementDTO.getForearm_circumference());
+        customerMeasurement.setHeadCircumference(customerMeasurementDTO.getHead_circumference());
+        customerMeasurement.setHipCircumference(customerMeasurementDTO.getHip_circumference());
+        customerMeasurement.setInsideLegLength(customerMeasurementDTO.getInside_leg_length());
+        customerMeasurement.setNeckCircumference(customerMeasurementDTO.getNeck_circumference());
+        customerMeasurement.setShoulderBreadth(customerMeasurementDTO.getShoulder_breadth());
+        customerMeasurement.setShoulderToCrotch(customerMeasurementDTO.getShoulder_to_crotch());
+        customerMeasurement.setThighCircumference(customerMeasurementDTO.getThigh_circumference());
+        customerMeasurement.setWaistCircumference(customerMeasurementDTO.getWaist_circumference());
+        customerMeasurement.setWristCircumference(customerMeasurementDTO.getWrist_circumference());
        // customerMeasurement.setBodyModelUrl(modelUrl);
 
         customerMeasurementRepository.save(customerMeasurement);
