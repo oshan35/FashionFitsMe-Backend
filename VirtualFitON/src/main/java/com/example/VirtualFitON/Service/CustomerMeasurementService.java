@@ -68,6 +68,8 @@ public class CustomerMeasurementService {
         customerMeasurement.setBodyModelUrl(modelUrl);
 
         CustomerMeasurement savedCustomerMeasurement=customerMeasurementRepository.save(customerMeasurement);
+        System.out.println("updated customer measurement"+savedCustomerMeasurement.getCustomer().getCustomerId());
+
     }
 
     public void updateCustomerMeasurement(CustomerMeasurementDTO customerMeasurementDTO, String modelUrl){
@@ -94,7 +96,7 @@ public class CustomerMeasurementService {
         customerMeasurement.setBodyModelUrl(modelUrl);
 
         CustomerMeasurement savedCustomerMeasurement=customerMeasurementRepository.save(customerMeasurement);
-        System.out.println();
+        System.out.println("updated customer measurement"+savedCustomerMeasurement.getCustomer().getCustomerId());
 
     }
 
