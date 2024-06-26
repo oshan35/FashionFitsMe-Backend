@@ -52,7 +52,7 @@ public class OrderService {
             OrderProductDTO orderProductDTO=new OrderProductDTO(productDTO,order.getShipment().getAddress(),  order.getEmail(), order.getPhone());
             orderProducts.add(orderProductDTO);
         }
-        OrderDTO orderDTO=new OrderDTO(orderProducts,order.getOrderDate(),order.getShipment().getAddress(), order.getEmail(), order.getPhone(), order.getTotal(),order.getSubTotal(),order.getShipping(),order.getTaxes(),order.getShipment().getShipmentStatus());
+        OrderDTO orderDTO=new OrderDTO(order.getOrderId(),orderProducts,order.getOrderDate(),order.getShipment().getAddress(), order.getEmail(), order.getPhone(), order.getTotal(),order.getSubTotal(),order.getShipping(),order.getTaxes(),order.getShipment().getShipmentStatus());
         System.out.println("order products size"+orderProducts.size());
         return orderDTO;
 
@@ -60,7 +60,6 @@ public class OrderService {
 
 
     public List<OrderDTO> getOrdersByCustomerId(int customerId) {
-        // Find all orders for the given customer ID
         List<Order> orders = orderRepository.findByCustomer_CustomerId(customerId);
         List<OrderDTO> orderDTOList = new ArrayList<>();
 
@@ -82,6 +81,7 @@ public class OrderService {
             }
 
             OrderDTO orderDTO = new OrderDTO(
+                    order.getOrderId(),
                     orderProducts,
                     order.getOrderDate(),
                     order.getShipment().getAddress(),
